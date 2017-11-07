@@ -2,7 +2,7 @@
 
 ## MVP
 
-This game is a simplified version of the TMNT 4: Turtles in Time, which is a classic "beat 'em up" 2D scroller game on SNES. The following are the MVP features:
+This game is a simplified version of TMNT 4: Turtles in Time, which is a classic "beat 'em up" 2D scroller game on SNES. The following are the MVP features:
 
 1. Start, pause, and reset the game
 2. Turtle walking and jumping from left to right (by moving the background backwards)
@@ -34,7 +34,7 @@ The app will enter into the main viewport when the user starts the game.
 ## Implementation Timeline
 
 ### Day 1:
-Setup all necessary Node modules, including getting webpack up and running. Write a basic entry file and the bare bones of all scripts outlined above. Goals for the day:
+Setup all necessary Node modules, including getting webpack up and running. Write a basic entry file and the bare bones of scripts. Goals for the day:
 
 - define a viewport with fixed width and height
 - infinite scroll of the viewport's background
