@@ -1,7 +1,7 @@
 import React from 'react';
 import SpriteAnimator from 'react-sprite-animator';
 
-class TurtleWalking extends React.Component {
+class TurtleWalk extends React.Component {
 
   render() {
     return (
@@ -21,4 +21,4 @@ class TurtleWalking extends React.Component {
   }
 }
 
-export default TurtleWalking;
+export default TurtleWalk;

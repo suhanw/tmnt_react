@@ -1,6 +1,7 @@
 import React from 'react';
 import Stage from './stage';
-import TurtleWalking from './sprites/turtle_walking';
+
+// tracks and centers the view based on turtle pos
 
 class Viewport extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class Viewport extends React.Component {
     }
     this.setState({left: left});
   }
+
 }
 
 export default Viewport;

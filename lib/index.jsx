@@ -1,11 +1,13 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import Gameframe from './components/gameframe';
+import Root from './components/root';
+import configureStore from './store/store';
 
 document.addEventListener('DOMContentLoaded', ()=>{
+  const store = configureStore();
   const rootDom = document.getElementById('root');
   ReactDOM.render(
-    <Gameframe />,
+    <Root store={store} />,
     rootDom
   );
 });

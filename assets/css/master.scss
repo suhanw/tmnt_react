@@ -1,40 +1,23 @@
-// #root {
-//   background: url('../stage/ny-street.png');
-//   background-size: cover;
-//   height: 191px;
-//   display: flex;
-//   flex-direction: row;
-//   align-items: flex-end;
-//   padding-bottom: 20px;
-//   position: relative;
-// }
-
-.gameframe {
+.game {
   width: 500px;
-  height: 191px;
+  height: 190px;
   border: 1px solid black;
   position: relative;
   margin: auto;
   overflow: hidden;
+  border: 1px solid black;
 }
 
 .viewport {
   position: absolute;
   left: 0px;
   top: 0;
-  border: 1px solid blue;
 }
 
 .stage {
   background: url('../stage/ny-street.png');
   background-repeat: repeat;
   height: 191px;
-  border: 1px solid red;
   width: 5000px;
   position: relative;
-}
-
-.turtle {
-  position: absolute;
-  bottom: 0;
 }

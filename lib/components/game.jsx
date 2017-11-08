@@ -2,11 +2,15 @@ import React from 'react';
 import Viewport from './viewport';
 import Stage from './stage';
 
-class Gameframe extends React.Component {
+// fix frame width and size
+// contains nav links and instructions
+// starts and ends the game loop
+
+class Game extends React.Component {
 
   render() {
     return (
-      <div className="gameframe"
+      <div className="game"
         onKeyPress={this.handleKeyPress}>
         <Viewport>
           <Stage />
@@ -15,13 +19,9 @@ class Gameframe extends React.Component {
     );
   }
 
-  handleKeyPress(e) {
-    // if (e.key === 39) {
-    //
-    // }
-    debugger
-    alert(e.key);
+  componentDidMount() {
+
   }
 }
 
-export default Gameframe;
+export default Game;
