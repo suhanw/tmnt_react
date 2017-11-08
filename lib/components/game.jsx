@@ -1,6 +1,7 @@
 import React from 'react';
 import Viewport from './viewport';
 import Stage from './stage';
+import {FRAME_WIDTH, FRAME_HEIGHT} from '../constants';
 
 // fix frame width and size
 // contains nav links and instructions
@@ -11,7 +12,7 @@ class Game extends React.Component {
   render() {
     return (
       <div className="game"
-        onKeyPress={this.handleKeyPress}>
+        style={this.renderStyles()}>
         <Viewport>
           <Stage />
         </Viewport>
@@ -22,6 +23,14 @@ class Game extends React.Component {
   componentDidMount() {
 
   }
+
+  renderStyles() {
+    return {
+      width: FRAME_WIDTH,
+      height: FRAME_HEIGHT,
+    };
+  }
+
 }
 
 export default Game;

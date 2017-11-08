@@ -25,9 +25,9 @@ class Stage extends React.Component {
     );
   }
 
-  componentDidMount() {
-    this.props.resetTurtle();
-  }
+  // componentDidMount() {
+  //   this.props.resetTurtle();
+  // }
 }
 
 export default connect(null, mapDispatchToProps)(Stage);
