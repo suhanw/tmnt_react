@@ -24,5 +24,7 @@
 
 .turtle {
   position: absolute;
-  display: inline-block;
+  width: 65px;
+  display: flex;
+  justify-content: center;
 }

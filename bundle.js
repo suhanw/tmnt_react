@@ -25109,6 +25109,8 @@ var _turtle_attack2 = _interopRequireDefault(_turtle_attack);
 
 var _turtle_actions = __webpack_require__(99);
 
+var _constants = __webpack_require__(237);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25161,26 +25163,38 @@ var Turtle = function (_React$Component) {
       doing: null
     };
 
+    _this.keyState = {};
+    _this.timer = 0;
+
     _this.renderStyles = _this.renderStyles.bind(_this);
+    _this.renderSprite = _this.renderSprite.bind(_this);
     _this.handleKeydown = _this.handleKeydown.bind(_this);
+    _this.handleKeyup = _this.handleKeyup.bind(_this);
+    _this.addListeners = _this.addListeners.bind(_this);
+    _this.continueKeydown = _this.continueKeydown.bind(_this);
     return _this;
   }
 
   _createClass(Turtle, [{
     key: 'render',
     value: function render() {
+      if (!this.state.pos) {
+        //render nothing when Redux state not yet updated
+        return null;
+      }
+
       return _react2.default.createElement(
         'div',
         { className: 'turtle',
           style: this.renderStyles() },
-        _react2.default.createElement(_turtle_stand2.default, null)
+        this.renderSprite()
       );
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.resetTurtle(); // resets turtle when game starts
-      document.addEventListener("keydown", this.handleKeydown);
+      this.addListeners();
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -25197,20 +25211,72 @@ var Turtle = function (_React$Component) {
       return pos;
     }
   }, {
+    key: 'renderSprite',
+    value: function renderSprite() {
+      var doing = this.state.doing;
+
+      var TurtleSprite = {
+        'stand': _turtle_stand2.default,
+        'walk': _turtle_walk2.default,
+        'attack': _turtle_attack2.default
+      };
+      var Sprite = TurtleSprite[doing];
+      return _react2.default.createElement(Sprite, null);
+    }
+  }, {
+    key: 'addListeners',
+    value: function addListeners() {
+      document.addEventListener("keydown", this.handleKeydown);
+      document.addEventListener("keyup", this.handleKeyup);
+    }
+  }, {
     key: 'handleKeydown',
     value: function handleKeydown(e) {
-      var pos = this.state.pos;
-
-      var newPos = void 0;
+      this.keyState[e.key] = true;
+      if (this.timer === 0) {
+        // invoke only when it hasn't been invoked previously
+        this.continueKeydown();
+      }
+    }
+  }, {
+    key: 'handleKeyup',
+    value: function handleKeyup(e) {
+      this.keyState[e.key] = false;
+      if (this.timer) {
+        clearTimeout(this.timer); // to break the continueKeydown loop when key is released
+        this.timer = 0;
+      }
+      var newDoing = void 0;
       switch (e.key) {
         case "ArrowRight":
-          newPos = (0, _merge2.default)({}, pos, { left: pos.left + 10 });
-          this.setState({ pos: newPos });
-          this.props.updateTurtle(this.state);
+          newDoing = 'stand';
+          this.setState({
+            doing: newDoing
+          });
           break;
         default:
           break;
       }
+    }
+  }, {
+    key: 'continueKeydown',
+    value: function continueKeydown() {
+      // To fix delay in JS native keydown event
+      // Credit: https://stackoverflow.com/questions/12273451/how-to-fix-delay-in-javascript-keydown
+      var pos = this.state.pos;
+
+      var newPos = void 0;
+      var newDoing = void 0;
+      if (this.keyState["ArrowRight"]) {
+        newPos = (0, _merge2.default)({}, pos, { left: pos.left + _constants.WALKING_SPEED });
+        newDoing = 'walk';
+        this.setState({
+          pos: newPos,
+          doing: newDoing
+        });
+        this.props.updateTurtle(this.state);
+      }
+      this.timer = setTimeout(this.continueKeydown, 10);
     }
   }]);
 
@@ -25539,7 +25605,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var FRAME_HEIGHT = exports.FRAME_HEIGHT = 190;
 var FRAME_WIDTH = exports.FRAME_WIDTH = 500;
-var GROUND_X = exports.GROUND_X = 20;
+var GROUND_X = exports.GROUND_X = 15;
+var WALKING_SPEED = exports.WALKING_SPEED = 2;
 
 /***/ }),
 /* 238 */

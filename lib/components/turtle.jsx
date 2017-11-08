@@ -5,6 +5,7 @@ import TurtleWalk from './sprites/turtle_walk';
 import TurtleStand from './sprites/turtle_stand';
 import TurtleAttack from './sprites/turtle_attack';
 import {resetTurtle, updateTurtle} from '../actions/turtle_actions';
+import {WALKING_SPEED} from '../constants';
 
 // tracks its own pos relative to stage (redux) - done
 // tracks its half length (redux)
@@ -40,22 +41,34 @@ class Turtle extends React.Component {
       doing: null,
     };
 
+    this.keyState = {};
+    this.timer = 0;
+
     this.renderStyles = this.renderStyles.bind(this);
+    this.renderSprite = this.renderSprite.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
+    this.handleKeyup = this.handleKeyup.bind(this);
+    this.addListeners = this.addListeners.bind(this);
+    this.continueKeydown = this.continueKeydown.bind(this);
   }
 
   render() {
+    if (!this.state.pos) { //render nothing when Redux state not yet updated
+      return null;
+    }
+
+
     return (
       <div className="turtle"
         style={this.renderStyles()}>
-        <TurtleStand />
+        {this.renderSprite()}
       </div>
     );
   }
 
   componentDidMount(){
     this.props.resetTurtle(); // resets turtle when game starts
-    document.addEventListener("keydown", this.handleKeydown);
+    this.addListeners();
   }
 
   componentWillReceiveProps({turtle}){
@@ -67,18 +80,64 @@ class Turtle extends React.Component {
     return pos;
   }
 
+  renderSprite() {
+    const {doing} = this.state;
+    const TurtleSprite = {
+      'stand': TurtleStand,
+      'walk': TurtleWalk,
+      'attack': TurtleAttack,
+    };
+    const Sprite = TurtleSprite[doing];
+    return (<Sprite />);
+  }
+
+  addListeners() {
+    document.addEventListener("keydown", this.handleKeydown);
+    document.addEventListener("keyup", this.handleKeyup);
+  }
+
   handleKeydown(e) {
-    const {pos} = this.state;
-    let newPos;
+    this.keyState[e.key] = true;
+    if (this.timer === 0) { // invoke only when it hasn't been invoked previously
+      this.continueKeydown();
+    }
+  }
+
+  handleKeyup(e) {
+    this.keyState[e.key] = false;
+    if (this.timer) {
+      clearTimeout(this.timer); // to break the continueKeydown loop when key is released
+      this.timer = 0;
+    }
+    let newDoing;
     switch (e.key) {
       case "ArrowRight":
-        newPos = merge({}, pos, {left: pos.left + 10});
-        this.setState({ pos: newPos });
-        this.props.updateTurtle(this.state);
+        newDoing = 'stand';
+        this.setState({
+          doing: newDoing,
+        });
         break;
       default:
         break;
     }
+  }
+
+  continueKeydown() {
+    // To fix delay in JS native keydown event
+    // Credit: https://stackoverflow.com/questions/12273451/how-to-fix-delay-in-javascript-keydown
+    const {pos} = this.state;
+    let newPos;
+    let newDoing;
+    if (this.keyState["ArrowRight"]) {
+      newPos = merge({}, pos, {left: pos.left + WALKING_SPEED});
+      newDoing = 'walk';
+      this.setState({
+        pos: newPos,
+        doing: newDoing,
+      });
+      this.props.updateTurtle(this.state);
+    }
+    this.timer = setTimeout(this.continueKeydown, 10);
   }
 }
 
