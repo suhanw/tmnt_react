@@ -25713,11 +25713,15 @@ var _turtle_reducer = __webpack_require__(242);
 
 var _turtle_reducer2 = _interopRequireDefault(_turtle_reducer);
 
+var _foots_reducer = __webpack_require__(340);
+
+var _foots_reducer2 = _interopRequireDefault(_foots_reducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RootReducer = (0, _redux.combineReducers)({
-  turtle: _turtle_reducer2.default
-  // foots: {},
+  turtle: _turtle_reducer2.default,
+  foots: _foots_reducer2.default
 });
 
 exports.default = RootReducer;
@@ -28706,6 +28710,118 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
+
+/***/ }),
+/* 338 */,
+/* 339 */,
+/* 340 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _merge = __webpack_require__(271);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _foots_actions = __webpack_require__(341);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var defaultState = {
+  footsById: {},
+  footsIdArr: []
+};
+
+var FootsReducer = function FootsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
+  var action = arguments[1];
+
+  var newState = void 0;
+  switch (action.type) {
+    case _foots_actions.RECEIVE_FOOT:
+      newState = (0, _merge2.default)({}, state, {
+        footsById: _defineProperty({}, action.payload.id, action.payload)
+      });
+      return newState;
+    default:
+      return state;
+  }
+};
+
+exports.default = FootsReducer;
+
+/***/ }),
+/* 341 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.resetFoots = exports.updateFoot = exports.receiveFoots = exports.receiveFoot = exports.RECEIVE_FOOTS = exports.RECEIVE_FOOT = undefined;
+
+var _constants = __webpack_require__(237);
+
+var _foots_util = __webpack_require__(342);
+
+var FootsUtil = _interopRequireWildcard(_foots_util);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var RECEIVE_FOOT = exports.RECEIVE_FOOT = 'RECEIVE_FOOT';
+var RECEIVE_FOOTS = exports.RECEIVE_FOOTS = 'RECEIVE_FOOTS';
+
+var receiveFoot = exports.receiveFoot = function receiveFoot(foot) {
+  return {
+    type: RECEIVE_FOOT,
+    payload: foot
+  };
+};
+
+var receiveFoots = exports.receiveFoots = function receiveFoots(foots) {
+  return {
+    type: RECEIVE_FOOTS,
+    payload: foots
+  };
+};
+
+var updateFoot = exports.updateFoot = function updateFoot(foot) {
+  return function (dispatch) {
+    return dispatch(receiveFoot(foot));
+  };
+};
+
+var resetFoots = exports.resetFoots = function resetFoots() {
+  var foots = FootsUtil.randomizeFoots(); //NOTE: START HERE
+  return function (dispatch) {
+    return dispatch(receiveFoots(foots));
+  };
+};
+
+/***/ }),
+/* 342 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var randomizeFoots = exports.randomizeFoots = function randomizeFoots() {
+  // create a number of foots (based on difficulty levels?)
+  // init each foot's health, height and width
+  // randomize each foot's pos
+};
 
 /***/ })
 /******/ ]);
