@@ -5,7 +5,7 @@ module.exports = {
   entry: "./lib/index.jsx",
   output: {
     // path: path.resolve(__dirname, 'app', 'assets', 'javascripts'),
-    filename: "bundle.js"
+    filename: "./lib/bundle.js"
   },
   module: {
     loaders: [
