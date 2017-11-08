@@ -18,7 +18,7 @@ This project will be implemented with the following technologies:
 
 Preliminary outline of components:
 
-#### Gameframe
+#### Game
 - fix frame width and size
 - contains nav links and instructions
 - starts and ends the game loop
