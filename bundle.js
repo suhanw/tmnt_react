@@ -25008,7 +25008,7 @@ var Viewport = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Viewport.__proto__ || Object.getPrototypeOf(Viewport)).call(this, props));
 
     _this.state = {
-      left: 0
+      left: null
     };
 
     // this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -25029,7 +25029,11 @@ var Viewport = function (_React$Component) {
     value: function componentWillReceiveProps(newProps) {
       var left = newProps.turtle.pos.left;
 
-      var newLeft = left * -1;
+      var newLeft = void 0;
+      // viewport only starts panning when turtle is 1/4 into the viewport
+      if (left > _constants.FRAME_WIDTH / 4) {
+        newLeft = left * -1 + _constants.FRAME_WIDTH / 4;
+      }
       this.setState({ left: newLeft });
     }
 
@@ -25113,7 +25117,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// tracks its own pos relative to stage (redux)
+// tracks its own pos relative to stage (redux) - done
 // tracks its half length (redux)
 // tracks health (redux)
 // keypress event handlers

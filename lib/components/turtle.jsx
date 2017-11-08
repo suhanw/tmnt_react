@@ -6,7 +6,7 @@ import TurtleStand from './sprites/turtle_stand';
 import TurtleAttack from './sprites/turtle_attack';
 import {resetTurtle, updateTurtle} from '../actions/turtle_actions';
 
-// tracks its own pos relative to stage (redux)
+// tracks its own pos relative to stage (redux) - done
 // tracks its half length (redux)
 // tracks health (redux)
 // keypress event handlers

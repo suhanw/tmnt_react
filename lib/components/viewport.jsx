@@ -22,7 +22,7 @@ class Viewport extends React.Component {
     super(props);
 
     this.state = {
-      left: 0,
+      left: null,
     };
 
     // this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -38,7 +38,11 @@ class Viewport extends React.Component {
 
   componentWillReceiveProps(newProps) {
     const {turtle: {pos: {left}}} = newProps;
-    const newLeft = left * (-1);
+    let newLeft;
+    // viewport only starts panning when turtle is 1/4 into the viewport
+    if (left > (FRAME_WIDTH / 4)) {
+      newLeft = left * (-1) + (FRAME_WIDTH / 4);
+    }
     this.setState({left: newLeft});
   }
 
