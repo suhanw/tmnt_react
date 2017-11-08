@@ -16,6 +16,42 @@ This project will be implemented with the following technologies:
 - `JavaScript` for game logic
 - `React` for animation and rendering
 
+These are the basic outline of components to be created:
+
+#### Gameframe
+- fix frame width and size
+- contains nav links and instructions
+- starts and ends the game loop
+
+#### Viewport
+- tracks and centers the view based on turtle pos
+
+#### Stage
+- renders turtle
+- populates foots at random pos (redux)
+
+#### Turtle
+- tracks its own pos relative to stage (redux)
+- tracks its half length (redux)
+- tracks health (redux)
+- keypress event handlers
+- sprite state (redux)
+  1. Walk
+  2. Stand
+  3. Attack
+- Note: if turtle is attack and foot is stand, and dist betw centers <= half lengths, then foot loses health
+
+
+#### Foot Soldier
+- tracks pos relative to stage (redux)
+- tracks health (redux)
+- sprite state (redux)
+  1. Stand
+  2. Attack
+
+#### Physics util/Character parent class?
+- jump physics
+
 ### Technical challenges
 1. Inifinite scrolling of background to simulate walking forward
 2. Rendering animated sprite characters in the viewport
