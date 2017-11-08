@@ -16,7 +16,7 @@ This project will be implemented with the following technologies:
 - `JavaScript` for game logic
 - `React` for animation and rendering
 
-These are the basic outline of components to be created:
+Preliminary outline of components:
 
 #### Gameframe
 - fix frame width and size
