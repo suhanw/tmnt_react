@@ -13,7 +13,7 @@ This game is a simplified version of TMNT 4: Turtles in Time, which is a classic
 
 This project will be implemented with the following technologies:
 
-- `JavaScript` for game logic
+- `JavaScript` and `Redux` for game logic
 - `React` for animation and rendering
 
 Preliminary outline of components:
@@ -28,7 +28,7 @@ Preliminary outline of components:
 
 #### Stage
 - renders turtle
-- populates foots at random pos (redux)
+- renders foots at random pos (redux)
 
 #### Turtle
 - tracks its own pos relative to stage (redux)
@@ -40,7 +40,6 @@ Preliminary outline of components:
   2. Stand
   3. Attack
 - Note: if turtle is attack and foot is stand, and dist betw centers <= half lengths, then foot loses health
-
 
 #### Foot Soldier
 - tracks pos relative to stage (redux)
