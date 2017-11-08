@@ -97,22 +97,16 @@ class Turtle extends React.Component {
   }
 
   handleKeydown(e) {
-    this.keyState[e.key] = true;
-    if (this.timer === 0) { // invoke only when it hasn't been invoked previously
-      this.continueKeydown();
-    }
-  }
-
-  handleKeyup(e) {
-    this.keyState[e.key] = false;
-    if (this.timer) {
-      clearTimeout(this.timer); // to break the continueKeydown loop when key is released
-      this.timer = 0;
-    }
     let newDoing;
-    switch (e.key) {
+    switch (e.code) {
       case "ArrowRight":
-        newDoing = 'stand';
+        this.keyState[e.code] = true;
+        if (this.timer === 0) { // start loop only when it hasn't been started previously
+          this.continueKeydown();
+        }
+        break;
+      case "Space":
+        newDoing = 'attack';
         this.setState({
           doing: newDoing,
         });
@@ -122,8 +116,29 @@ class Turtle extends React.Component {
     }
   }
 
+  handleKeyup(e) {
+    let newDoing = 'stand';
+    switch (e.code) {
+      case "ArrowRight":
+        this.keyState[e.code] = false;
+        if (this.timer) { // to break the continueKeydown loop when key is released
+          clearTimeout(this.timer);
+          this.timer = 0;
+        }
+        this.setState({
+          doing: newDoing,
+        });
+        break;
+      default:
+        this.setState({
+          doing: newDoing,
+        });
+        break;
+    }
+  }
+
   continueKeydown() {
-    // To fix delay in JS native keydown event
+    // To fix delay in native 'keydown' event
     // Credit: https://stackoverflow.com/questions/12273451/how-to-fix-delay-in-javascript-keydown
     const {pos} = this.state;
     let newPos;

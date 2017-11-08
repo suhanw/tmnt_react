@@ -25232,24 +25232,17 @@ var Turtle = function (_React$Component) {
   }, {
     key: 'handleKeydown',
     value: function handleKeydown(e) {
-      this.keyState[e.key] = true;
-      if (this.timer === 0) {
-        // invoke only when it hasn't been invoked previously
-        this.continueKeydown();
-      }
-    }
-  }, {
-    key: 'handleKeyup',
-    value: function handleKeyup(e) {
-      this.keyState[e.key] = false;
-      if (this.timer) {
-        clearTimeout(this.timer); // to break the continueKeydown loop when key is released
-        this.timer = 0;
-      }
       var newDoing = void 0;
-      switch (e.key) {
+      switch (e.code) {
         case "ArrowRight":
-          newDoing = 'stand';
+          this.keyState[e.code] = true;
+          if (this.timer === 0) {
+            // start loop only when it hasn't been started previously
+            this.continueKeydown();
+          }
+          break;
+        case "Space":
+          newDoing = 'attack';
           this.setState({
             doing: newDoing
           });
@@ -25259,9 +25252,32 @@ var Turtle = function (_React$Component) {
       }
     }
   }, {
+    key: 'handleKeyup',
+    value: function handleKeyup(e) {
+      var newDoing = 'stand';
+      switch (e.code) {
+        case "ArrowRight":
+          this.keyState[e.code] = false;
+          if (this.timer) {
+            // to break the continueKeydown loop when key is released
+            clearTimeout(this.timer);
+            this.timer = 0;
+          }
+          this.setState({
+            doing: newDoing
+          });
+          break;
+        default:
+          this.setState({
+            doing: newDoing
+          });
+          break;
+      }
+    }
+  }, {
     key: 'continueKeydown',
     value: function continueKeydown() {
-      // To fix delay in JS native keydown event
+      // To fix delay in native 'keydown' event
       // Credit: https://stackoverflow.com/questions/12273451/how-to-fix-delay-in-javascript-keydown
       var pos = this.state.pos;
 
@@ -25579,11 +25595,11 @@ var TurtleAttack = function (_React$Component) {
         sprite: './assets/spritesheets/mikey-attack.png',
         direction: 'horizontal',
         shouldAnimate: true,
-        fps: 8,
+        fps: 43,
         startFrame: 0,
-        stopLastFrame: false,
-        frameCount: 6,
-        wrapAfter: 6
+        stopLastFrame: true,
+        frameCount: 5,
+        wrapAfter: 5
       });
     }
   }]);

@@ -11,11 +11,11 @@ class TurtleAttack extends React.Component {
         sprite='./assets/spritesheets/mikey-attack.png'
         direction="horizontal"
         shouldAnimate={true}
-        fps={8}
+        fps={43}
         startFrame={0}
-        stopLastFrame={false}
-        frameCount={6}
-        wrapAfter={6}
+        stopLastFrame={true}
+        frameCount={5}
+        wrapAfter={5}
          />
     );
   }
