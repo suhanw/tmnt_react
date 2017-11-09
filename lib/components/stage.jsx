@@ -7,7 +7,7 @@ import {resetFoots} from '../actions/foots_actions';
 // renders turtle
 // renders foots at random pos (redux)
 
-const mapStateToProps = ({foots}, ownProps) => {
+const mapStateToProps = ({foots, turtle}, ownProps) => {
   return {
     foots,
   };

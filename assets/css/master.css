@@ -22,14 +22,27 @@
   position: relative;
 }
 
-.turtle {
+div.turtle {
   position: absolute;
-  width: auto;
-  /*display: flex;
-  justify-content: center;*/
+  display: inline-table;
+  overflow: visible;
+  text-align: center;
+  vertical-align: bottom;
+  border: 1px solid red;
+  /*to delete*/
+  font-size: 10px;
+  color: white;
+}
+
+.turtle > div {
+  display: inline-block;
 }
 
 .foot {
   position: absolute;
   width: auto;
+  border: 1px solid green;
+  /*to delete*/
+  font-size: 10px;
+  color: white;
 }

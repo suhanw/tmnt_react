@@ -15,7 +15,8 @@ import {WALKING_SPEED} from '../constants';
 // Walk
 // Stand
 // Attack
-// Note: if turtle is attack and foot is stand, and dist betw centers <= half lengths, then foot loses health
+// Note: if turtle is attack and foot is stand, and
+// dist betw centers <= half lengths, then foot loses health
 
 const mapStateToProps = ({turtle}, ownProps) => {
   return {
@@ -61,6 +62,7 @@ class Turtle extends React.Component {
     return (
       <div className="turtle"
         style={this.renderStyles()}>
+        Health: {this.state.health} <br />
         {this.renderSprite()}
       </div>
     );
@@ -75,9 +77,20 @@ class Turtle extends React.Component {
     this.setState(turtle); // set React state whenever Redux state updated
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+    const {turtle} = nextProps;
+    //only re-render if there is value change in React/Redux state
+    if (JSON.stringify(nextState) !== JSON.stringify(this.state)
+    || JSON.stringify(turtle) !== JSON.stringify(this.state)) {
+      return true;
+    }
+    return false;
+  }
+
   renderStyles() {
-    const {pos} = this.state;
-    return pos;
+    const {pos, size} = this.state;
+    const style = merge({}, pos, size);
+    return style;
   }
 
   renderSprite() {
@@ -106,10 +119,15 @@ class Turtle extends React.Component {
         }
         break;
       case "Space":
-        newDoing = 'attack';
-        this.setState({
-          doing: newDoing,
-        });
+        let allowed; // prevent multiple attacks when key is pressed
+        if (e.repeat != undefined) {
+          allowed = !e.repeat; // first keydown, e.repeat is 'false'
+        }
+        // second keydown, e.repeat is 'true', so won't update state
+        if (!allowed) return;
+        allowed = false;
+        this.setState({doing: "attack"});
+        this.props.updateTurtle(this.state);
         break;
       default:
         break;
@@ -128,11 +146,13 @@ class Turtle extends React.Component {
         this.setState({
           doing: newDoing,
         });
+        this.props.updateTurtle(this.state);
         break;
       default:
         this.setState({
           doing: newDoing,
         });
+        this.props.updateTurtle(this.state);
         break;
     }
   }
