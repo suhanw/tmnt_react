@@ -25,6 +25,11 @@
 .turtle {
   position: absolute;
   width: auto;
-  display: flex;
-  justify-content: center;
+  /*display: flex;
+  justify-content: center;*/
+}
+
+.foot {
+  position: absolute;
+  width: auto;
 }
