@@ -22,7 +22,9 @@ const FootsReducer = (state=defaultState, action) => {
       newState = merge({}, state);
       delete newState.footsById[action.footId];
       const i = newState.footsIdArr.indexOf(action.footId);
-      newState.footsIdArr.splice(i, 1);
+      if (i !== -1) {
+        newState.footsIdArr.splice(i, 1);
+      }
       return newState;
     default:
       return state;

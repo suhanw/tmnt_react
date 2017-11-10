@@ -91,7 +91,7 @@ class Turtle extends React.Component {
     const {turtle} = nextProps;
     //only re-render if there is value change in React/Redux state
     if (JSON.stringify(nextState) !== JSON.stringify(this.state)
-    || JSON.stringify(turtle) !== JSON.stringify(this.state)) {
+    || JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
       return true;
     }
     return false;
@@ -100,8 +100,6 @@ class Turtle extends React.Component {
   renderStyles() {
     const {pos, size} = this.state;
     let style = merge({}, pos, size);
-    // style.transitionProperty = 'bottom';
-    // style.transitionDuration = '.2s';
     return style;
   }
 
@@ -184,6 +182,10 @@ class Turtle extends React.Component {
   }
 
   continueKeydown() {
+    if (this.state.hasCollided) {
+      this.keyState["ArrowRight"] = false;
+      return;
+    }
     // To fix delay in native 'keydown' event
     // Credit: https://stackoverflow.com/questions/12273451/how-to-fix-delay-in-javascript-keydown
     if (this.keyState["ArrowRight"]) {
@@ -193,7 +195,7 @@ class Turtle extends React.Component {
       this.props.updateTurtle(newTurtle);
     }
     // invoke this func in a loop to detect 'ArrowRight' being pressed
-    this.timer = setTimeout(this.continueKeydown, 10);
+    this.timer = setTimeout(this.continueKeydown, 20);
   }
 
   setComboAttackSprite() {
@@ -230,7 +232,7 @@ class Turtle extends React.Component {
         }, 150);
         break;
       default:
-        this.props.updateTurtle(newState);
+        // this.props.updateTurtle(newState);
         break;
     }
   }
