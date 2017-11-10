@@ -52,32 +52,46 @@ class Foot extends React.Component {
 
   componentDidMount(){
     const that = this;
-    setTimeout(()=>{
+    setInterval(()=>{
       let newState = merge({}, that.state, {doing: "attack"});
       that.props.updateFoot(newState);
+      setTimeout(()=>{
+        let newState = merge({}, that.state, {doing: "stand"});
+        that.props.updateFoot(newState);
+      }, 500);
     }, 4000);
 
-    setTimeout(()=>{
-      let newState = merge({}, that.state, {doing: "stand"});
-      that.props.updateFoot(newState);
-    }, 4500);
   }
 
   componentWillReceiveProps({turtle, foot}) {
-    if (JSON.stringify(foot) !== JSON.stringify(this.state)) {
+    if (turtle.doing === 'attack' && foot.doing === 'attack') { // do nothing if both attack at the same time
+      return;
+    } else if (turtle.doing === 'attack') {
+      if (hasHorizontalCollision(turtle, foot)) { // true if turtle is close enough to attack foot
+        let newFoot = merge({}, foot);
+        newFoot.health -= 2;
+        this.setState(newFoot); //reduce foot's React health
+      }
+    } else if (turtle.doing === 'stand' && foot.health !== this.state.health) { // true if turtle attack landed
+      this.props.updateFoot(this.state); //reduce foot's Redux health
+    } else if (foot.doing === 'attack') {
       this.setState(foot);
+      if (hasHorizontalCollision(turtle, foot)) { // true if foot is close enough to attack turtle
+        this.turtleDamage = true;
+      }
+    } else if (JSON.stringify(foot) !== JSON.stringify(this.state)) {
+      this.setState(foot);
+    } else {
       return;
     }
+  }
 
-    let newTurtle = merge({}, turtle);
-    let newFoot = merge({}, foot);
-    if (hasHorizontalCollision(newTurtle, newFoot)) { // true if turtle and foot are close enough to attack each other
-      console.log('collide');
-      if (inflictDamage(newTurtle, newFoot)) { // if damage inflicted, will return true
-        console.log('attack');
-        this.props.updateFoot(newFoot);
-        this.props.updateTurtle(newTurtle);
-      }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.doing === 'attack' && this.turtleDamage) { // true if foot attack landed
+      this.turtleDamage = false;
+      let newTurtle = merge({}, this.props.turtle);
+      newTurtle.health -= 2;
+      this.props.updateTurtle(newTurtle); // reduce turtle's Redux health
     }
   }
 
