@@ -7,6 +7,7 @@ import {hasHorizontalCollision, inflictDamage} from '../util/collision_util';
 import FootStand from './sprites/foot_stand';
 import FootWalk from './sprites/foot_walk';
 import FootAttack from './sprites/foot_attack';
+import FootHurt from './sprites/foot_hurt';
 
 // tracks pos relative to stage (redux)
 // tracks health (redux)
@@ -52,15 +53,14 @@ class Foot extends React.Component {
 
   componentDidMount(){
     const that = this;
-    setInterval(()=>{
-      let newState = merge({}, that.state, {doing: "attack"});
-      that.props.updateFoot(newState);
-      setTimeout(()=>{
-        let newState = merge({}, that.state, {doing: "stand"});
-        that.props.updateFoot(newState);
-      }, 500);
-    }, 4000);
-
+    // setInterval(()=>{
+    //   let newState = merge({}, that.state, {doing: "attack"});
+    //   that.props.updateFoot(newState);
+    //   setTimeout(()=>{
+    //     newState = merge({}, that.state, {doing: "stand"});
+    //     that.props.updateFoot(newState);
+    //   }, 500);
+    // }, 4000);
   }
 
   componentWillReceiveProps({turtle, foot}) {
@@ -70,10 +70,16 @@ class Foot extends React.Component {
       if (hasHorizontalCollision(turtle, foot)) { // true if turtle is close enough to attack foot
         let newFoot = merge({}, foot);
         newFoot.health -= 2;
+        newFoot.doing = 'hurt';
         this.setState(newFoot); //reduce foot's React health
       }
     } else if (turtle.doing === 'stand' && foot.health !== this.state.health) { // true if turtle attack landed
-      this.props.updateFoot(this.state); //reduce foot's Redux health
+      let newFoot = merge({}, this.state);
+      this.props.updateFoot(newFoot); //reduce foot's Redux health
+      const that = this;
+      setTimeout(()=>{
+        that.setState({doing: "stand"});
+      }, 500);
     } else if (foot.doing === 'attack') {
       this.setState(foot);
       if (hasHorizontalCollision(turtle, foot)) { // true if foot is close enough to attack turtle
@@ -117,6 +123,7 @@ class Foot extends React.Component {
       'stand': FootStand,
       'walk': FootWalk,
       'attack': FootAttack,
+      'hurt': FootHurt,
     };
     const Sprite = FootSprite[doing];
     return (<Sprite />);
