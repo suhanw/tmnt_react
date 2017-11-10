@@ -1,7 +1,44 @@
+body {
+  overflow: hidden;
+}
+
+#root {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  box-sizing: border-box;
+}
+
 .game {
-  width: 500px;
-  height: 190px;
-  border: 1px solid black;
+  /*border: 1px solid red;*/
+  margin: auto;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  /*transform: scale(1.5);*/
+}
+
+.toggle-mute-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: black;
+  color: white;
+  padding: 10px 0;
+}
+
+.toggle-mute-bar > i,
+.toggle-mute-bar > span {
+  margin-left: 10px;
+}
+
+.turtle-health-bar {
+  
+}
+
+.gameframe {
   position: relative;
   margin: auto;
   overflow: hidden;
@@ -10,7 +47,7 @@
 
 .viewport {
   position: absolute;
-  left: 0px;
+  left: 0;
   top: 0;
 }
 

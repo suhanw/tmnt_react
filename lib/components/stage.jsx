@@ -25,6 +25,7 @@ class Stage extends React.Component {
     super(props);
 
     this.renderFoots = this.renderFoots.bind(this);
+
   }
 
   render() {
@@ -38,7 +39,8 @@ class Stage extends React.Component {
 
   componentDidMount() {
     this.props.resetFoots();
-    // playSound('stage1');
+    this.props.addSoundPlaying('stage1');
+    playSound('stage1');
   }
 
   renderFoots() {
