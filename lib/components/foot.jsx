@@ -67,6 +67,12 @@ class Foot extends React.Component {
       this.setState(foot);
     }
 
+    // if (hasHorizontalCollision(turtle, foot)) {
+    //   let newTurtle = merge({}, turtle);
+    //   newTurtle.hasCollided = true;
+    //   this.props.updateTurtle(newTurtle);
+    // }
+
     if (turtle.doing.includes('attack') && foot.doing === 'attack') { // do nothing if both attack at the same time
       return;
     } else if (turtle.doing.includes('attack')) {
