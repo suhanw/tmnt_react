@@ -30,7 +30,8 @@ class Viewport extends React.Component {
 
   render() {
     return (
-      <div style={this.renderStyles()}>
+      <div className="viewport"
+        style={this.renderStyles()}>
         {this.props.children}
       </div>
     );

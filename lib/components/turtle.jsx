@@ -15,7 +15,8 @@ import {WALKING_SPEED} from '../constants';
 // Walk
 // Stand
 // Attack
-// Note: if turtle is attack and foot is stand, and dist betw centers <= half lengths, then foot loses health
+// Note: if turtle is attack and foot is stand, and
+// dist betw centers <= half lengths, then foot loses health
 
 const mapStateToProps = ({turtle}, ownProps) => {
   return {
@@ -57,10 +58,10 @@ class Turtle extends React.Component {
       return null;
     }
 
-
     return (
       <div className="turtle"
         style={this.renderStyles()}>
+        Health: {this.state.health} <br />
         {this.renderSprite()}
       </div>
     );
@@ -72,12 +73,25 @@ class Turtle extends React.Component {
   }
 
   componentWillReceiveProps({turtle}){
-    this.setState(turtle); // set React state whenever Redux state updated
+    if (JSON.stringify(turtle) !== JSON.stringify(this.state)) {
+      this.setState(turtle); // set React state only when Redux state updated
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    const {turtle} = nextProps;
+    //only re-render if there is value change in React/Redux state
+    if (JSON.stringify(nextState) !== JSON.stringify(this.state)
+    || JSON.stringify(turtle) !== JSON.stringify(this.state)) {
+      return true;
+    }
+    return false;
   }
 
   renderStyles() {
-    const {pos} = this.state;
-    return pos;
+    const {pos, size} = this.state;
+    const style = merge({}, pos, size);
+    return style;
   }
 
   renderSprite() {
@@ -97,7 +111,7 @@ class Turtle extends React.Component {
   }
 
   handleKeydown(e) {
-    let newDoing;
+    let newState;
     switch (e.code) {
       case "ArrowRight":
         this.keyState[e.code] = true;
@@ -106,10 +120,17 @@ class Turtle extends React.Component {
         }
         break;
       case "Space":
-        newDoing = 'attack';
-        this.setState({
-          doing: newDoing,
-        });
+        // prevent multiple attacks when key is pressed
+        let allowed;
+        if (e.repeat != undefined) {
+          // first keydown, e.repeat is 'false'
+          // second keydown, e.repeat is 'true'
+          allowed = !e.repeat;
+        }
+        if (!allowed) return; // on second keydown, turtle won't attack
+        allowed = false;
+        newState = merge({}, this.state, {doing: "attack"});
+        this.props.updateTurtle(newState);
         break;
       default:
         break;
@@ -118,6 +139,7 @@ class Turtle extends React.Component {
 
   handleKeyup(e) {
     let newDoing = 'stand';
+    let newState = merge({}, this.state, {doing: newDoing});
     switch (e.code) {
       case "ArrowRight":
         this.keyState[e.code] = false;
@@ -125,14 +147,10 @@ class Turtle extends React.Component {
           clearTimeout(this.timer);
           this.timer = 0;
         }
-        this.setState({
-          doing: newDoing,
-        });
+        this.props.updateTurtle(newState);
         break;
       default:
-        this.setState({
-          doing: newDoing,
-        });
+        this.props.updateTurtle(newState);
         break;
     }
   }
