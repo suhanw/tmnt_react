@@ -82,9 +82,6 @@ class Foot extends React.Component {
       newFoot.health -= TURTLE_ATTACK_DAMAGE;
       this.setState(newFoot); //reduce foot's React health
     } else if (turtle.doing === 'stand' && foot.health !== this.state.health) { // true if turtle attack landed
-      console.log('turtle.doing', turtle.doing);
-      console.log('foot.health', foot.health);
-      console.log('this.state.health', this.state.health);
       newFoot = merge({}, this.state);
       this.setDamageSprite(newFoot); // render foot-hurt or foot-die sprite
       this.setState(newFoot);
@@ -139,7 +136,7 @@ class Foot extends React.Component {
     if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
        return true;
     }
-    if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
+    if (JSON.stringify(nextProps.foot) !== JSON.stringify(this.props.foot)) {
       return true;
     }
     return false;
