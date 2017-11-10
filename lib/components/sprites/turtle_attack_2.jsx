@@ -1,24 +1,24 @@
 import React from 'react';
 import SpriteAnimator from 'react-sprite-animator';
 
-class TurtleAttack extends React.Component {
+class TurtleAttack2 extends React.Component {
 
   render() {
     return (
       <SpriteAnimator
-        width={90}
-        height={90}
-        sprite='./assets/spritesheets/mikey-attack.png'
+        width={120}
+        height={94}
+        sprite='./assets/spritesheets/mikey-attack-2.png'
         direction="horizontal"
         shouldAnimate={true}
         fps={45}
         startFrame={0}
         stopLastFrame={true}
-        frameCount={5}
-        wrapAfter={5}
+        frameCount={3}
+        wrapAfter={3}
          />
     );
   }
 }
 
-export default TurtleAttack;
+export default TurtleAttack2;

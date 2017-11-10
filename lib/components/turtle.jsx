@@ -3,7 +3,9 @@ import {connect} from 'react-redux';
 import merge from 'lodash/merge';
 import TurtleWalk from './sprites/turtle_walk';
 import TurtleStand from './sprites/turtle_stand';
-import TurtleAttack from './sprites/turtle_attack';
+import TurtleAttack1 from './sprites/turtle_attack_1';
+import TurtleAttack2 from './sprites/turtle_attack_2';
+import TurtleAttack3 from './sprites/turtle_attack_3';
 import TurtleHurt from './sprites/turtle_hurt';
 import TurtleDie from './sprites/turtle_die';
 import {resetTurtle, updateTurtle} from '../actions/turtle_actions';
@@ -54,7 +56,7 @@ class Turtle extends React.Component {
     this.handleKeyup = this.handleKeyup.bind(this);
     this.addListeners = this.addListeners.bind(this);
     this.continueKeydown = this.continueKeydown.bind(this);
-    this.setAttackSprite = this.setAttackSprite.bind(this);
+    this.setComboAttackSprite = this.setComboAttackSprite.bind(this);
   }
 
   render() {
@@ -103,7 +105,9 @@ class Turtle extends React.Component {
     const TurtleSprite = {
       'stand': TurtleStand,
       'walk': TurtleWalk,
-      'attack': TurtleAttack,
+      'attack-1': TurtleAttack1,
+      'attack-2': TurtleAttack2,
+      'attack-3': TurtleAttack3,
       'hurt': TurtleHurt,
       'die': TurtleDie,
     };
@@ -139,8 +143,9 @@ class Turtle extends React.Component {
           clearTimeout(this.timer);
           this.timer = 0;
         }
-        this.combo.push(e.timestamp);
-        newState = merge({}, this.state, {doing: "attack"});
+        this.combo.push(e.timeStamp); // track combo attacks
+        const attack = this.setComboAttackSprite();
+        newState = merge({}, this.state, {doing: attack});
         this.props.updateTurtle(newState);
         break;
       default:
@@ -148,15 +153,20 @@ class Turtle extends React.Component {
     }
   }
 
-  setAttackSprite() {
+  setComboAttackSprite() {
     let attackSprite;
     if (this.combo.length === 1) {
-
-    } else if (this.combo.length === 2) {
-
-    } else if (this.combo.length === 3) {
-
+      attackSprite = 'attack-1';
+    } else if (this.combo.length === 2 &&  this.combo[1] - this.combo[0] < 400) {
+      attackSprite = 'attack-2';
+    } else if (this.combo.length === 3 &&  this.combo[2] - this.combo[1] < 400) {
+      attackSprite = 'attack-3';
+      this.combo = [];
+    } else {
+      attackSprite = 'attack-1';
+      this.combo = [];
     }
+    return attackSprite;
   }
 
   handleKeyup(e) {
@@ -170,6 +180,11 @@ class Turtle extends React.Component {
           this.timer = 0;
         }
         this.props.updateTurtle(newState);
+        break;
+      case "Space":
+        setTimeout(()=>{ // give time for attack sprite animation to complete
+          this.props.updateTurtle(newState);
+        }, 200);
         break;
       default:
         this.props.updateTurtle(newState);

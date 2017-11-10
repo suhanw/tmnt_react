@@ -9,12 +9,7 @@ import FootWalk from './sprites/foot_walk';
 import FootAttack from './sprites/foot_attack';
 import FootHurt from './sprites/foot_hurt';
 import FootDie from './sprites/foot_die';
-
-// tracks pos relative to stage (redux)
-// tracks health (redux)
-// sprite state (redux)
-// - Stand
-// - Attack
+import {TURTLE_ATTACK_DAMAGE, FOOT_ATTACK_DAMAGE} from '../constants';
 
 const mapStateToProps = (state, ownProps) => {
   const {turtle, foots: {footsById}} = state;
@@ -54,7 +49,7 @@ class Foot extends React.Component {
   }
 
   componentDidMount() {
-    // to test hurting/killing turtle
+    // // to test hurting/killing turtle
     // setInterval(()=>{
     //   let newFoot = merge({},this.state);
     //   newFoot.doing = 'attack';
@@ -64,9 +59,7 @@ class Foot extends React.Component {
     //     newFoot.doing = 'stand';
     //     this.props.updateFoot(newFoot);
     //   }, 500);
-    //
     // }, 1000);
-
   }
 
   componentWillReceiveProps({turtle, foot}) {
@@ -74,12 +67,12 @@ class Foot extends React.Component {
       this.setState(foot);
     }
 
-    if (turtle.doing === 'attack' && foot.doing === 'attack') { // do nothing if both attack at the same time
+    if (turtle.doing.includes('attack') && foot.doing === 'attack') { // do nothing if both attack at the same time
       return;
-    } else if (turtle.doing === 'attack') {
+    } else if (turtle.doing.includes('attack')) {
       if (hasHorizontalCollision(turtle, foot)) { // true if turtle is close enough to attack foot
         let newFoot = merge({}, foot);
-        newFoot.health -= 2;
+        newFoot.health -= TURTLE_ATTACK_DAMAGE;
         this.setState(newFoot); //reduce foot's React health
       }
     } else if (turtle.doing === 'stand' && foot.health !== this.state.health) { // true if turtle attack landed
@@ -104,7 +97,7 @@ class Foot extends React.Component {
   }
 
   setDamageSprite(foot) {
-    if (foot.health === 0) {
+    if (foot.health <= 0) {
       foot.doing = 'die';
     } else {
       foot.doing = 'hurt';
@@ -115,7 +108,7 @@ class Foot extends React.Component {
     if (prevState.doing === 'attack' && this.turtleDamage) { // true if foot attack landed
       this.turtleDamage = false;
       let newTurtle = merge({}, this.props.turtle);
-      newTurtle.health -= 2;
+      newTurtle.health -= FOOT_ATTACK_DAMAGE;
       if (newTurtle.health > 0) {
         newTurtle.doing = 'hurt';
       } else {

@@ -6,6 +6,7 @@ import {FRAME_WIDTH, FRAME_HEIGHT} from '../constants';
 // fix frame width and size
 // contains nav links and instructions
 // starts and ends the game loop
+// check for turtle's health, if l.t.e zero, end game
 
 class Game extends React.Component {
 
