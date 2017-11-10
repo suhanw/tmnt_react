@@ -63,6 +63,7 @@ class Turtle extends React.Component {
   }
 
   render() {
+    console.log('turtle.hasCollided', this.state.hasCollided);
     if (!this.state.pos) { //render nothing when Redux state not yet updated
       return null;
     }
@@ -163,7 +164,6 @@ class Turtle extends React.Component {
   }
 
   jump(jumpVel, initJump) {
-    console.log(jumpVel);
     let newTurtle = merge({}, this.state);
     let currJumpVel = jumpVel;
     newTurtle.pos.bottom += jumpVel; // new_location = speed + old_location

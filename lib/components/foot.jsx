@@ -41,6 +41,7 @@ class Foot extends React.Component {
   }
 
   render(){
+    console.log('rendering foot', this.state.id);
     return (
       <div className="foot"
         style={this.renderStyles()}>
@@ -87,20 +88,22 @@ class Foot extends React.Component {
       this.setState(newFoot);
       if (newFoot.health > 0) {
         this.props.updateFoot(newFoot); //reduce foot's Redux health
-        this.timeout = setTimeout(()=> {
+        this.timeout = setTimeout(()=> { // render foot-stand when turtle doesn't keep attacking
           newFoot.doing = 'stand';
           this.props.updateFoot(newFoot);
           this.timeout = null;
         }, 500);
-      } else { // condition when foot is dead
+      } else {// condition when foot is dead
         newTurtle.hasCollided = false;
+        this.props.updateFoot(newFoot);
         setTimeout(() => {
           this.props.deleteFoot(newFoot.id); // remove dead foot after short delay
         }, 500);
       }
     } else if (foot.doing === 'attack' && hasHorizontalCollision(turtle, foot)) {
       this.turtleDamage = true;
-    } else if (hasHorizontalCollision(turtle, foot)) { // prevent turtle from moving forward without killing foot
+    } else if (hasHorizontalCollision(turtle, foot) && this.state.health > 0) { // prevent turtle from moving forward without killing foot
+      console.log('collided, foot.health', this.state.health);
       newTurtle.hasCollided = true;
     }
 
