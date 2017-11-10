@@ -58,7 +58,6 @@ class Turtle extends React.Component {
       return null;
     }
 
-
     return (
       <div className="turtle"
         style={this.renderStyles()}>
@@ -74,7 +73,9 @@ class Turtle extends React.Component {
   }
 
   componentWillReceiveProps({turtle}){
-    this.setState(turtle); // set React state whenever Redux state updated
+    if (JSON.stringify(turtle) !== JSON.stringify(this.state)) {
+      this.setState(turtle); // set React state only when Redux state updated
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState){
@@ -110,7 +111,7 @@ class Turtle extends React.Component {
   }
 
   handleKeydown(e) {
-    let newDoing;
+    let newState;
     switch (e.code) {
       case "ArrowRight":
         this.keyState[e.code] = true;
@@ -119,15 +120,17 @@ class Turtle extends React.Component {
         }
         break;
       case "Space":
-        let allowed; // prevent multiple attacks when key is pressed
+        // prevent multiple attacks when key is pressed
+        let allowed;
         if (e.repeat != undefined) {
-          allowed = !e.repeat; // first keydown, e.repeat is 'false'
+          // first keydown, e.repeat is 'false'
+          // second keydown, e.repeat is 'true'
+          allowed = !e.repeat;
         }
-        // second keydown, e.repeat is 'true', so won't update state
-        if (!allowed) return;
+        if (!allowed) return; // on second keydown, turtle won't attack
         allowed = false;
-        this.setState({doing: "attack"});
-        this.props.updateTurtle(this.state);
+        newState = merge({}, this.state, {doing: "attack"});
+        this.props.updateTurtle(newState);
         break;
       default:
         break;
@@ -136,6 +139,7 @@ class Turtle extends React.Component {
 
   handleKeyup(e) {
     let newDoing = 'stand';
+    let newState = merge({}, this.state, {doing: newDoing});
     switch (e.code) {
       case "ArrowRight":
         this.keyState[e.code] = false;
@@ -143,16 +147,10 @@ class Turtle extends React.Component {
           clearTimeout(this.timer);
           this.timer = 0;
         }
-        this.setState({
-          doing: newDoing,
-        });
-        this.props.updateTurtle(this.state);
+        this.props.updateTurtle(newState);
         break;
       default:
-        this.setState({
-          doing: newDoing,
-        });
-        this.props.updateTurtle(this.state);
+        this.props.updateTurtle(newState);
         break;
     }
   }

@@ -6,7 +6,7 @@ import {updateTurtle} from '../actions/turtle_actions';
 import {hasHorizontalCollision, inflictDamage} from '../util/collision_util';
 import FootStand from './sprites/foot_stand';
 import FootWalk from './sprites/foot_walk';
-// import FootAttack from './sprites/foot_attack';
+import FootAttack from './sprites/foot_attack';
 
 // tracks pos relative to stage (redux)
 // tracks health (redux)
@@ -50,36 +50,46 @@ class Foot extends React.Component {
     );
   }
 
+  componentDidMount(){
+    const that = this;
+    setTimeout(()=>{
+      let newState = merge({}, that.state, {doing: "attack"});
+      that.props.updateFoot(newState);
+    }, 4000);
+
+    setTimeout(()=>{
+      let newState = merge({}, that.state, {doing: "stand"});
+      that.props.updateFoot(newState);
+    }, 4500);
+  }
+
   componentWillReceiveProps({turtle, foot}) {
-    // will run whenever turtle pos changes, or attacks
-    // debugger
-    const newTurtle = merge({}, turtle);
-    const newFoot = merge({}, foot);
-    if (hasHorizontalCollision(newTurtle, newFoot)) {
-      // if (inflictDamage(newTurtle, newFoot)) { // if damage inflicted, will return true
-      //   this.setState(newFoot);
-      // }
-      if (newTurtle.doing === 'attack') {
-        let newHealth = foot.health - 2;
-        this.setState({health: newHealth});
+    if (JSON.stringify(foot) !== JSON.stringify(this.state)) {
+      this.setState(foot);
+      return;
+    }
+
+    let newTurtle = merge({}, turtle);
+    let newFoot = merge({}, foot);
+    if (hasHorizontalCollision(newTurtle, newFoot)) { // true if turtle and foot are close enough to attack each other
+      console.log('collide');
+      if (inflictDamage(newTurtle, newFoot)) { // if damage inflicted, will return true
+        console.log('attack');
+        this.props.updateFoot(newFoot);
+        this.props.updateTurtle(newTurtle);
       }
     }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    //re-render only if own React or Redux state VALUES changed
-    if (JSON.stringify(nextState) !== JSON.stringify(this.state)
-    || JSON.stringify(nextProps.foot) !== JSON.stringify(this.state)) {
+    //re-render only if foot React or Redux state VALUES changed (i.e., ignore turtle state changes)
+    if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
+      return true;
+    }
+    if (JSON.stringify(nextProps.foot) !== JSON.stringify(this.state)) {
       return true;
     }
     return false;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (JSON.stringify(this.props.foot) !== JSON.stringify(this.state)) {
-      this.props.updateFoot(this.state);
-      // debugger
-    }
   }
 
   renderStyles() {
@@ -92,7 +102,7 @@ class Foot extends React.Component {
     const FootSprite = {
       'stand': FootStand,
       'walk': FootWalk,
-      // 'attack': FootAttack,
+      'attack': FootAttack,
     };
     const Sprite = FootSprite[doing];
     return (<Sprite />);

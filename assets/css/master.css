@@ -22,7 +22,8 @@
   position: relative;
 }
 
-div.turtle {
+div.turtle,
+div.foot {
   position: absolute;
   display: inline-table;
   overflow: visible;
@@ -38,11 +39,10 @@ div.turtle {
   display: inline-block;
 }
 
-.foot {
+/*.foot {
   position: absolute;
   width: auto;
   border: 1px solid green;
-  /*to delete*/
   font-size: 10px;
   color: white;
-}
+}*/
