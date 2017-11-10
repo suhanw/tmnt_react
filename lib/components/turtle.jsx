@@ -8,8 +8,10 @@ import TurtleAttack2 from './sprites/turtle_attack_2';
 import TurtleAttack3 from './sprites/turtle_attack_3';
 import TurtleHurt from './sprites/turtle_hurt';
 import TurtleDie from './sprites/turtle_die';
+import TurtleJump from './sprites/turtle_jump';
 import {resetTurtle, updateTurtle} from '../actions/turtle_actions';
-import {WALKING_SPEED} from '../constants';
+import {hasHorizontalCollision, inflictDamage} from '../util/collision_util';
+import {WALKING_SPEED, INIT_JUMP_VEL, GRAVITY, GROUND_X} from '../constants';
 
 // tracks its own pos relative to stage (redux) - done
 // tracks its half length (redux)
@@ -57,6 +59,7 @@ class Turtle extends React.Component {
     this.addListeners = this.addListeners.bind(this);
     this.continueKeydown = this.continueKeydown.bind(this);
     this.setComboAttackSprite = this.setComboAttackSprite.bind(this);
+    this.jump = this.jump.bind(this);
   }
 
   render() {
@@ -75,7 +78,7 @@ class Turtle extends React.Component {
 
   componentDidMount(){
     this.props.resetTurtle(); // resets turtle when game starts
-    this.addListeners();
+    this.addListeners(); // registers event handlers
   }
 
   componentWillReceiveProps({turtle}){
@@ -96,7 +99,9 @@ class Turtle extends React.Component {
 
   renderStyles() {
     const {pos, size} = this.state;
-    const style = merge({}, pos, size);
+    let style = merge({}, pos, size);
+    // style.transitionProperty = 'bottom';
+    // style.transitionDuration = '.2s';
     return style;
   }
 
@@ -110,6 +115,7 @@ class Turtle extends React.Component {
       'attack-3': TurtleAttack3,
       'hurt': TurtleHurt,
       'die': TurtleDie,
+      'jump': TurtleJump,
     };
     const Sprite = TurtleSprite[doing];
     return (<Sprite />);
@@ -125,20 +131,16 @@ class Turtle extends React.Component {
     switch (e.code) {
       case "ArrowRight":
         this.keyState[e.code] = true;
-        if (this.timer === 0) { // start loop only when it hasn't been started previously
+        if (this.timer === 0) { // start keydown loop only when it hasn't been started previously
           this.continueKeydown();
         }
         break;
+      case "ArrowUp":
+        if (this.isKeypress(e)) return; // prevent multiple jumps when key is pressed
+        this.jump(INIT_JUMP_VEL, true);
+        break;
       case "Space":
-        // prevent multiple attacks when key is pressed
-        let allowed;
-        if (e.repeat != undefined) {
-          // first keydown, e.repeat is 'false'
-          // second keydown, e.repeat is 'true'
-          allowed = !e.repeat;
-        }
-        if (!allowed) return; // on second keydown, turtle won't attack
-        allowed = false;
+        if (this.isKeypress(e)) return; // prevent multiple attacks when key is pressed
         if (this.timer) { // to stop continueKeydown if ArrowRight is pressed
           clearTimeout(this.timer);
           this.timer = 0;
@@ -153,13 +155,54 @@ class Turtle extends React.Component {
     }
   }
 
+  isKeypress(e) {
+    let keyPressed;
+    if (e.repeat != undefined) {
+      // first keydown, e.repeat is 'false', second keydown, e.repeat is 'true'
+      keyPressed = e.repeat;
+    }
+    return keyPressed;
+  }
+
+  jump(jumpVel, initJump) {
+    console.log(jumpVel);
+    let newTurtle = merge({}, this.state);
+    let currJumpVel = jumpVel;
+    newTurtle.pos.bottom += jumpVel; // new_location = speed + old_location
+    newTurtle.doing = 'jump';
+    if (newTurtle.pos.bottom <= GROUND_X && !initJump) {
+      newTurtle.pos.bottom = GROUND_X;
+      newTurtle.doing = 'stand';
+      this.setState(newTurtle);
+      return;
+    }
+    this.setState(newTurtle);
+    jumpVel = GRAVITY + jumpVel; // new_speed = acceleration + old_speed
+    setTimeout(()=>{
+      this.jump(jumpVel, false);
+    }, 30);
+  }
+
+  continueKeydown() {
+    // To fix delay in native 'keydown' event
+    // Credit: https://stackoverflow.com/questions/12273451/how-to-fix-delay-in-javascript-keydown
+    if (this.keyState["ArrowRight"]) {
+      let newTurtle = merge({}, this.state);
+      newTurtle.doing = (newTurtle.pos.bottom === GROUND_X) ? 'walk' : 'jump'; // to account for jumping forward
+      newTurtle.pos.left += WALKING_SPEED;
+      this.props.updateTurtle(newTurtle);
+    }
+    // invoke this func in a loop to detect 'ArrowRight' being pressed
+    this.timer = setTimeout(this.continueKeydown, 10);
+  }
+
   setComboAttackSprite() {
     let attackSprite;
     if (this.combo.length === 1) {
       attackSprite = 'attack-1';
-    } else if (this.combo.length === 2 &&  this.combo[1] - this.combo[0] < 400) {
+    } else if (this.combo.length === 2 &&  this.combo[1] - this.combo[0] < 450) {
       attackSprite = 'attack-2';
-    } else if (this.combo.length === 3 &&  this.combo[2] - this.combo[1] < 400) {
+    } else if (this.combo.length === 3 &&  this.combo[2] - this.combo[1] < 450) {
       attackSprite = 'attack-3';
       this.combo = [];
     } else {
@@ -184,30 +227,12 @@ class Turtle extends React.Component {
       case "Space":
         setTimeout(()=>{ // give time for attack sprite animation to complete
           this.props.updateTurtle(newState);
-        }, 200);
+        }, 150);
         break;
       default:
         this.props.updateTurtle(newState);
         break;
     }
-  }
-
-  continueKeydown() {
-    // To fix delay in native 'keydown' event
-    // Credit: https://stackoverflow.com/questions/12273451/how-to-fix-delay-in-javascript-keydown
-    const {pos} = this.state;
-    let newPos;
-    let newDoing;
-    if (this.keyState["ArrowRight"]) {
-      newPos = merge({}, pos, {left: pos.left + WALKING_SPEED});
-      newDoing = 'walk';
-      this.setState({
-        pos: newPos,
-        doing: newDoing,
-      });
-      this.props.updateTurtle(this.state);
-    }
-    this.timer = setTimeout(this.continueKeydown, 10);
   }
 }
 
