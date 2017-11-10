@@ -4,6 +4,8 @@ import merge from 'lodash/merge';
 import TurtleWalk from './sprites/turtle_walk';
 import TurtleStand from './sprites/turtle_stand';
 import TurtleAttack from './sprites/turtle_attack';
+import TurtleHurt from './sprites/turtle_hurt';
+import TurtleDie from './sprites/turtle_die';
 import {resetTurtle, updateTurtle} from '../actions/turtle_actions';
 import {WALKING_SPEED} from '../constants';
 
@@ -44,6 +46,7 @@ class Turtle extends React.Component {
 
     this.keyState = {};
     this.timer = 0;
+    this.combo = [];
 
     this.renderStyles = this.renderStyles.bind(this);
     this.renderSprite = this.renderSprite.bind(this);
@@ -51,6 +54,7 @@ class Turtle extends React.Component {
     this.handleKeyup = this.handleKeyup.bind(this);
     this.addListeners = this.addListeners.bind(this);
     this.continueKeydown = this.continueKeydown.bind(this);
+    this.setAttackSprite = this.setAttackSprite.bind(this);
   }
 
   render() {
@@ -100,6 +104,8 @@ class Turtle extends React.Component {
       'stand': TurtleStand,
       'walk': TurtleWalk,
       'attack': TurtleAttack,
+      'hurt': TurtleHurt,
+      'die': TurtleDie,
     };
     const Sprite = TurtleSprite[doing];
     return (<Sprite />);
@@ -129,11 +135,27 @@ class Turtle extends React.Component {
         }
         if (!allowed) return; // on second keydown, turtle won't attack
         allowed = false;
+        if (this.timer) { // to stop continueKeydown if ArrowRight is pressed
+          clearTimeout(this.timer);
+          this.timer = 0;
+        }
+        this.combo.push(e.timestamp);
         newState = merge({}, this.state, {doing: "attack"});
         this.props.updateTurtle(newState);
         break;
       default:
         break;
+    }
+  }
+
+  setAttackSprite() {
+    let attackSprite;
+    if (this.combo.length === 1) {
+
+    } else if (this.combo.length === 2) {
+
+    } else if (this.combo.length === 3) {
+
     }
   }
 

@@ -53,7 +53,27 @@ class Foot extends React.Component {
     );
   }
 
+  componentDidMount() {
+    // to test hurting/killing turtle
+    // setInterval(()=>{
+    //   let newFoot = merge({},this.state);
+    //   newFoot.doing = 'attack';
+    //   this.props.updateFoot(newFoot);
+    //
+    //   setTimeout(()=>{
+    //     newFoot.doing = 'stand';
+    //     this.props.updateFoot(newFoot);
+    //   }, 500);
+    //
+    // }, 1000);
+
+  }
+
   componentWillReceiveProps({turtle, foot}) {
+    if (JSON.stringify(foot) !== JSON.stringify(this.state)) {
+      this.setState(foot);
+    }
+
     if (turtle.doing === 'attack' && foot.doing === 'attack') { // do nothing if both attack at the same time
       return;
     } else if (turtle.doing === 'attack') {
@@ -78,8 +98,6 @@ class Foot extends React.Component {
       if (hasHorizontalCollision(turtle, foot)) { // true if foot is close enough to attack turtle
         this.turtleDamage = true;
       }
-    } else if (JSON.stringify(foot) !== JSON.stringify(this.state)) {
-      this.setState(foot);
     } else {
       return;
     }
@@ -98,6 +116,11 @@ class Foot extends React.Component {
       this.turtleDamage = false;
       let newTurtle = merge({}, this.props.turtle);
       newTurtle.health -= 2;
+      if (newTurtle.health > 0) {
+        newTurtle.doing = 'hurt';
+      } else {
+        newTurtle.doing = 'die';
+      }
       this.props.updateTurtle(newTurtle); // reduce turtle's Redux health
     }
   }
