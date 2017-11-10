@@ -1,13 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import merge from 'lodash/merge';
-import {receiveFoot, updateFoot} from '../actions/foots_actions';
+import {receiveFoot, updateFoot, deleteFoot} from '../actions/foots_actions';
 import {updateTurtle} from '../actions/turtle_actions';
 import {hasHorizontalCollision, inflictDamage} from '../util/collision_util';
 import FootStand from './sprites/foot_stand';
 import FootWalk from './sprites/foot_walk';
 import FootAttack from './sprites/foot_attack';
 import FootHurt from './sprites/foot_hurt';
+import FootDie from './sprites/foot_die';
 
 // tracks pos relative to stage (redux)
 // tracks health (redux)
@@ -26,6 +27,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     updateFoot: (foot) => dispatch(updateFoot(foot)),
+    deleteFoot: (footId) => dispatch(deleteFoot(footId)),
     updateTurtle: (turtle) => dispatch(updateTurtle(turtle)),
   };
 };
@@ -51,18 +53,6 @@ class Foot extends React.Component {
     );
   }
 
-  componentDidMount(){
-    const that = this;
-    // setInterval(()=>{
-    //   let newState = merge({}, that.state, {doing: "attack"});
-    //   that.props.updateFoot(newState);
-    //   setTimeout(()=>{
-    //     newState = merge({}, that.state, {doing: "stand"});
-    //     that.props.updateFoot(newState);
-    //   }, 500);
-    // }, 4000);
-  }
-
   componentWillReceiveProps({turtle, foot}) {
     if (turtle.doing === 'attack' && foot.doing === 'attack') { // do nothing if both attack at the same time
       return;
@@ -70,16 +60,19 @@ class Foot extends React.Component {
       if (hasHorizontalCollision(turtle, foot)) { // true if turtle is close enough to attack foot
         let newFoot = merge({}, foot);
         newFoot.health -= 2;
-        newFoot.doing = 'hurt';
         this.setState(newFoot); //reduce foot's React health
       }
     } else if (turtle.doing === 'stand' && foot.health !== this.state.health) { // true if turtle attack landed
       let newFoot = merge({}, this.state);
-      this.props.updateFoot(newFoot); //reduce foot's Redux health
-      const that = this;
-      setTimeout(()=>{
-        that.setState({doing: "stand"});
-      }, 500);
+      this.setDamageSprite(newFoot); // render foot-hurt or foot-die sprite
+      this.setState(newFoot);
+      if (newFoot.health > 0) {
+        this.props.updateFoot(newFoot); //reduce foot's Redux health
+      } else {
+        setTimeout(() => {
+          this.props.deleteFoot(newFoot.id); // remove dead foot after short delay
+        }, 800);
+      }
     } else if (foot.doing === 'attack') {
       this.setState(foot);
       if (hasHorizontalCollision(turtle, foot)) { // true if foot is close enough to attack turtle
@@ -89,6 +82,14 @@ class Foot extends React.Component {
       this.setState(foot);
     } else {
       return;
+    }
+  }
+
+  setDamageSprite(foot) {
+    if (foot.health === 0) {
+      foot.doing = 'die';
+    } else {
+      foot.doing = 'hurt';
     }
   }
 
@@ -124,6 +125,7 @@ class Foot extends React.Component {
       'walk': FootWalk,
       'attack': FootAttack,
       'hurt': FootHurt,
+      'die': FootDie,
     };
     const Sprite = FootSprite[doing];
     return (<Sprite />);

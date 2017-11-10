@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import {RECEIVE_FOOT, RECEIVE_FOOTS} from '../actions/foots_actions';
+import {RECEIVE_FOOT, RECEIVE_FOOTS, DELETE_FOOT} from '../actions/foots_actions';
 
 const defaultState = {
   footsById: {},
@@ -17,6 +17,12 @@ const FootsReducer = (state=defaultState, action) => {
           [action.payload.id]: action.payload,
         }
       });
+      return newState;
+    case DELETE_FOOT:
+      newState = merge({}, state);
+      delete newState.footsById[action.footId];
+      const i = newState.footsIdArr.indexOf(action.footId);
+      newState.footsIdArr.splice(i, 1);
       return newState;
     default:
       return state;
