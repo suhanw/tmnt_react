@@ -10,6 +10,7 @@ import FootAttack from './sprites/foot_attack';
 import FootHurt from './sprites/foot_hurt';
 import FootDie from './sprites/foot_die';
 import {TURTLE_ATTACK_DAMAGE, FOOT_ATTACK_DAMAGE} from '../constants';
+import {playSound} from '../util/soundPlayer';
 
 const mapStateToProps = (state, ownProps) => {
   const {turtle, foots: {footsById}} = state;
@@ -75,6 +76,8 @@ class Foot extends React.Component {
     if (turtle.doing.includes('attack') && foot.doing === 'attack') { // do nothing if both attack at the same time
       return;
     } else if (turtle.doing.includes('attack') && hasHorizontalCollision(turtle, foot)) {
+      console.log('play sound');
+      playSound("strike");
       if (this.timeout) {
         clearTimeout(this.timeout);
         this.timeout = null;
@@ -94,10 +97,12 @@ class Foot extends React.Component {
           this.timeout = null;
         }, 500);
       } else {// condition when foot is dead
+        console.log('no longer colliding');
         newTurtle.hasCollided = false;
         this.props.updateFoot(newFoot);
         setTimeout(() => {
           this.props.deleteFoot(newFoot.id); // remove dead foot after short delay
+          this.props.updateTurtle(newTurtle); // to make sure turtle can move forward
         }, 500);
       }
     } else if (foot.doing === 'attack' && hasHorizontalCollision(turtle, foot)) {

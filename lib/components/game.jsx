@@ -2,6 +2,7 @@ import React from 'react';
 import Viewport from './viewport';
 import Stage from './stage';
 import {FRAME_WIDTH, FRAME_HEIGHT} from '../constants';
+import {playSound} from '../util/soundPlayer';
 
 // fix frame width and size
 // contains nav links and instructions
@@ -22,7 +23,6 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-
   }
 
   renderStyles() {

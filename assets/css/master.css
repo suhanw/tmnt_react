@@ -15,7 +15,7 @@
 }
 
 .stage {
-  background: url('../stage/ny-street.png');
+  background: url('../stage/sewer.png');
   background-repeat: repeat;
   height: 191px;
   width: 5000px;
@@ -29,7 +29,6 @@ div.foot {
   overflow: visible;
   text-align: center;
   vertical-align: bottom;
-  border: 1px solid red;
   /*to delete*/
   font-size: 10px;
   color: white;

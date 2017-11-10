@@ -12,6 +12,7 @@ import TurtleJump from './sprites/turtle_jump';
 import {resetTurtle, updateTurtle} from '../actions/turtle_actions';
 import {hasHorizontalCollision, inflictDamage} from '../util/collision_util';
 import {WALKING_SPEED, INIT_JUMP_VEL, GRAVITY, GROUND_X} from '../constants';
+import {playSound} from '../util/soundPlayer';
 
 // tracks its own pos relative to stage (redux) - done
 // tracks its half length (redux)
@@ -63,7 +64,7 @@ class Turtle extends React.Component {
   }
 
   render() {
-    console.log('turtle.hasCollided', this.state.hasCollided);
+    console.log('hasCollided', this.state.hasCollided);
     if (!this.state.pos) { //render nothing when Redux state not yet updated
       return null;
     }
@@ -143,6 +144,9 @@ class Turtle extends React.Component {
         if (this.timer) { // to stop continueKeydown if ArrowRight is pressed
           clearTimeout(this.timer);
           this.timer = 0;
+        }
+        if (!this.state.hasCollided) {
+          playSound('swish');
         }
         this.combo.push(e.timeStamp); // track combo attacks
         const attack = this.setComboAttackSprite();

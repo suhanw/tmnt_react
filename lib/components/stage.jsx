@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Turtle from './turtle';
 import Foot from './foot';
 import {resetFoots} from '../actions/foots_actions';
+import {playSound} from '../util/soundPlayer';
 
 // renders turtle
 // renders foots at random pos (redux)
@@ -37,6 +38,7 @@ class Stage extends React.Component {
 
   componentDidMount() {
     this.props.resetFoots();
+    // playSound('stage1');
   }
 
   renderFoots() {
