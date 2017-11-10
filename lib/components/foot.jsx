@@ -34,6 +34,8 @@ class Foot extends React.Component {
     const {foot} = this.props;
     this.state = foot;
 
+    this.timeout = null;
+
     this.renderStyles = this.renderStyles.bind(this);
     this.renderSprite = this.renderSprite.bind(this);
   }
@@ -66,39 +68,47 @@ class Foot extends React.Component {
     if (JSON.stringify(foot) !== JSON.stringify(this.state)) {
       this.setState(foot);
     }
-
-    // if (hasHorizontalCollision(turtle, foot)) {
-    //   let newTurtle = merge({}, turtle);
-    //   newTurtle.hasCollided = true;
-    //   this.props.updateTurtle(newTurtle);
-    // }
+    let newFoot;
+    let newTurtle = merge({}, turtle);
 
     if (turtle.doing.includes('attack') && foot.doing === 'attack') { // do nothing if both attack at the same time
       return;
-    } else if (turtle.doing.includes('attack')) {
-      if (hasHorizontalCollision(turtle, foot)) { // true if turtle is close enough to attack foot
-        let newFoot = merge({}, foot);
-        newFoot.health -= TURTLE_ATTACK_DAMAGE;
-        this.setState(newFoot); //reduce foot's React health
+    } else if (turtle.doing.includes('attack') && hasHorizontalCollision(turtle, foot)) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+        this.timeout = null;
       }
+      newFoot = merge({}, foot);
+      newFoot.health -= TURTLE_ATTACK_DAMAGE;
+      this.setState(newFoot); //reduce foot's React health
     } else if (turtle.doing === 'stand' && foot.health !== this.state.health) { // true if turtle attack landed
-      let newFoot = merge({}, this.state);
+      console.log('turtle.doing', turtle.doing);
+      console.log('foot.health', foot.health);
+      console.log('this.state.health', this.state.health);
+      newFoot = merge({}, this.state);
       this.setDamageSprite(newFoot); // render foot-hurt or foot-die sprite
       this.setState(newFoot);
       if (newFoot.health > 0) {
         this.props.updateFoot(newFoot); //reduce foot's Redux health
-      } else {
+        this.timeout = setTimeout(()=> {
+          newFoot.doing = 'stand';
+          this.props.updateFoot(newFoot);
+          this.timeout = null;
+        }, 500);
+      } else { // condition when foot is dead
+        newTurtle.hasCollided = false;
         setTimeout(() => {
           this.props.deleteFoot(newFoot.id); // remove dead foot after short delay
-        }, 800);
+        }, 500);
       }
-    } else if (foot.doing === 'attack') {
-      this.setState(foot);
-      if (hasHorizontalCollision(turtle, foot)) { // true if foot is close enough to attack turtle
-        this.turtleDamage = true;
-      }
-    } else {
-      return;
+    } else if (foot.doing === 'attack' && hasHorizontalCollision(turtle, foot)) {
+      this.turtleDamage = true;
+    } else if (hasHorizontalCollision(turtle, foot)) { // prevent turtle from moving forward without killing foot
+      newTurtle.hasCollided = true;
+    }
+
+    if (JSON.stringify(turtle) !== JSON.stringify(newTurtle)) {
+      this.props.updateTurtle(newTurtle);
     }
   }
 
@@ -127,9 +137,9 @@ class Foot extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     //re-render only if foot React or Redux state VALUES changed (i.e., ignore turtle state changes)
     if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
-      return true;
+       return true;
     }
-    if (JSON.stringify(nextProps.foot) !== JSON.stringify(this.state)) {
+    if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
       return true;
     }
     return false;
