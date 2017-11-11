@@ -99,6 +99,7 @@ class Foot extends React.Component {
       } else {// condition when foot is dead
         console.log('no longer colliding');
         newTurtle.hasCollided = false;
+        newTurtle.score += 100;
         this.props.updateFoot(newFoot);
         setTimeout(() => {
           this.props.deleteFoot(newFoot.id); // remove dead foot after short delay

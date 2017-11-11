@@ -1,6 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import Viewport from './viewport';
 import Stage from './stage';
+import TurtleIcon from './sprites/turtle_icon';
 import {FRAME_WIDTH, FRAME_HEIGHT} from '../constants';
 import {playSound, toggleMute} from '../util/soundPlayer';
 
@@ -8,6 +10,17 @@ import {playSound, toggleMute} from '../util/soundPlayer';
 // contains nav links and instructions
 // starts and ends the game loop
 // check for turtle's health, if l.t.e zero, end game
+
+const mapStateToProps = ({turtle: {health, score}}, ownProps) => {
+  return {
+    health,
+    score,
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+
+};
 
 class Game extends React.Component {
 
@@ -22,6 +35,7 @@ class Game extends React.Component {
     this.addSoundPlaying = this.addSoundPlaying.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
     this.renderMuteButton = this.renderMuteButton.bind(this);
+    this.renderHealthMeter = this.renderHealthMeter.bind(this);
   }
 
   render() {
@@ -35,7 +49,24 @@ class Game extends React.Component {
           </span>
         </nav>
         <nav className="turtle-health-bar">
-          healthbar
+          <div className="turtle-health">
+            <span className="turtle-name">
+              <strong>MIKE</strong>
+              <small>{this.props.score}</small>
+            </span>
+            <div className="turtle-health-meter">
+              <strong>{this.renderHealthMeter()}</strong>
+            </div>
+            <div className="player-icon">
+              <span>
+                <strong>1</strong>
+                <small>up</small>
+              </span>
+            </div>
+            <div className="turtle-icon">
+              <TurtleIcon />
+            </div>
+          </div>
         </nav>
         <div className="gameframe"
           style={this.renderFrameStyles()}>
@@ -47,12 +78,22 @@ class Game extends React.Component {
     );
   }
 
+
   componentDidMount() {
     document.addEventListener("keydown", (e)=>{
       if (e.code === 'KeyM') {
         this.toggleMute();
       }
     });
+  }
+
+  renderHealthMeter() {
+    const {health} = this.props;
+    let healthMeter = "";
+    for (let i = 0; i < health; i++) {
+      healthMeter += "|";
+    }
+    return healthMeter;
   }
 
   addSoundPlaying(sound) {
@@ -88,4 +129,4 @@ class Game extends React.Component {
 
 }
 
-export default Game;
+export default connect(mapStateToProps, null)(Game);

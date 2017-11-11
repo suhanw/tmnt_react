@@ -16,17 +16,23 @@ body {
   /*border: 1px solid red;*/
   margin: auto;
   font-family: 'Press Start 2P', cursive;
-  font-size: 8px;
   /*transform: scale(1.5);*/
 }
 
 .toggle-mute-bar {
+  font-size: 8px;
   width: 100%;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
   background: black;
   color: white;
   padding: 10px 0;
+}
+
+.toggle-mute-bar i {
+  font-size: 15px;
+  flex-basis: 3%;
 }
 
 .toggle-mute-bar > i,
@@ -35,7 +41,87 @@ body {
 }
 
 .turtle-health-bar {
-  
+  background: black;
+  padding-left: 5px;
+  padding-bottom: 2px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.turtle-health {
+  position: relative;
+  background: black;
+  border: 3px solid white;
+  border-radius: 5px;
+  width: 50%;
+  height: 40px;
+  box-shadow: 1px 1px blue;
+  padding-top: 2px;
+}
+
+.turtle-name,
+.turtle-health-meter {
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 15px;
+  font-size: 10px;
+  text-shadow: 1px 1px blue;
+}
+
+.turtle-health-meter {
+  font-size: 12px;
+}
+
+.turtle-name > strong {
+  flex-basis: 45%;
+}
+
+.turtle-name > small {
+  flex-basis: 25%;
+}
+
+.turtle-health-meter > strong {
+  flex-basis: 70%;
+}
+
+.player-icon {
+  height: 15px;
+  width: 50px;
+  background: black;
+  border-bottom: 3px solid white;
+  border-right: 3px solid white;
+  /*border-radius: 5px;*/
+  border-bottom-right-radius: 5px;
+  position: absolute;
+  top: -3px;
+  left: -3px;
+
+}
+
+.player-icon > span {
+  color: orange;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  bottom: -3px;
+  left: 5px;
+  text-shadow: 1px 1px blue;
+  font-size: 20px;
+}
+
+.player-icon > span > small {
+  font-size: 8px;
+}
+
+.turtle-icon {
+  transform: scale(1.3);
+  position: absolute;
+  bottom: -2px;
+  left: 10px;
 }
 
 .gameframe {
