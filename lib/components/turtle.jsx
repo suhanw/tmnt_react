@@ -72,7 +72,6 @@ class Turtle extends React.Component {
     return (
       <div className="turtle"
         style={this.renderStyles()}>
-        Health: {this.state.health} <br />
         {this.renderSprite()}
       </div>
     );

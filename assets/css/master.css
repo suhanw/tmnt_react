@@ -1,22 +1,54 @@
 body {
-  overflow: hidden;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 #root {
-  position: absolute;
+  /*position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   display: flex;
-  box-sizing: border-box;
+  box-sizing: border-box;*/
+  /*background: red;*/
+  transform: scale(2);
 }
 
-.game {
-  /*border: 1px solid red;*/
+.game,
+.splash {
   margin: auto;
   font-family: 'Press Start 2P', cursive;
-  /*transform: scale(1.5);*/
+}
+
+.splash {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  background: black;
+}
+
+.splash-title {
+  background: url("../splash/splash.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 300px;
+  height: 100px;
+}
+
+.splash > span {
+  color: white;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
 }
 
 .toggle-mute-bar {

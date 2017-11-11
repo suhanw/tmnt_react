@@ -1,10 +1,14 @@
 import React from 'react';
+import {HashRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import Game from './game';
+import App from './app';
 
 const Root = ({store}) => (
   <Provider store={store}>
-    <Game />
+    <HashRouter>
+      <App />
+    </HashRouter>
   </Provider>
 );
 
