@@ -64,7 +64,6 @@ class Turtle extends React.Component {
   }
 
   render() {
-    console.log('hasCollided', this.state.hasCollided);
     if (!this.state.pos) { //render nothing when Redux state not yet updated
       return null;
     }

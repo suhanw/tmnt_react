@@ -11,10 +11,11 @@ import {playSound, toggleMute} from '../util/soundPlayer';
 // starts and ends the game loop
 // check for turtle's health, if l.t.e zero, end game
 
-const mapStateToProps = ({turtle: {health, score}}, ownProps) => {
+const mapStateToProps = ({turtle: {health, score}, foots: {footsIdArr}}, ownProps) => {
   return {
     health,
     score,
+    footsIdArr,
   };
 };
 
@@ -45,7 +46,7 @@ class Game extends React.Component {
         <nav className="toggle-mute-bar">
           {this.renderMuteButton()}
           <span>
-            Press 'm' to mute/unmute.
+            Press 'm' to mute/unmute soundtrack.
           </span>
         </nav>
         <nav className="turtle-health-bar">
@@ -85,6 +86,18 @@ class Game extends React.Component {
         this.toggleMute();
       }
     });
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.health <= 0) {
+      setTimeout(()=>{
+        this.props.history.push("/lose"); // let turtle-die sprite finish
+      }, 3000);
+    }
+
+    if (!newProps.footsIdArr.length) {
+      this.props.history.push("/win");
+    }
   }
 
   renderHealthMeter() {
