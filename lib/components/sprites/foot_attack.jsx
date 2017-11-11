@@ -11,7 +11,7 @@ class FootAttack extends React.Component {
         sprite='./assets/spritesheets/foot-attack.png'
         direction="horizontal"
         shouldAnimate={true}
-        fps={5}
+        fps={10}
         startFrame={0}
         stopLastFrame={false}
         frameCount={2}

@@ -91,8 +91,7 @@ class Turtle extends React.Component {
   shouldComponentUpdate(nextProps, nextState){
     const {turtle} = nextProps;
     //only re-render if there is value change in React/Redux state
-    if (JSON.stringify(nextState) !== JSON.stringify(this.state)
-    || JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
+    if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
       return true;
     }
     return false;
@@ -139,16 +138,17 @@ class Turtle extends React.Component {
         this.jump(INIT_JUMP_VEL, true);
         break;
       case "Space":
-        if (this.isKeypress(e)) return; // prevent multiple attacks when key is pressed
         if (this.timer) { // to stop continueKeydown if ArrowRight is pressed
           clearTimeout(this.timer);
           this.timer = 0;
         }
+        if (this.isKeypress(e)) return; // prevent multiple attacks when key is pressed
+        this.combo.push(e.timeStamp); // track combo attacks
+        let comboLength = this.combo.length;
+        const attack = this.setComboAttackSprite();
         if (!this.state.hasCollided) {
           playSound('swish');
         }
-        this.combo.push(e.timeStamp); // track combo attacks
-        const attack = this.setComboAttackSprite();
         newState = merge({}, this.state, {doing: attack});
         this.props.updateTurtle(newState);
         break;

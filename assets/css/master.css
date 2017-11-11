@@ -7,14 +7,6 @@ body {
 }
 
 #root {
-  /*position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  box-sizing: border-box;*/
-  /*background: red;*/
   transform: scale(2);
 }
 
@@ -191,12 +183,5 @@ div.foot {
 
 .turtle > div {
   display: inline-block;
+  border: 1px solid red;
 }
-
-/*.foot {
-  position: absolute;
-  width: auto;
-  border: 1px solid green;
-  font-size: 10px;
-  color: white;
-}*/
