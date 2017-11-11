@@ -9,7 +9,7 @@ import FootWalk from './sprites/foot_walk';
 import FootAttack from './sprites/foot_attack';
 import FootHurt from './sprites/foot_hurt';
 import FootDie from './sprites/foot_die';
-import {TURTLE_ATTACK_DAMAGE, FOOT_ATTACK_DAMAGE} from '../constants';
+import {TURTLE_ATTACK_DAMAGE, FOOT_ATTACK_DAMAGE, WALKING_SPEED} from '../constants';
 import {playSound} from '../util/soundPlayer';
 
 const mapStateToProps = (state, ownProps) => {
@@ -36,6 +36,8 @@ class Foot extends React.Component {
     this.state = foot;
 
     this.timeout = null;
+    this.footWalkingInterval = null;
+    this.footAttackInterval = null;
     this.newTurtle = null;
 
     this.renderStyles = this.renderStyles.bind(this);
@@ -55,34 +57,56 @@ class Foot extends React.Component {
 
   componentDidMount() {
     // // to test hurting/killing turtle
-    const that = this;
-    setInterval(()=>{
-      let newFoot = merge({},that.state);
-      newFoot.doing = 'attack';
-      that.setState(newFoot);
-      that.props.updateFoot(newFoot);
-      console.log('newFoot.doing', newFoot.doing);
-      console.log('that.props.foot', that.props.foot.doing);
-
-      setTimeout(()=>{
-        newFoot.doing = 'stand';
-        that.setState(newFoot);
-        that.props.updateFoot(newFoot);
-      }, 200);
-    }, 1500);
+    // const that = this;
+    // setInterval(()=>{
+    //   let newFoot = merge({},that.state);
+    //   newFoot.doing = 'attack';
+    //   that.setState(newFoot);
+    //   that.props.updateFoot(newFoot);
+    //   console.log('newFoot.doing', newFoot.doing);
+    //   console.log('that.props.foot', that.props.foot.doing);
+    //
+    //   setTimeout(()=>{
+    //     newFoot.doing = 'stand';
+    //     that.setState(newFoot);
+    //     that.props.updateFoot(newFoot);
+    //   }, 200);
+    // }, 1500);
   }
 
   componentWillReceiveProps({turtle, foot}) {
     let newFoot;
     this.newTurtle = merge({}, turtle);
 
-    if (hasHorizontalCollision(turtle, foot) && this.state.health > 0) { // turtle cannot move forward when hit enemy
+    if (hasHorizontalCollision(turtle, foot) && this.state.health > 0) { // turtle cannot move without killing enemy
       this.newTurtle.hasCollided = true;
+      if (this.footWalkingInterval) {
+        console.log('foot stop walking');
+        clearInterval(this.footWalkingInterval);
+        this.footWalkingInterval = null;
+        newFoot = merge({}, this.state);
+        newFoot.doing = 'stand';
+        // this.footAttackInterval = newFoot.doing()
+        this.setState(newFoot);
+      }
+    } else if ((foot.pos.left - (turtle.pos.left + 65) <= 100) && this.state.health > 0) { //detect turtle approaching
+      console.log('turtle approaching');
+      if (!this.footWalkingInterval) {
+        const that = this;
+        this.footWalkingInterval = setInterval(()=>{
+          newFoot = merge({}, that.state);
+          newFoot.pos.left -= WALKING_SPEED;
+          newFoot.doing = 'walk';
+          that.setState(newFoot);
+          that.props.updateFoot(newFoot);
+        }, 50);
+      }
     }
 
     if (turtle.doing.includes('attack') && foot.doing === 'attack') { // do nothing if both attack at the same time
       return;
     }
+
     // CONDITION 1: when player hits spacebar
     else if (turtle.doing.includes('attack') && hasHorizontalCollision(turtle, foot)) {
       playSound("strike");
