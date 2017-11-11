@@ -29,7 +29,7 @@ class Game extends React.Component {
 
     this.state = {
       soundPlaying: null,
-      muted: false,
+      muted: true,
     };
 
     this.addSoundPlaying = this.addSoundPlaying.bind(this);
