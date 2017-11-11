@@ -1,26 +1,32 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import merge from 'lodash/merge';
 import Viewport from './viewport';
 import Stage from './stage';
 import TurtleIcon from './sprites/turtle_icon';
-import {FRAME_WIDTH, FRAME_HEIGHT} from '../constants';
+import {FRAME_WIDTH, FRAME_HEIGHT, GROUND_X} from '../constants';
 import {playSound, toggleMute} from '../util/soundPlayer';
+import {updateTurtle} from '../actions/turtle_actions';
 
 // fix frame width and size
 // contains nav links and instructions
 // starts and ends the game loop
 // check for turtle's health, if l.t.e zero, end game
 
-const mapStateToProps = ({turtle: {health, score}, foots: {footsIdArr}}, ownProps) => {
+const mapStateToProps = ({turtle, foots: {footsIdArr}}, ownProps) => {
   return {
-    health,
-    score,
+    health: turtle.health,
+    score: turtle.score,
+    doing: turtle.doing,
+    turtle,
     footsIdArr,
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-
+  return {
+    updateTurtle: (turtle)=>dispatch(updateTurtle(turtle)),
+  };
 };
 
 class Game extends React.Component {
@@ -33,10 +39,13 @@ class Game extends React.Component {
       muted: true,
     };
 
+    this.gameOver = false;
+
     this.addSoundPlaying = this.addSoundPlaying.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
     this.renderMuteButton = this.renderMuteButton.bind(this);
     this.renderHealthMeter = this.renderHealthMeter.bind(this);
+    this.checkGameOver = this.checkGameOver.bind(this);
   }
 
   render() {
@@ -89,15 +98,37 @@ class Game extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.health <= 0) {
-      setTimeout(()=>{
+    if (!this.gameOver) {
+      this.gameOver = this.checkGameOver(newProps);
+    }
+  }
+
+  checkGameOver(props) {
+    if (props.health <= 0) { // redirect to lose page
+      const dieSound = playSound('turtle-die');
+      dieSound.onended = () => {
         this.props.history.push("/lose"); // let turtle-die sprite finish
-      }, 3000);
+      };
+      // setTimeout(()=>{
+      // }, 3000);
+      return true;
     }
 
-    if (!newProps.footsIdArr.length) {
-      this.props.history.push("/win");
+    if (!props.footsIdArr.length) { // play soundtrack if won
+      playSound('stage-clear');
+      setTimeout(()=>{
+        let newTurtle = merge({}, props.turtle);
+        newTurtle.doing = 'cowabunga';
+        this.props.updateTurtle(newTurtle);
+        const cowabungaSound = playSound('cowabunga');
+        cowabungaSound.onended = () => {
+          this.props.history.push('/win');
+        };
+      }, 2500);
+      return true;
     }
+
+    return false;
   }
 
   renderHealthMeter() {
@@ -142,4 +173,4 @@ class Game extends React.Component {
 
 }
 
-export default connect(mapStateToProps, null)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

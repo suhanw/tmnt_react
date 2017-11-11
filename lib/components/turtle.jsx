@@ -9,6 +9,7 @@ import TurtleAttack3 from './sprites/turtle_attack_3';
 import TurtleHurt from './sprites/turtle_hurt';
 import TurtleDie from './sprites/turtle_die';
 import TurtleJump from './sprites/turtle_jump';
+import TurtleCowabunga from './sprites/turtle_cowabunga';
 import {resetTurtle, updateTurtle} from '../actions/turtle_actions';
 import {hasHorizontalCollision, inflictDamage} from '../util/collision_util';
 import {WALKING_SPEED, INIT_JUMP_VEL, GRAVITY, GROUND_X} from '../constants';
@@ -25,9 +26,10 @@ import {playSound} from '../util/soundPlayer';
 // Note: if turtle is attack and foot is stand, and
 // dist betw centers <= half lengths, then foot loses health
 
-const mapStateToProps = ({turtle}, ownProps) => {
+const mapStateToProps = ({turtle, foots: {footsIdArr}}, ownProps) => {
   return {
     turtle,
+    footsIdArr,
   };
 };
 
@@ -81,7 +83,7 @@ class Turtle extends React.Component {
     this.addListeners(); // registers event handlers
   }
 
-  componentWillReceiveProps({turtle}){
+  componentWillReceiveProps({turtle, footsIdArr}){
     if (JSON.stringify(turtle) !== JSON.stringify(this.state)) {
       this.setState(turtle); // set React state only when Redux state updated
     }
@@ -113,6 +115,7 @@ class Turtle extends React.Component {
       'hurt': TurtleHurt,
       'die': TurtleDie,
       'jump': TurtleJump,
+      'cowabunga': TurtleCowabunga
     };
     const Sprite = TurtleSprite[doing];
     return (<Sprite />);
@@ -124,6 +127,10 @@ class Turtle extends React.Component {
   }
 
   handleKeydown(e) {
+    if (this.state.health <= 0) {
+      return; //disable controls when turtle is dead
+    }
+
     let newState;
     switch (e.code) {
       case "ArrowRight":
@@ -217,6 +224,10 @@ class Turtle extends React.Component {
   }
 
   handleKeyup(e) {
+    if (this.state.health <= 0) {
+      return; //disable controls when turtle is dead
+    }
+
     let newDoing = 'stand';
     let newState = merge({}, this.state, {doing: newDoing});
     switch (e.code) {

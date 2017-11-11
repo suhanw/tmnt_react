@@ -8,12 +8,15 @@ body {
 
 #root {
   transform: scale(2);
+  font-family: 'Press Start 2P', cursive;
+  color: white;
 }
 
 .game,
-.splash {
+.splash,
+.win,
+.lose {
   margin: auto;
-  font-family: 'Press Start 2P', cursive;
 }
 
 .splash {

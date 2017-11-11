@@ -56,6 +56,10 @@ class Stage extends React.Component {
     });
     return foots;
   }
+
+  componentWillUnmount() {
+    console.log('stage unmounts');
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stage);

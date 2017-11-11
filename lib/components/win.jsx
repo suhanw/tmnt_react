@@ -8,7 +8,8 @@ class Win extends React.Component {
     return (
       <div className="win"
         style={this.renderStyles()}>
-        Congrats!
+        Congrats
+        Press 'S' to play again.
       </div>
     );
   }
@@ -22,7 +23,7 @@ class Win extends React.Component {
 
   componentDidMount() {
     document.addEventListener("keydown", (e)=>{
-      if (e.code === 'KeyC') {
+      if (e.code === 'KeyS') {
         this.props.history.push("/game");
       }
     });
