@@ -13,7 +13,7 @@ class FootAttack extends React.Component {
         shouldAnimate={true}
         fps={10}
         startFrame={0}
-        stopLastFrame={false}
+        stopLastFrame={true}
         frameCount={2}
         wrapAfter={2}
          />
