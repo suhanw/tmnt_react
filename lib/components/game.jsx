@@ -5,7 +5,7 @@ import Viewport from './viewport';
 import Stage from './stage';
 import TurtleIcon from './sprites/turtle_icon';
 import {FRAME_WIDTH, FRAME_HEIGHT, GROUND_X} from '../constants';
-import {playSound, toggleMute} from '../util/soundPlayer';
+import {playSound, toggleMute, stopAll} from '../util/soundPlayer';
 import {updateTurtle} from '../actions/turtle_actions';
 
 // fix frame width and size
@@ -40,6 +40,7 @@ class Game extends React.Component {
     };
 
     this.gameOver = false;
+    this.timeout = null;
 
     this.addSoundPlaying = this.addSoundPlaying.bind(this);
     this.toggleMute = this.toggleMute.bind(this);
@@ -49,6 +50,7 @@ class Game extends React.Component {
   }
 
   render() {
+    console.log(this.state.muted);
     return (
       <div className="game"
         style={this.renderGameStyles()}>
@@ -88,13 +90,10 @@ class Game extends React.Component {
     );
   }
 
-
   componentDidMount() {
-    document.addEventListener("keydown", (e)=>{
-      if (e.code === 'KeyM') {
-        this.toggleMute();
-      }
-    });
+    console.log('game mounted');
+    const that = this;
+    document.addEventListener("keydown", this.toggleMute);
   }
 
   componentWillReceiveProps(newProps) {
@@ -105,18 +104,18 @@ class Game extends React.Component {
 
   checkGameOver(props) {
     if (props.health <= 0) { // redirect to lose page
+      stopAll();
       const dieSound = playSound('turtle-die');
       dieSound.onended = () => {
-        this.props.history.push("/lose"); // let turtle-die sprite finish
+        this.props.history.push("/lose");
       };
-      // setTimeout(()=>{
-      // }, 3000);
       return true;
     }
 
     if (!props.footsIdArr.length) { // play soundtrack if won
+      stopAll();
       playSound('stage-clear');
-      setTimeout(()=>{
+      this.timeout = setTimeout(()=>{
         let newTurtle = merge({}, props.turtle);
         newTurtle.doing = 'cowabunga';
         this.props.updateTurtle(newTurtle);
@@ -144,9 +143,11 @@ class Game extends React.Component {
     this.setState({soundPlaying: sound});
   }
 
-  toggleMute() {
-    const muted = toggleMute(this.state.soundPlaying);
-    this.setState({muted});
+  toggleMute(e) {
+    if (e.code === 'KeyM') {
+      const muted = toggleMute(this.state.soundPlaying);
+      this.setState({muted});
+    }
   }
 
   renderMuteButton() {
@@ -169,6 +170,14 @@ class Game extends React.Component {
       width: FRAME_WIDTH,
       height: FRAME_HEIGHT + 50,
     };
+  }
+
+  componentWillUnmount() {
+    console.log('timeout cleared');
+    console.log('event listeners cleared');
+    document.removeEventListener('keydown', toggleMute);
+    clearTimeout(this.timeout);
+    this.timeout = null;
   }
 
 }

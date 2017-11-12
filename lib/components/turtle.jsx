@@ -127,7 +127,7 @@ class Turtle extends React.Component {
   }
 
   handleKeydown(e) {
-    if (this.state.health <= 0) {
+    if (this.state.health <= 0 || !this.props.footsIdArr.length) {
       return; //disable controls when turtle is dead
     }
 
@@ -224,7 +224,7 @@ class Turtle extends React.Component {
   }
 
   handleKeyup(e) {
-    if (this.state.health <= 0) {
+    if (this.state.health <= 0 || !this.props.footsIdArr.length) {
       return; //disable controls when turtle is dead
     }
 
