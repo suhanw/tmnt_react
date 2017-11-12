@@ -40,7 +40,7 @@ class Stage extends React.Component {
   componentDidMount() {
     this.props.resetFoots();
     this.props.addSoundPlaying('stage1');
-    // playSound('stage1');
+    playSound('stage1');
   }
 
   renderFoots() {

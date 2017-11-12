@@ -36,7 +36,7 @@ class Game extends React.Component {
 
     this.state = {
       soundPlaying: null,
-      muted: true,
+      muted: false,
     };
 
     this.gameOver = false;
@@ -79,8 +79,27 @@ class Game extends React.Component {
               <TurtleIcon />
             </div>
           </div>
+          <div className="turtle-health">
+            <span className="turtle-name suhan">
+              <strong>SUHAN</strong>
+              <small>9001!</small>
+            </span>
+            <div className="turtle-health-meter suhan">
+              <small>PRESS 'S' TO START</small>
+            </div>
+            <div className="player-icon">
+              <span>
+                <strong>2</strong>
+                <small>up</small>
+              </span>
+            </div>
+            <div className="suhan-icon">
+            </div>
+          </div>
         </nav>
-        <div className="gameframe"
+
+        <div
+          className="gameframe"
           style={this.renderFrameStyles()}>
           <Viewport>
             <Stage addSoundPlaying={this.addSoundPlaying} />
@@ -175,7 +194,7 @@ class Game extends React.Component {
   componentWillUnmount() {
     console.log('timeout cleared');
     console.log('event listeners cleared');
-    document.removeEventListener('keydown', toggleMute);
+    document.removeEventListener('keydown', this.toggleMute);
     clearTimeout(this.timeout);
     this.timeout = null;
   }

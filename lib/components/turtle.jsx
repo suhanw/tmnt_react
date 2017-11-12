@@ -53,6 +53,7 @@ class Turtle extends React.Component {
 
     this.keyState = {};
     this.timer = 0;
+    this.jumpTimer = 0;
     this.combo = [];
 
     this.renderStyles = this.renderStyles.bind(this);
@@ -185,7 +186,7 @@ class Turtle extends React.Component {
     }
     this.setState(newTurtle);
     jumpVel = GRAVITY + jumpVel; // new_speed = acceleration + old_speed
-    setTimeout(()=>{
+    this.jumpTimer = setTimeout(()=>{
       this.jump(jumpVel, false);
     }, 30);
   }
@@ -248,6 +249,16 @@ class Turtle extends React.Component {
         // this.props.updateTurtle(newState);
         break;
     }
+  }
+
+  componentWillUnmount() {
+    console.log('turtle unmounts');
+    clearTimeout(this.timer);
+    clearTimeout(this.jumpTimer);
+    this.timer = 0;
+    this.jumpTimer = 0;
+    document.removeEventListener("keydown", this.handleKeydown);
+    document.removeEventListener("keyup", this.handleKeyup);
   }
 }
 

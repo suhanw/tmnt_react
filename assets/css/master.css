@@ -19,6 +19,44 @@ body {
   margin: auto;
 }
 
+.game {
+  -webkit-animation: fadein 1.5s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1.5s; /* Firefox < 16 */
+  -ms-animation: fadein 1.5s; /* Internet Explorer */
+  -o-animation: fadein 1.5s; /* Opera < 12.1 */
+  animation: fadein 1.5s;
+  animation: fadein 1.5s;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 .splash {
   display: flex;
   flex-direction: column;
@@ -37,9 +75,16 @@ body {
   height: 100px;
 }
 
-.splash > span {
+.press-start-slow {
   color: white;
-  animation: blinker 1s linear infinite;
+  animation: blinker 1s infinite;
+  animation-timing-function: ease;
+}
+
+.press-start-fast {
+  color: white;
+  animation: blinker 0.1s infinite;
+  animation-timing-function: ease;
 }
 
 @keyframes blinker {
@@ -72,7 +117,7 @@ body {
   padding-left: 5px;
   padding-bottom: 2px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
 .turtle-health {
@@ -80,10 +125,22 @@ body {
   background: black;
   border: 3px solid white;
   border-radius: 5px;
-  width: 50%;
+  flex-basis: 48%;
   height: 40px;
   box-shadow: 1px 1px blue;
   padding-top: 2px;
+}
+
+.turtle-health-meter.suhan > small {
+  font-size: 8px;
+}
+
+.suhan-icon {
+  background-image: url('../spritesheets/suhan-icon.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 25px;
+  height: 25px;
 }
 
 .turtle-name,
