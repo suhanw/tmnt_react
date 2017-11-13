@@ -209,7 +209,6 @@ class Foot extends React.Component {
     this.timeout = null;
     this.footWalkingInterval = null;
     this.footAttackInterval = null;
-    console.log('foots unmount');
   }
 }
 

@@ -45,7 +45,6 @@ class Game extends React.Component {
   }
 
   render() {
-    console.log(this.state.muted);
     return (
       <div className="game"
         style={this.renderGameStyles()}>
@@ -113,7 +112,6 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    console.log('game mounted');
     const that = this;
     document.addEventListener("keydown", this.handleKeydown);
   }
@@ -199,8 +197,6 @@ class Game extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('timeout cleared');
-    console.log('event listeners cleared');
     document.removeEventListener('keydown', this.handleKeydown);
     clearTimeout(this.timeout);
     this.timeout = null;

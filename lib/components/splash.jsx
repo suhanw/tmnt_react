@@ -54,7 +54,6 @@ class Splash extends React.Component {
     document.removeEventListener('keydown', this.handleKeydown);
     clearTimeout(this.timer);
     this.timer = null;
-    console.log('splash unmount');
   }
 }
 

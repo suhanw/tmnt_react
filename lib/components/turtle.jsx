@@ -253,7 +253,6 @@ class Turtle extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('turtle unmounts');
     clearTimeout(this.timer);
     clearTimeout(this.jumpTimer);
     this.timer = 0;
