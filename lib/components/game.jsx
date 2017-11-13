@@ -8,11 +8,6 @@ import {FRAME_WIDTH, FRAME_HEIGHT, GROUND_X} from '../constants';
 import {playSound, toggleMute, stopAll} from '../util/soundPlayer';
 import {updateTurtle} from '../actions/turtle_actions';
 
-// fix frame width and size
-// contains nav links and instructions
-// starts and ends the game loop
-// check for turtle's health, if l.t.e zero, end game
-
 const mapStateToProps = ({turtle, foots: {footsIdArr}}, ownProps) => {
   return {
     health: turtle.health,
@@ -43,10 +38,10 @@ class Game extends React.Component {
     this.timeout = null;
 
     this.addSoundPlaying = this.addSoundPlaying.bind(this);
-    this.toggleMute = this.toggleMute.bind(this);
     this.renderMuteButton = this.renderMuteButton.bind(this);
     this.renderHealthMeter = this.renderHealthMeter.bind(this);
     this.checkGameOver = this.checkGameOver.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
   }
 
   render() {
@@ -55,10 +50,18 @@ class Game extends React.Component {
       <div className="game"
         style={this.renderGameStyles()}>
         <nav className="toggle-mute-bar">
-          {this.renderMuteButton()}
-          <span>
-            Press 'm' to mute/unmute soundtrack.
-          </span>
+          <div className="toggle-mute">
+            {this.renderMuteButton()}
+            <span>
+              Press 'M' to mute/unmute soundtrack.
+            </span>
+          </div>
+          <ul className="icons">
+            <li><a href="https://www.linkedin.com/in/suhanwijaya" target="_blank" className="linkedin"><i className="fa fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.github.com/suhanw" target="_blank" className="github"><i className="fa fa-github" aria-hidden="true"></i></a></li>
+            <li><a href="https://angel.co/suhan-wijaya" target="_blank" className="angellist"><i className="fa fa-angellist" aria-hidden="true"></i></a></li>
+            <li><a href="mailto:suhanw@gmail.com" className="email"><i className="fa fa-envelope" aria-hidden="true"></i></a></li>
+          </ul>
         </nav>
         <nav className="turtle-health-bar">
           <div className="turtle-health">
@@ -85,9 +88,9 @@ class Game extends React.Component {
               <small>9001!</small>
             </span>
             <div className="turtle-health-meter suhan">
-              <small>PRESS 'S' TO START</small>
+              <small>PUSH 'S' TO START</small>
             </div>
-            <div className="player-icon">
+            <div className="player-icon suhan">
               <span>
                 <strong>2</strong>
                 <small>up</small>
@@ -112,8 +115,9 @@ class Game extends React.Component {
   componentDidMount() {
     console.log('game mounted');
     const that = this;
-    document.addEventListener("keydown", this.toggleMute);
+    document.addEventListener("keydown", this.handleKeydown);
   }
+
 
   componentWillReceiveProps(newProps) {
     if (!this.gameOver) {
@@ -162,10 +166,13 @@ class Game extends React.Component {
     this.setState({soundPlaying: sound});
   }
 
-  toggleMute(e) {
+  handleKeydown(e) {
     if (e.code === 'KeyM') {
+      playSound('mute');
       const muted = toggleMute(this.state.soundPlaying);
       this.setState({muted});
+    } else if (e.code === 'KeyS') {
+      window.open('https://suhanw.github.io');
     }
   }
 
@@ -194,9 +201,10 @@ class Game extends React.Component {
   componentWillUnmount() {
     console.log('timeout cleared');
     console.log('event listeners cleared');
-    document.removeEventListener('keydown', this.toggleMute);
+    document.removeEventListener('keydown', this.handleKeydown);
     clearTimeout(this.timeout);
     this.timeout = null;
+    stopAll();
   }
 
 }

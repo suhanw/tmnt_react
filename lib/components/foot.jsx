@@ -207,6 +207,16 @@ class Foot extends React.Component {
     const Sprite = FootSprite[doing];
     return (<Sprite />);
   }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+    clearInterval(this.footWalkingInterval);
+    clearInterval(this.footAttackInterval);
+    this.timeout = null;
+    this.footWalkingInterval = null;
+    this.footAttackInterval = null;
+    console.log('foots unmount');
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Foot);

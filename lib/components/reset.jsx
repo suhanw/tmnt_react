@@ -9,6 +9,7 @@ class Reset extends React.Component {
 
     this.renderWin = this.renderWin.bind(this);
     this.renderLose = this.renderLose.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
   }
   render() {
     let message;
@@ -19,10 +20,30 @@ class Reset extends React.Component {
     }
 
     return (
-      <div className="win"
+      <div className="reset"
         style={this.renderStyles()}>
         {message}
-        Press 'S' to play again.
+        <div>
+          Press 'S' to play again.
+        </div>
+        <ul className="icons">
+          <li><a href="https://www.linkedin.com/in/suhanwijaya" target="_blank" className="linkedin"><i className="fa fa-linkedin" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.github.com/suhanw" target="_blank" className="github"><i className="fa fa-github" aria-hidden="true"></i></a></li>
+          <li><a href="https://angel.co/suhan-wijaya" target="_blank" className="angellist"><i className="fa fa-angellist" aria-hidden="true"></i></a></li>
+        </ul>
+        <div>
+          Reach me at <a className="email" href="mailto:suhanw@gmail.com">suhanw@gmail.com</a>
+        </div>
+        <div>
+          <a className="resume" href="#">
+            View my resume.
+          </a>
+        </div>
+        <div>
+          <a className="portfolio" href="https://suhanw.github.io/">
+            Visit my portfolio.
+          </a>
+        </div>
       </div>
     );
   }
@@ -36,23 +57,28 @@ class Reset extends React.Component {
 
   renderWin() {
     return (
-      <div>Congrats</div>
+      <div>Cowabunga!</div>
     );
   }
 
   renderLose() {
     return(
-      <div>Sorry</div>
+      <div>No worries. Try harder!</div>
     );
   }
 
   componentDidMount() {
-    document.addEventListener("keydown", (e)=>{
-      if (e.code === 'KeyS') {
+    document.addEventListener("keydown", this.handleKeydown);
+  }
 
-        // this.props.history.push("/game");
-      }
-    });
+  handleKeydown(e) {
+    if (e.code === 'KeyS') {
+      this.props.history.push('/game');
+    }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeydown);
   }
 }
 

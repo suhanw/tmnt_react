@@ -58,7 +58,6 @@ class Stage extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('stage unmounts');
   }
 }
 

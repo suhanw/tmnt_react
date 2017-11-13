@@ -142,6 +142,7 @@ class Turtle extends React.Component {
         break;
       case "ArrowUp":
         if (this.isKeypress(e)) return; // prevent multiple jumps when key is pressed
+        playSound('jump');
         this.jump(INIT_JUMP_VEL, true);
         break;
       case "Space":

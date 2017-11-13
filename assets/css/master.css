@@ -14,12 +14,13 @@ body {
 
 .game,
 .splash,
-.win,
-.lose {
+.reset {
   margin: auto;
 }
 
-.game {
+.splash,
+.game,
+.reset {
   -webkit-animation: fadein 1.5s; /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: fadein 1.5s; /* Firefox < 16 */
   -ms-animation: fadein 1.5s; /* Internet Explorer */
@@ -57,7 +58,8 @@ body {
     to   { opacity: 1; }
 }
 
-.splash {
+.splash,
+.reset {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -75,14 +77,28 @@ body {
   height: 100px;
 }
 
-.press-start-slow {
+.splash-subtitle {
+  background: url("https://fontmeme.com/permalink/171113/2876b882e200631c318ab626c4157803.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 80px;
+  height: 30px;
+  position: absolute;
+  top: 110px;
+}
+
+.press-start {
+  padding-top: 15px;
   color: white;
+}
+
+.press-start.slow {
   animation: blinker 1s infinite;
   animation-timing-function: ease;
 }
 
-.press-start-fast {
-  color: white;
+.press-start.fast {
   animation: blinker 0.1s infinite;
   animation-timing-function: ease;
 }
@@ -92,23 +108,32 @@ body {
 }
 
 .toggle-mute-bar {
-  font-size: 8px;
+  font-size: 15px;
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   background: black;
   color: white;
   padding: 10px 0;
+  text-shadow: 1px 1px blue;
 }
 
-.toggle-mute-bar i {
+.toggle-mute {
+  font-size: 8px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-basis: 80%
+}
+
+.toggle-mute i {
   font-size: 15px;
-  flex-basis: 3%;
+  flex-basis: 5%;
 }
 
-.toggle-mute-bar > i,
-.toggle-mute-bar > span {
+.toggle-mute > i,
+.toggle-mute > span {
   margin-left: 10px;
 }
 
@@ -131,16 +156,15 @@ body {
   padding-top: 2px;
 }
 
-.turtle-health-meter.suhan > small {
-  font-size: 8px;
-}
-
 .suhan-icon {
-  background-image: url('../spritesheets/suhan-icon.jpg');
+  background-image: url('../spritesheets/suhan-icon.png');
   background-size: contain;
   background-repeat: no-repeat;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: -3px;
+  left: 10px;
 }
 
 .turtle-name,
@@ -158,16 +182,25 @@ body {
   font-size: 12px;
 }
 
+
 .turtle-name > strong {
-  flex-basis: 45%;
+  flex-basis: 55%;
 }
 
 .turtle-name > small {
-  flex-basis: 25%;
+  flex-basis: 15%;
 }
 
 .turtle-health-meter > strong {
   flex-basis: 70%;
+  margin-top: 10px;
+}
+
+.turtle-health-meter.suhan > small {
+  font-size: 8px;
+  flex-basis: 70%;
+  margin-top: 10px;
+  animation: blinker 1s infinite;
 }
 
 .player-icon {
@@ -199,6 +232,10 @@ body {
 
 .player-icon > span > small {
   font-size: 8px;
+}
+
+.player-icon.suhan > span {
+  color: #f442f4;
 }
 
 .turtle-icon {
@@ -243,4 +280,65 @@ div.foot {
 
 .turtle > div {
   display: inline-block;
+}
+
+.icons {
+  flex-basis: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.reset {
+  justify-content: space-evenly;
+}
+
+.reset .icons {
+  width: 50%;
+  align-items: center;
+}
+
+.icons a,
+.reset a {
+  color: #fff;
+  -moz-transition: color 0.35s ease-in-out;
+  -webkit-transition: color 0.35s ease-in-out;
+  -ms-transition: color 0.35s ease-in-out;
+  transition: color 0.35s ease-in-out;
+}
+
+.reset a {
+  font-size: 10px;
+}
+
+.icons a {
+  font-size: 20px;
+}
+
+.icons .linkedin:hover {
+  color: orange;
+}
+
+.icons .github:hover {
+  color: #ff4949;
+}
+
+.icons .angellist:hover {
+  color: #3d8aff;
+}
+
+.icons .email:hover {
+  color: #f442f4;
+}
+
+.resume:hover {
+  color: #51ff99;
+}
+
+.portfolio:hover {
+  color: #51ff99;
+}
+
+.email:hover {
+  color: #f442f4;
 }
