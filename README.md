@@ -14,11 +14,11 @@ Click [here](https://suhanw.github.io/tmnt_react). Press 'RIGHT' to move forward
 
 I used three components to setup the display frame:
 
-- `Game` creates a `div` sized with the frame width and height.
+- `Game` creates a `div` to define the frame width and height.
 - `Viewport` is positioned `absolute` relative to `Game`
 - `Stage` is a child of `Viewport`, and is sized with the full width of the stage level (i.e., the full distance that the turtle may potentially travel). This is where the `Turtle` component lives.
 
-Moving the `Turtle` is simply updating its absolute `x` position relative to `Stage`, which is tracked via Redux. `Viewport` listens for changes to the Redux `x` value, and subtracts it against its own absolute `x` position relative to `Game`, when the `Turtle` reaches at least 1/4 through the `Game` frame. As a result, the `Viewport` "follows" the turtle.
+Moving the `Turtle` is simply updating its absolute `left` position relative to `Stage`, which is tracked via Redux. `Viewport` listens for changes to the turtle's `left` value, and sets its own `left` position as the negative of the turtle's position, when the `Turtle` reaches at least 1/4 through the `Game` frame width. Because `Viewport` is positioned `absolute`, a negative `left` position would place it to the left of the `Game` frame, creating the illusion of panning from left to right. When the `Viewport` changes its position as the turtle changes its position, it "follows" the turtle.
 
 ```JavaScript
 componentWillReceiveProps(newProps) {
@@ -34,7 +34,7 @@ componentWillReceiveProps(newProps) {
 ### Turtle Combo Attack
 ![combo attack](docs/readme/combo-attack.gif)
 
-To accomplish a combo attack, I use an array that tracks the number of times a player presses the 'attack' key. Then the `Turtle` component renders the appropriate sprites based on a set of conditionals to determine if it's a combo attack.
+To accomplish a combo attack, I use an array that tracks the number of times a player presses the 'attack' key. The `Turtle` component renders the appropriate sprites based on a set of conditions to determine if it's a combo attack.
 
 ```JavaScript
 setComboAttackSprite() {
@@ -61,11 +61,12 @@ setComboAttackSprite() {
 
 ### Foot soldier
 
-While the event handlers for controls are defined in the `Turtle` component, the logic for the interaction between `Turtle` and `Foot` soldiers lives in the `Foot` component. `Foot` is a Redux container that listens for changes to `Turtle` position and actions (i.e., move or attack).
+While the event handlers for controls are defined in the `Turtle` component, the logic for the interaction between the `Turtle` and `Foot` soldiers lives in the `Foot` component. `Foot` is a Redux container that listens for changes to `Turtle` position and actions (i.e., move or attack). This would minimize the number of operations in the game as the `Turtle` does not have to keep track of all the `Foot` soldiers in front of it, and only the `Foot` nearest to the turtle would update and re-render.
 
 ![foot response](docs/readme/foot-response.gif)
-- when `Turtle` approaches within a certain distance of a `Foot`, `Foot` is "activated", moves forward, and attacks.
-- Only the nearest `Foot` responds and re-renders when `Turtle` approaches. Additionally, while every `Foot` listens for `Turtle` changes, every change to `Turtle` does not cause a re-render to `Foot`.
+- when `Turtle` approaches within a certain distance of a `Foot`, `Foot` is "activated", moves forward, and attacks
+- only the nearest `Foot` responds and re-renders when `Turtle` approaches.
+- additionally, while every `Foot` listens for `Turtle` changes, any change to `Turtle` state does not cause a re-render to `Foot`
 ```JavaScript
 shouldComponentUpdate(nextProps, nextState) {
   //re-render only if foot React state VALUES changed (i.e., ignore turtle state changes)
@@ -77,8 +78,7 @@ shouldComponentUpdate(nextProps, nextState) {
 ```
 
 ![turtle attack](docs/readme/turtle-attack.gif)
-- `Foot` listens for `Turtle` attacks and reduces health when the attack lands within the `Foot`'s hitbox
-
+- `Foot` listens for `Turtle` attacks, and reduces health when the attack lands within the `Foot`'s hitbox
 ```JavaScript
 if (turtle.doing.includes('attack') && hasHorizontalCollision(turtle, foot)) {
   playSound("strike");
@@ -102,7 +102,6 @@ if (turtle.doing.includes('attack') && hasHorizontalCollision(turtle, foot)) {
   this.setState(newFoot); //reduce foot's React health
 }
 ```
-
 
 ## Future Directions
 - Add option to select any of the 4 turtles
