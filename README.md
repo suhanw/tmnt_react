@@ -65,8 +65,44 @@ While the event handlers for controls are defined in the `Turtle` component, the
 
 ![foot response](docs/readme/foot-response.gif)
 - when `Turtle` approaches within a certain distance of a `Foot`, `Foot` is "activated", moves forward, and attacks.
-- `Foot` listens for `Turtle` attacks and reduces health when the attack lands within the `Foot` hitbox
-- Only the nearest `Foot` responds and re-renders when `Turtle` approaches. Additionally, while every `Foot` listens for `Turtle` changes, every change to `Turtle` does not cause a re-render to `Foot`. 
+- Only the nearest `Foot` responds and re-renders when `Turtle` approaches. Additionally, while every `Foot` listens for `Turtle` changes, every change to `Turtle` does not cause a re-render to `Foot`.
+```JavaScript
+shouldComponentUpdate(nextProps, nextState) {
+  //re-render only if foot React state VALUES changed (i.e., ignore turtle state changes)
+  if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
+    return true;
+  }
+  return false;
+}
+```
+
+![turtle attack](docs/readme/turtle-attack.gif)
+- `Foot` listens for `Turtle` attacks and reduces health when the attack lands within the `Foot`'s hitbox
+
+```JavaScript
+if (turtle.doing.includes('attack') && hasHorizontalCollision(turtle, foot)) {
+  playSound("strike");
+  if (this.timeout) {
+    clearTimeout(this.timeout); //stops foot from 'recovering from punch'
+    this.timeout = null;
+  }
+  if (this.footAttackInterval) {
+    clearTimeout(this.footAttackInterval); //stops foot from attacking
+    this.footAttackInterval = null;
+  }
+  if (this.footWalkingInterval) {
+    clearTimeout(this.footWalkingInterval); //stops foot from walking forward
+    this.footWalkingInterval = null;
+  }
+  newFoot = merge({}, foot);
+  if (newFoot.health > 0) { // to stop reducing health after foot's health is negative
+    newFoot.health -= TURTLE_ATTACK_DAMAGE;
+  }
+  this.setDamageSprite(newFoot); // render foot-hurt or foot-die sprite
+  this.setState(newFoot); //reduce foot's React health
+}
+```
+
 
 ## Future Directions
 - Add option to select any of the 4 turtles

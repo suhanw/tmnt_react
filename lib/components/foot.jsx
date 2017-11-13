@@ -175,15 +175,6 @@ class Foot extends React.Component {
     return false;
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timeout);
-    clearInterval(this.footWalkingInterval);
-    clearInterval(this.footAttackInterval);
-    this.timeout = null;
-    this.footWalkingInterval = null;
-    this.footAttackInterval = null;
-  }
-
   renderStyles() {
     const {pos} = this.state;
     return pos;
