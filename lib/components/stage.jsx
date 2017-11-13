@@ -33,6 +33,9 @@ class Stage extends React.Component {
       <div className="stage">
         <Turtle />
         {this.renderFoots()}
+        <div className="instructions">
+          'RIGHT ARROW' to move forward and 'SPACEBAR' to attack.
+        </div>
       </div>
     );
   }

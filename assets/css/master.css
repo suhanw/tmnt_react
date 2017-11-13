@@ -266,6 +266,13 @@ body {
   position: relative;
 }
 
+.instructions {
+  font-size: 7px;
+  position: absolute;
+  bottom: 10px;
+  left: 50px;
+}
+
 div.turtle,
 div.foot {
   position: absolute;
