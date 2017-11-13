@@ -186,11 +186,11 @@ body {
 
 
 .turtle-name > strong {
-  flex-basis: 55%;
+  flex-basis: 50%;
 }
 
 .turtle-name > small {
-  flex-basis: 15%;
+  flex-basis: 20%;
 }
 
 .turtle-health-meter > strong {
