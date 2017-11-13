@@ -51,7 +51,7 @@ setComboAttackSprite() {
     attackSprite = 'attack-3';
     this.combo = [];
   } else {
-    // resets if the subsequent keydown is not within half sec
+    // resets if the subsequent keydown is not within half sec of the prev keydown
     attackSprite = 'attack-1';
     this.combo = [];
   }
@@ -64,8 +64,8 @@ setComboAttackSprite() {
 While the event handlers for controls are defined in the `Turtle` component, the logic for the interaction between the `Turtle` and `Foot` soldiers lives in the `Foot` component. `Foot` is a Redux container that listens for changes to `Turtle` position and actions (i.e., move or attack). This would minimize the number of operations in the game as the `Turtle` does not have to keep track of all the `Foot` soldiers in front of it, and only the `Foot` nearest to the turtle would update and re-render.
 
 ![foot response](docs/readme/foot-response.gif)
-- when `Turtle` approaches within a certain distance of a `Foot`, `Foot` is "activated", moves forward, and attacks
-- only the nearest `Foot` responds and re-renders when `Turtle` approaches.
+- when `Turtle` approaches within a certain distance of a `Foot`, `Foot` is "activated" by moving forward and attacking.
+- only the nearest `Foot` responds and re-renders when the `Turtle` approaches
 - additionally, while every `Foot` listens for `Turtle` changes, any change to `Turtle` state does not cause a re-render to `Foot`
 ```JavaScript
 shouldComponentUpdate(nextProps, nextState) {
