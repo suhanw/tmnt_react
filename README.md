@@ -1,102 +1,42 @@
-# TMNT Lite
+# TMNT React
 
-## MVP
+[TMNT React](https://suhanw.github.io/tmnt_react)
 
-This game is a simplified version of TMNT 4: Turtles in Time, which is a classic "beat 'em up" 2D scroller game on SNES. The following are the MVP features:
+This game is a simplified version of TMNT 4: Turtles in Time, which is a classic "beat 'em up" 2D scroller game on SNES. It utilizes Redux to track character states, React and CSS to animate sprites and program the motion of characters.
 
-1. Start, pause, and reset the game
-2. Turtle walking and jumping from left to right (by moving the background backwards)
-3. Foot soldiers entering screen from right
-3. Turtle killing a foot soldier with a combo attack controlled by keypress
+## How to Play
+Click [here](https://suhanw.github.io/tmnt_react). Press 'RIGHT' to move forward, 'UP' to jump, and 'SPACE' to attack.
 
-## Technologies and Libraries
+## Features and Implementation
 
-This project will be implemented with the following technologies:
+### Viewport that follows Turtle
+![viewport](docs/readme/viewport.gif)
+I used three components to setup the display frame:
 
-- `JavaScript` and `Redux` for game logic
-- `React` for animation and rendering
+- `Game` creates a `div` sized with the frame width and height.
+- `Viewport` is positioned `absolute` relative to `Game`
+- `Stage` is a child of `Viewport`, and is sized with the full width of the stage level (i.e., the full distance that the turtle may potentially travel). This is where the `Turtle` component lives.
 
-Preliminary outline of components:
+Moving the `Turtle` is simply updating its absolute `x` position relative to `Stage`, which is tracked via Redux. `Viewport` listens for changes to the Redux `x` value, and subtracts it against its own absolute `x` position relative to `Game`, when the `Turtle` reaches at least 1/4 through the `Game` frame. As a result, the `Viewport` "follows" the turtle.
 
-#### Game
-- fix frame width and size
-- contains nav links and instructions
-- starts and ends the game loop
+```ruby
+componentWillReceiveProps(newProps) {
+  const {turtle: {pos: {left}}} = newProps;
+  let newLeft;
+  // viewport only starts panning when turtle is 1/4 into the viewport
+  if (left > (FRAME_WIDTH / 4)) {
+    newLeft = left * (-1) + (FRAME_WIDTH / 4);
+  }
+  this.setState({left: newLeft});
+}
+```
 
-#### Viewport
-- tracks and centers the view based on turtle pos
+### Combo Attack
+![combo attack](docs/readme/combo-attack.gif)
 
-#### Stage
-- renders turtle
-- renders foots at random pos (redux)
 
-#### Turtle
-- tracks its own pos relative to stage (redux)
-- tracks its half length (redux)
-- tracks health (redux)
-- keypress event handlers
-- sprite state (redux)
-  1. Walk
-  2. Stand
-  3. Attack
-- Note: if turtle is attack and foot is stand, and dist betw centers <= half lengths, then foot loses health
 
-#### Foot Soldier
-- tracks pos relative to stage (redux)
-- tracks health (redux)
-- sprite state (redux)
-  1. Stand
-  2. Attack
-
-#### Physics util/Character parent class?
-- jump physics
-
-### Technical challenges
-1. Inifinite scrolling of background to simulate walking forward
-2. Rendering animated sprite characters in the viewport
-3. Physics of jumping
-4. Collision logic for attacks and non-attacks
-5. Storing/tracking health of turtle and foot soldiers
-
-## Wireframes
-
-This app will have a splash screen with the Start button, instructions and links to my Github and LinkedIn.
-![splash](docs/wireframes/splash.png)
-
-The app will enter into the main viewport when the user starts the game.
-![main](docs/wireframes/main.png)
-
-## Implementation Timeline
-
-### Day 1:
-Setup all necessary Node modules, including getting webpack up and running. Write a basic entry file and the bare bones of scripts. Goals for the day:
-
-- define a viewport with fixed width and height
-- infinite scroll of the viewport's background
-- render walking turtle sprite
-- render foot soldier sprite
-
-### Day 2:
-Come up with a logic for the physics of jumping and response to keypress. Create and test jumping. Implement the response to keypress for turtle to attack. Randomize foot soldier attacks. Goals for the day:
-
-- turtle responds to keypress for 'jump' action
-- turtle jumps based on game physics
-- turtle responds to keypress for 'attack' action
-- renders attack sprites for both turtle and foot soldiers
-
-### Day 3:
-Come up with a logic for attack and non-attack collisions. Implement mechanism to track health of turtle and foot soldiers:
-
-- characters respond to attacks based on collision logic
-- character health decreases when attacked, and dies when health depletes
-
-### Day 4:
-Implement controls for user to start, pause and reset the game. Style the frontend, making it polished and professional. Goals for the day:
-
-- Create controls for start, pause and reset
-- Finalize Repo and Readme
-
-## Bonus features
+## Future Directions
 - Add option to select any of the 4 turtles
 - Jump attack
 - Boss level
