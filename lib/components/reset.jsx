@@ -35,15 +35,18 @@ class Reset extends React.Component {
           Reach me at <a className="email" href="mailto:suhanw@gmail.com">suhanw@gmail.com</a>
         </div>
         <div>
-          <a className="resume" href="#">
+          <a className="resume" href="#" target="_blank">
             View my resume.
           </a>
         </div>
         <div>
-          <a className="portfolio" href="https://suhanw.github.io/">
+          <a className="portfolio" href="https://suhanw.github.io/" target="_blank">
             Visit my portfolio.
           </a>
         </div>
+        <small>
+          Credit: sprite images from www.spriters-resource.com
+        </small>
       </div>
     );
   }

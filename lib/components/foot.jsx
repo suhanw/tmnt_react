@@ -48,7 +48,6 @@ class Foot extends React.Component {
     return (
       <div className="foot"
         style={this.renderStyles()}>
-        Health: {this.state.health} <br />
         {this.renderSprite()}
       </div>
     );
@@ -171,13 +170,8 @@ class Foot extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     //re-render only if foot React state VALUES changed (i.e., ignore turtle state changes)
     if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
-      // console.log(`component updating state from ${JSON.stringify(this.state)} to ${JSON.stringify(nextState)} `);
       return true;
     }
-    // if (JSON.stringify(nextProps.foot) !== JSON.stringify(this.props.foot)) {
-    //   console.log(`component updating redux from ${JSON.stringify(this.props.foot)} to ${JSON.stringify(nextProps.foot)}`);
-    //   return true;
-    // }
     return false;
   }
 

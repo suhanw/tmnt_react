@@ -21,8 +21,9 @@ class Splash extends React.Component {
     return (
       <div className="splash"
         style={this.renderStyles()}>
-        <div className="splash-title"></div>
-        <div className="splash-subtitle"></div>
+        <div className="splash-title">
+          <div className="splash-subtitle"></div>
+        </div>
         <span className={ this.state.pressStart ? "press-start fast" : "press-start slow" }>PUSH 'S' TO START</span>
       </div>
     );

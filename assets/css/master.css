@@ -75,6 +75,10 @@ body {
   background-position: center;
   width: 300px;
   height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .splash-subtitle {
@@ -84,8 +88,6 @@ body {
   background-position: center;
   width: 80px;
   height: 30px;
-  position: absolute;
-  top: 110px;
 }
 
 .press-start {
@@ -270,7 +272,7 @@ body {
   font-size: 7px;
   position: absolute;
   bottom: 10px;
-  left: 50px;
+  left: 20px;
 }
 
 div.turtle,
@@ -303,6 +305,10 @@ div.foot {
 .reset .icons {
   width: 50%;
   align-items: center;
+}
+
+.reset small {
+  font-size: 5px;
 }
 
 .icons a,
@@ -343,7 +349,7 @@ div.foot {
 }
 
 .portfolio:hover {
-  color: #51ff99;
+  color: #ba5e25;
 }
 
 .email:hover {
