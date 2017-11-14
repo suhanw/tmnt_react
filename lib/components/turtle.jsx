@@ -47,7 +47,7 @@ class Turtle extends React.Component {
     this.renderSprite = this.renderSprite.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
     this.handleKeyup = this.handleKeyup.bind(this);
-    this.addListeners = this.addListeners.bind(this);
+    this.enableControls = this.enableControls.bind(this);
     this.continueKeypress = this.continueKeypress.bind(this);
     this.setComboAttackSprite = this.setComboAttackSprite.bind(this);
     this.jump = this.jump.bind(this);
@@ -69,7 +69,7 @@ class Turtle extends React.Component {
 
   componentDidMount(){
     this.props.resetTurtle(); // resets turtle when game starts
-    this.addListeners(); // registers event handlers
+    this.enableControls(); // registers event handlers
   }
 
   componentWillReceiveProps({turtle}){
@@ -110,7 +110,7 @@ class Turtle extends React.Component {
     return (<Sprite />);
   }
 
-  addListeners() {
+  enableControls() {
     document.addEventListener("keydown", this.handleKeydown);
     document.addEventListener("keyup", this.handleKeyup);
   }
@@ -118,13 +118,6 @@ class Turtle extends React.Component {
   disableControls() {
     document.removeEventListener("keydown", this.handleKeydown);
     document.removeEventListener("keyup", this.handleKeyup);
-    // setTimeout(this.keypressTimer);
-    // setTimeout(this.jumpTimer);
-    // this.keypressTimer = 0;
-    // this.jumpTimer = 0;
-    // let newTurtle = merge({}, this.state);
-    // newTurtle.doing = 'stand';
-    // this.props.updateTurtle(newTurtle);
   }
 
 
