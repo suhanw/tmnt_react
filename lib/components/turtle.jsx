@@ -191,7 +191,6 @@ class Turtle extends React.Component {
     }
     this.setState(newTurtle);
     jumpVel = GRAVITY + jumpVel; // new_speed = acceleration + old_speed
-    console.log('turtle location', newTurtle.pos.bottom);
     this.jumpTimer = setTimeout(()=>{
       this.jump(jumpVel, false);
     }, 30);

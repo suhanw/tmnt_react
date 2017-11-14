@@ -118,7 +118,6 @@ class Game extends React.Component {
 
 
   componentWillReceiveProps(newProps) {
-    console.log('game willRecProps footsIdArr', newProps.footsIdArr);
     if (!this.gameOver) {
       this.gameOver = this.checkGameOver(newProps);
     }
