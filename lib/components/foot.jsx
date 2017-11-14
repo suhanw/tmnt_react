@@ -100,7 +100,7 @@ class Foot extends React.Component {
 
     // CONDITION 1: when player hits spacebar
     else if (turtle.doing.includes('attack') && hasHorizontalCollision(turtle, foot)) {
-      playSound("strike");
+      // playSound("strike");
       if (this.timeout) {
         clearTimeout(this.timeout);
         this.timeout = null;
@@ -126,10 +126,10 @@ class Foot extends React.Component {
       this.props.updateFoot(newFoot); //reduce foot's Redux health
       if (newFoot.health <= 0) { // if foot is dead, remove dead foot after short delay
         this.newTurtle.hasCollided = false;
-        this.newTurtle.score += 100;
         setTimeout(() => {
           this.props.deleteFoot(newFoot.id);
           this.newTurtle.hasCollided = false;
+          this.newTurtle.score += 100;
           this.props.updateTurtle(this.newTurtle);
         }, 500);
       } else { // else, let foot recover when turtle doesn't keep attacking

@@ -158,6 +158,8 @@ class Turtle extends React.Component {
         const attack = this.setComboAttackSprite();
         if (!this.state.hasCollided) {
           playSound('swish');
+        } else {
+          playSound('strike');
         }
         newState = merge({}, this.state, {doing: attack});
         this.props.updateTurtle(newState);

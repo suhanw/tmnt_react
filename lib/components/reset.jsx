@@ -27,9 +27,6 @@ class Reset extends React.Component {
           Press 'S' to play again.
         </div>
         <div>
-          Reach me at <a className="email" href="mailto:suhanw@gmail.com">suhanw@gmail.com</a>.
-        </div>
-        <div>
           <a className="resume" href="#" target="_blank">
             View my resume.
           </a>
@@ -39,14 +36,20 @@ class Reset extends React.Component {
             Visit my portfolio.
           </a>
         </div>
+        <div>
+          Reach me at <a className="email" href="mailto:suhanw@gmail.com">suhanw@gmail.com</a>.
+        </div>
         <ul className="icons">
           <li><a href="https://www.linkedin.com/in/suhanwijaya" target="_blank" className="linkedin"><i className="fa fa-linkedin" aria-hidden="true"></i></a></li>
           <li><a href="https://www.github.com/suhanw" target="_blank" className="github"><i className="fa fa-github" aria-hidden="true"></i></a></li>
           <li><a href="https://angel.co/suhanw" target="_blank" className="angellist"><i className="fa fa-angellist" aria-hidden="true"></i></a></li>
         </ul>
-        <small>
-          Credit: sprite images from www.spriters-resource.com
-        </small>
+        <ul className="credits">
+          <li>Credits</li>
+          <li>Sprite images from www.spriters-resource.com</li>
+          <li>Audio from odzfire@charter.net</li>
+          <li>Favicon from FunkMessiah</li>
+        </ul>
       </div>
     );
   }

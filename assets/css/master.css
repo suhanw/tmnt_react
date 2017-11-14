@@ -95,12 +95,12 @@ body {
   color: white;
 }
 
-.press-start.slow {
+.slow {
   animation: blinker 1s infinite;
   animation-timing-function: ease;
 }
 
-.press-start.fast {
+.fast {
   animation: blinker 0.1s infinite;
   animation-timing-function: ease;
 }
@@ -202,7 +202,7 @@ body {
   font-size: 8px;
   flex-basis: 70%;
   margin-top: 10px;
-  animation: blinker 1s infinite;
+  /*animation: blinker 1s infinite;*/
 }
 
 .player-icon {
@@ -303,8 +303,8 @@ div.foot {
 }
 
 .reset .icons {
-  width: 50%;
-  align-items: center;
+  width: 20%;
+  align-items: flex-start;
 }
 
 .reset small {
@@ -354,4 +354,16 @@ div.foot {
 
 .email:hover {
   color: #f442f4;
+}
+
+.credits {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 5px;
+}
+
+.credits li {
+  padding-top: 2px;
 }
