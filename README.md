@@ -9,7 +9,7 @@ Click [here](https://suhanw.github.io/tmnt_react). Press 'RIGHT' to move forward
 
 ## Features and Implementation
 
-### Viewport that Centers on Turtle
+### Viewport that centers on Turtle
 ![viewport](docs/readme/viewport.gif)
 
 I used three components to setup the display frame:
