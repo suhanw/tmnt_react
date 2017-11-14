@@ -116,18 +116,23 @@ class Turtle extends React.Component {
   }
 
   disableControls() {
-    setTimeout(this.keypressTimer);
-    setTimeout(this.jumpTimer);
-    this.keypressTimer = 0;
-    this.jumpTimer = 0;
-    let newTurtle = merge({}, this.state);
-    newTurtle.doing = 'stand';
-    this.props.updateTurtle(newTurtle);
+    document.removeEventListener("keydown", this.handleKeydown);
+    document.removeEventListener("keyup", this.handleKeyup);
+    // setTimeout(this.keypressTimer);
+    // setTimeout(this.jumpTimer);
+    // this.keypressTimer = 0;
+    // this.jumpTimer = 0;
+    // let newTurtle = merge({}, this.state);
+    // newTurtle.doing = 'stand';
+    // this.props.updateTurtle(newTurtle);
   }
 
 
   handleKeydown(e) {
     if (this.props.gameOver) { //disable controls when game over
+      let newTurtle = merge({}, this.state);
+      newTurtle.doing = 'stand';
+      this.props.updateTurtle(newTurtle);
       this.disableControls();
       return;
     }
@@ -236,6 +241,9 @@ class Turtle extends React.Component {
 
   handleKeyup(e) {
     if (this.props.gameOver) {  //disable controls when game over
+      let newTurtle = merge({}, this.state);
+      newTurtle.doing = 'stand';
+      this.props.updateTurtle(newTurtle);
       this.disableControls();
       return;
     }

@@ -64,7 +64,9 @@ class Reset extends React.Component {
 
   renderWin() {
     return (
-      <div>Cowabunga!</div>
+      <div>
+        <img className="cowabunga" src="https://fontmeme.com/permalink/171114/8029266302d30f6e52bd4c7d0ebb09b2.png" />
+      </div>
     );
   }
 
