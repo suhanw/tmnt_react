@@ -27,7 +27,7 @@ class Reset extends React.Component {
           Press 'S' to play again.
         </div>
         <div>
-          Reach me at <a className="email" href="mailto:suhanw@gmail.com">suhanw@gmail.com</a>
+          Reach me at <a className="email" href="mailto:suhanw@gmail.com">suhanw@gmail.com</a>.
         </div>
         <div>
           <a className="resume" href="#" target="_blank">

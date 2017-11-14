@@ -31,7 +31,7 @@ class Stage extends React.Component {
   render() {
     return (
       <div className="stage">
-        <Turtle />
+        <Turtle gameOver={this.props.gameOver}/>
         {this.renderFoots()}
         <div className="instructions">
           'RIGHT' to move forward, 'UP' to jump and 'SPACEBAR' to attack.

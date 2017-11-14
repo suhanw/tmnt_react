@@ -104,7 +104,7 @@ class Game extends React.Component {
           className="gameframe"
           style={this.renderFrameStyles()}>
           <Viewport>
-            <Stage addSoundPlaying={this.addSoundPlaying} />
+            <Stage addSoundPlaying={this.addSoundPlaying} gameOver={this.gameOver}/>
           </Viewport>
         </div>
       </div>
@@ -118,6 +118,7 @@ class Game extends React.Component {
 
 
   componentWillReceiveProps(newProps) {
+    console.log('game willRecProps footsIdArr', newProps.footsIdArr);
     if (!this.gameOver) {
       this.gameOver = this.checkGameOver(newProps);
     }
