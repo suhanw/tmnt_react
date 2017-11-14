@@ -11,9 +11,8 @@ import TurtleDie from './sprites/turtle_die';
 import TurtleJump from './sprites/turtle_jump';
 import TurtleCowabunga from './sprites/turtle_cowabunga';
 import {resetTurtle, updateTurtle} from '../actions/turtle_actions';
-import {hasHorizontalCollision, inflictDamage} from '../util/collision_util';
-import {WALKING_SPEED, INIT_JUMP_VEL, GRAVITY, GROUND_X} from '../constants';
 import {playSound} from '../util/soundPlayer';
+import {WALKING_SPEED, INIT_JUMP_VEL, GRAVITY, GROUND_X} from '../constants';
 
 const mapStateToProps = ({turtle}, ownProps) => {
   return {
