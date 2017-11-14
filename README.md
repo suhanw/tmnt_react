@@ -2,14 +2,14 @@
 
 [TMNT React](https://suhanw.github.io/tmnt_react)
 
-This game is a simplified version of TMNT 4: Turtles in Time, which is a classic "beat 'em up" 2D scroller game on SNES. It utilizes Redux to track character states, React and CSS to animate sprites and program the motion of characters.
+This game is a simplified version of TMNT 4: Turtles in Time, a classic "beat 'em up" 2D scroller game on SNES. I utilized Redux to track character states, React and CSS to animate sprites and program the motion of characters.
 
 ## How to Play
 Click [here](https://suhanw.github.io/tmnt_react). Press 'RIGHT' to move forward, 'UP' to jump, and 'SPACE' to attack.
 
 ## Features and Implementation
 
-### Viewport that follows Turtle
+### Viewport that Centers on Turtle
 ![viewport](docs/readme/viewport.gif)
 
 I used three components to setup the display frame:
@@ -59,7 +59,7 @@ setComboAttackSprite() {
 }
 ```
 
-### Foot soldier
+### Foot Soldier
 
 While the event handlers for controls are defined in the `Turtle` component, the logic for the interaction between the `Turtle` and `Foot` soldiers lives in the `Foot` component. `Foot` is a Redux container that listens for changes to `Turtle` position and actions (i.e., move or attack). This would minimize the number of operations in the game as the `Turtle` does not have to keep track of all the `Foot` soldiers in front of it, and only the `Foot` nearest to the turtle would update and re-render.
 
