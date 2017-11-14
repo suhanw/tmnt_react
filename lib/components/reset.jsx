@@ -46,7 +46,8 @@ class Reset extends React.Component {
         </ul>
         <ul className="credits">
           <li>Credits</li>
-          <li>Sprite images from www.spriters-resource.com</li>
+          <li>Graphics from spriters-resource.com</li>
+          <li>Title font from fontmeme.com</li>
           <li>Audio from odzfire@charter.net</li>
           <li>Favicon from FunkMessiah</li>
         </ul>
