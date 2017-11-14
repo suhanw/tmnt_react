@@ -16,7 +16,7 @@ I used three components to setup the display frame:
 
 - `Game` creates a `div` to define the frame width and height.
 - `Viewport` is positioned `absolute` relative to `Game`
-- `Stage` is a child of `Viewport`, and is sized with the full width of the stage level (i.e., the full distance that the turtle may potentially travel). This is where the `Turtle` component lives.
+- `Stage` is a child of `Viewport`, renders the location/environment and is sized with the full width of the stage level (i.e., the full distance that the turtle may potentially travel). This is where the `Turtle` component lives.
 
 Moving the `Turtle` is simply updating its absolute `left` position relative to `Stage`, which is tracked via Redux. `Viewport` listens for changes to the turtle's `left` value, and sets its own `left` position as the negative of the turtle's position, when the `Turtle` reaches at least 1/4 through the `Game` frame width. Because `Viewport` is positioned `absolute`, a negative `left` position would place it to the left of the `Game` frame, creating the illusion of panning from left to right. When the `Viewport` changes its position as the turtle changes its position, it "follows" the turtle.
 
