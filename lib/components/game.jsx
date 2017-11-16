@@ -89,7 +89,7 @@ class Game extends React.Component {
             </span>
             <div className="turtle-health-meter suhan">
               <small className={ this.state.pressStart ? "fast" : "slow" }>
-                PUSH 'S' TO START
+                P2 COMING SOON
               </small>
             </div>
             <div className="player-icon suhan">
@@ -177,13 +177,6 @@ class Game extends React.Component {
       playSound('mute');
       const muted = toggleMute(this.state.soundPlaying);
       this.setState({muted});
-    } else if (e.code === 'KeyS') {
-      playSound('pizza-power', this.state.muted);
-      this.setState({pressStart: true});
-      this.timeout = setTimeout(() => {
-        window.open('https://suhanw.github.io');
-        this.setState({pressStart: false});
-      }, 1200);
     }
   }
 

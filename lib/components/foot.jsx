@@ -78,7 +78,7 @@ class Foot extends React.Component {
             setTimeout(()=>{
               that.setState(newFoot);
             }, 400);
-          }, 1500);
+          }, 800);
         }
       }
     } else if ((foot.pos.left - (turtle.pos.left + 65) <= 100) && this.state.health > 0) { //detect turtle approaching
