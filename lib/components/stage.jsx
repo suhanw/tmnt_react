@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Turtle from './turtle';
 import Foot from './foot';
-import {resetFoots} from '../actions/foots_actions';
+import {resetFoots, clearFoots} from '../actions/foots_actions';
 import {playSound} from '../util/soundPlayer';
 
 // renders turtle
@@ -17,6 +17,7 @@ const mapStateToProps = ({foots, turtle}, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     resetFoots: () => dispatch(resetFoots()),
+    clearFoots: () => dispatch(clearFoots()),
   };
 };
 
@@ -31,7 +32,7 @@ class Stage extends React.Component {
   render() {
     return (
       <div className="stage">
-        <Turtle gameOver={this.props.gameOver}/>
+        <Turtle gameOver={this.props.gameOver} muted={this.props.muted}/>
         {this.renderFoots()}
         <div className="instructions">
           'RIGHT' to move forward, 'UP' to jump and 'SPACEBAR' to attack.
@@ -54,13 +55,14 @@ class Stage extends React.Component {
 
     let foots = footsIdArr.map((id) => {
       return (
-        <Foot key={id} id={id} />
+        <Foot key={id} id={id} muted={this.props.muted} />
       );
     });
     return foots;
   }
 
   componentWillUnmount() {
+    this.props.clearFoots();
   }
 }
 

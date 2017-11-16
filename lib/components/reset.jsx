@@ -27,7 +27,7 @@ class Reset extends React.Component {
           Press 'S' to play again.
         </div>
         <div>
-          <a className="resume" href="#" target="_blank">
+          <a className="resume" href="https://suhanw.github.io/assets/suhan_wijaya_resume.pdf" target="_blank">
             View my resume.
           </a>
         </div>

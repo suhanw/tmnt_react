@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import {RECEIVE_FOOT, RECEIVE_FOOTS, DELETE_FOOT} from '../actions/foots_actions';
+import {RECEIVE_FOOT, RECEIVE_FOOTS, DELETE_FOOT, CLEAR_FOOTS} from '../actions/foots_actions';
 
 const defaultState = {
   footsById: {},
@@ -26,6 +26,8 @@ const FootsReducer = (state=defaultState, action) => {
         newState.footsIdArr.splice(i, 1);
       }
       return newState;
+    case CLEAR_FOOTS:
+      return defaultState;
     default:
       return state;
   }

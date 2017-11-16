@@ -107,7 +107,7 @@ class Game extends React.Component {
           className="gameframe"
           style={this.renderFrameStyles()}>
           <Viewport>
-            <Stage addSoundPlaying={this.addSoundPlaying} gameOver={this.gameOver}/>
+            <Stage addSoundPlaying={this.addSoundPlaying} gameOver={this.gameOver} muted={this.state.muted}/>
           </Viewport>
         </div>
       </div>
@@ -129,7 +129,7 @@ class Game extends React.Component {
   checkGameOver(props) {
     if (props.health <= 0) { // redirect to lose page
       stopAll();
-      const dieSound = playSound('turtle-die');
+      const dieSound = playSound('turtle-die', this.state.muted);
       dieSound.onended = () => {
         this.props.history.push("/lose");
       };
@@ -138,12 +138,12 @@ class Game extends React.Component {
 
     if (!props.footsIdArr.length) { // play soundtrack if won
       stopAll();
-      playSound('stage-clear');
+      playSound('stage-clear', this.state.muted);
       this.timeout = setTimeout(()=>{
         let newTurtle = merge({}, props.turtle);
         newTurtle.doing = 'cowabunga';
         this.props.updateTurtle(newTurtle);
-        const cowabungaSound = playSound('cowabunga');
+        const cowabungaSound = playSound('cowabunga', this.state.muted);
         cowabungaSound.onended = () => {
           this.props.history.push('/win');
         };
@@ -173,7 +173,7 @@ class Game extends React.Component {
       const muted = toggleMute(this.state.soundPlaying);
       this.setState({muted});
     } else if (e.code === 'KeyS') {
-      playSound('pizza-power');
+      playSound('pizza-power', this.state.muted);
       this.setState({pressStart: true});
       this.timeout = setTimeout(() => {
         window.open('https://suhanw.github.io');

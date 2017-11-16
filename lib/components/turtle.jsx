@@ -141,7 +141,7 @@ class Turtle extends React.Component {
       case "ArrowUp":
         if (this.isKeypressed(e)) return; // prevent multiple jumps when key is pressed
         if (this.jumpTimer) return; // prevent double jumping if jumping is already in progress
-        playSound('jump');
+        playSound('jump', this.props.muted);
         this.jump(INIT_JUMP_VEL, true);
         break;
       case "Space":
@@ -154,9 +154,9 @@ class Turtle extends React.Component {
         let comboLength = this.combo.length;
         const attack = this.setComboAttackSprite();
         if (!this.state.hasCollided) {
-          playSound('swish');
+          playSound('swish', this.props.muted);
         } else {
-          playSound('strike');
+          playSound('strike', this.props.muted);
         }
         newState = merge({}, this.state, {doing: attack});
         this.props.updateTurtle(newState);
@@ -267,6 +267,7 @@ class Turtle extends React.Component {
     clearTimeout(this.jumpTimer);
     this.keypressTimer = 0;
     this.jumpTimer = 0;
+    this.keyState = {};
     document.removeEventListener("keydown", this.handleKeydown);
     document.removeEventListener("keyup", this.handleKeyup);
   }
