@@ -48,7 +48,6 @@ class Foot extends React.Component {
     return (
       <div className="foot"
         style={this.renderStyles()}>
-        {this.state.id}
         {this.renderSprite()}
       </div>
     );
@@ -126,13 +125,13 @@ class Foot extends React.Component {
       this.props.updateFoot(newFoot); //reduce foot's Redux health
       if (newFoot.health <= 0) { // if foot is dead, remove dead foot after short delay
         this.newTurtle.hasCollided = false;
-        // this.newTurtle.score += 100;
-        // this.props.updateTurtle(this.newTurtle);
-        setTimeout(() => {
+        this.props.updateTurtle(this.newTurtle);
+        let footDyingTimeout = setTimeout(() => {
           this.newTurtle.hasCollided = false;
-          this.newTurtle.score += 100;
           this.props.updateTurtle(this.newTurtle);
           this.props.deleteFoot(newFoot.id);
+          clearTimeout(footDyingTimeout);
+          footDyingTimeout = null;
         }, 500);
       } else { // else, let foot recover when turtle doesn't keep attacking
         this.timeout = setTimeout(()=> {

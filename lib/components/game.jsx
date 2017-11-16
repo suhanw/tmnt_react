@@ -121,7 +121,12 @@ class Game extends React.Component {
 
 
   componentWillReceiveProps(newProps) {
-    if (!this.gameOver) {
+    const {footsIdArr, turtle} = newProps;
+    let updatedTurtle = merge({}, turtle);
+    if (this.props.footsIdArr.length &&  footsIdArr.length !== this.props.footsIdArr.length) {
+      updatedTurtle.score += 100;
+      this.props.updateTurtle(updatedTurtle);
+    } else if (!this.gameOver) {
       this.gameOver = this.checkGameOver(newProps);
     }
   }
