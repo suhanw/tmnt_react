@@ -11,7 +11,6 @@ import {updateTurtle} from '../actions/turtle_actions';
 const mapStateToProps = ({turtle, foots: {footsIdArr}}, ownProps) => {
   return {
     health: turtle.health,
-    score: turtle.score,
     doing: turtle.doing,
     turtle,
     footsIdArr,
@@ -125,8 +124,6 @@ class Game extends React.Component {
     const {footsIdArr, turtle} = newProps;
     let updatedTurtle = merge({}, turtle);
     if (this.props.footsIdArr.length &&  footsIdArr.length !== this.props.footsIdArr.length) {
-      // updatedTurtle.score += 100;
-      // this.props.updateTurtle(updatedTurtle);
       let newScore = this.state.score + 100;
       this.setState({score: newScore});
     } else if (!this.gameOver) {
