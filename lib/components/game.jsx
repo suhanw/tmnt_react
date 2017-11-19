@@ -33,6 +33,7 @@ class Game extends React.Component {
       soundPlaying: null,
       muted: false,
       pressStart: false,
+      score: 0,
     };
 
     this.gameOver = false;
@@ -67,7 +68,7 @@ class Game extends React.Component {
           <div className="turtle-health">
             <span className="turtle-name">
               <strong>MIKE</strong>
-              <small>{this.props.score}</small>
+              <small>{this.state.score}</small>
             </span>
             <div className="turtle-health-meter">
               <strong>{this.renderHealthMeter()}</strong>
@@ -124,8 +125,10 @@ class Game extends React.Component {
     const {footsIdArr, turtle} = newProps;
     let updatedTurtle = merge({}, turtle);
     if (this.props.footsIdArr.length &&  footsIdArr.length !== this.props.footsIdArr.length) {
-      updatedTurtle.score += 100;
-      this.props.updateTurtle(updatedTurtle);
+      // updatedTurtle.score += 100;
+      // this.props.updateTurtle(updatedTurtle);
+      let newScore = this.state.score + 100;
+      this.setState({score: newScore});
     } else if (!this.gameOver) {
       this.gameOver = this.checkGameOver(newProps);
     }
