@@ -32,11 +32,6 @@ class Reset extends React.Component {
           </a>
         </div>
         <div>
-          <a className="portfolio" href="https://suhanw.github.io/" target="_blank">
-            Visit my portfolio.
-          </a>
-        </div>
-        <div>
           Reach me at <a className="email" href="mailto:suhanw@gmail.com">suhanw@gmail.com</a>.
         </div>
         <ul className="icons">
