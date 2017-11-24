@@ -8,6 +8,7 @@ body {
 
 #root {
   transform: scale(2);
+  transform-origin: bottom;
   font-family: 'Press Start 2P', cursive;
   color: white;
 }
