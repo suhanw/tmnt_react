@@ -40,6 +40,7 @@ class Turtle extends React.Component {
 
     this.keyState = {};
     this.keypressTimer = 0;
+    this.keyupTimer = 0;
     this.jumpTimer = 0;
     this.combo = [];
 
@@ -150,6 +151,7 @@ class Turtle extends React.Component {
           this.keypressTimer = 0;
         }
         if (this.isKeypressed(e)) return; // prevent multiple attacks when key is pressed
+        if (this.keyupTimer) return; // allow previous attack sprite animation to complete before new attack
         this.combo.push(e.timeStamp); // track combo attacks
         let comboLength = this.combo.length;
         const attack = this.setComboAttackSprite();
@@ -253,9 +255,14 @@ class Turtle extends React.Component {
         this.props.updateTurtle(newState);
         break;
       case "Space":
-        setTimeout(()=>{ // give time for attack sprite animation to complete
-          this.props.updateTurtle(newState);
-        }, 150);
+        const that = this;
+        if (!this.keyupTimer) {
+          this.keyupTimer = setTimeout(()=>{ // give time for attack sprite animation to complete
+            that.props.updateTurtle(newState);
+            clearTimeout(that.keyupTimer);
+            that.keyupTimer = 0;
+          }, 150);
+        }
         break;
       default:
         break;
