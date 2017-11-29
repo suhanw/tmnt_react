@@ -2,22 +2,35 @@ import React from 'react';
 import SpriteAnimator from 'react-sprite-animator';
 
 class TurtleStand extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const {turtleName} = this.props;
+    if (turtleName === 'mikey') {
+      this.width = 65;
+      this.height = 65;
+      this.frameCount = 11;
+    } else if (turtleName === 'leo') {
+      this.width = 85;
+      this.height = 65;
+      this.frameCount = 11;
+    }
+  }
 
   render() {
     const {turtleName} = this.props;
     return (
       <SpriteAnimator
-        width={65}
-        height={65}
+        width={this.width}
+        height={this.height}
         sprite={`./assets/spritesheets/${turtleName}-standing.png`}
         direction="horizontal"
         shouldAnimate={true}
         fps={8}
         startFrame={0}
         stopLastFrame={false}
-        frameCount={11}
-        wrapAfter={11}
-         />
+        frameCount={this.frameCount}
+        wrapAfter={11} />
     );
   }
 }
