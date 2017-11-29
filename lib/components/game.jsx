@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import merge from 'lodash/merge';
+import SelectScreen from './select_screen';
 import Viewport from './viewport';
 import Stage from './stage';
 import TurtleIcon from './sprites/turtle_icon';
@@ -39,6 +40,7 @@ class Game extends React.Component {
     this.timeout = null;
 
     this.renderSelectScreen = this.renderSelectScreen.bind(this);
+    this.renderMuteBar = this.renderMuteBar.bind(this);
     this.renderHealthBar = this.renderHealthBar.bind(this);
     this.addSoundPlaying = this.addSoundPlaying.bind(this);
     this.renderMuteButton = this.renderMuteButton.bind(this);
@@ -48,8 +50,15 @@ class Game extends React.Component {
   }
 
   render() {
-    if (this.props.match.path === '/select') {
-      return this.renderSelectScreen();
+
+    const {path} = this.props.match;
+    if (path === '/select') {
+      return (
+        <div className="game">
+          {this.renderMuteBar()}
+          {this.renderSelectScreen()}
+        </div>
+      );
     }
 
     const selectedTurtleName = this.props.history.location.pathname.split('/')[2];
@@ -61,21 +70,8 @@ class Game extends React.Component {
     return (
       <div className="game"
         style={this.renderGameStyles()}>
-        <nav className="toggle-mute-bar">
-          <div className="toggle-mute">
-            {this.renderMuteButton()}
-            <span>
-              Press 'M' to mute/unmute soundtrack.
-            </span>
-          </div>
-          <ul className="icons">
-            <li><a href="https://www.linkedin.com/in/suhanwijaya" target="_blank" className="linkedin"><i className="fa fa-linkedin" aria-hidden="true"></i></a></li>
-            <li><a href="https://www.github.com/suhanw" target="_blank" className="github"><i className="fa fa-github" aria-hidden="true"></i></a></li>
-            <li><a href="https://stackoverflow.com/story/suhanw" target="_blank" className="angellist"><i className="fa fa-stack-overflow" aria-hidden="true"></i></a></li>
-            <li><a href="mailto:suhanw@gmail.com" className="email"><i className="fa fa-envelope" aria-hidden="true"></i></a></li>
-          </ul>
-        </nav>
 
+        {this.renderMuteBar()}
         {this.renderHealthBar()}
         {this.renderStage(selectedTurtleName)}
 
@@ -84,10 +80,25 @@ class Game extends React.Component {
   }
 
   renderSelectScreen() {
+    return <SelectScreen history={this.props.history}/>;
+  }
+
+  renderMuteBar() {
     return (
-      <div>
-        Select screen
-      </div>
+      <nav className="toggle-mute-bar">
+        <div className="toggle-mute">
+          {this.renderMuteButton()}
+          <span>
+            Press 'M' to mute/unmute soundtrack.
+          </span>
+        </div>
+        <ul className="icons">
+          <li><a href="https://www.linkedin.com/in/suhanwijaya" target="_blank" className="linkedin"><i className="fa fa-linkedin" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.github.com/suhanw" target="_blank" className="github"><i className="fa fa-github" aria-hidden="true"></i></a></li>
+          <li><a href="https://stackoverflow.com/story/suhanw" target="_blank" className="angellist"><i className="fa fa-stack-overflow" aria-hidden="true"></i></a></li>
+          <li><a href="mailto:suhanw@gmail.com" className="email"><i className="fa fa-envelope" aria-hidden="true"></i></a></li>
+        </ul>
+      </nav>
     );
   }
 
@@ -159,7 +170,9 @@ class Game extends React.Component {
   componentWillReceiveProps(newProps) {
     const {footsIdArr, turtle} = newProps;
     let updatedTurtle = merge({}, turtle);
-    if (this.props.footsIdArr.length &&  footsIdArr.length !== this.props.footsIdArr.length) {
+    if (!Object.keys(turtle).length) { // don't do any checks when first mounting Stage
+      return;
+    } else if (this.props.footsIdArr.length &&  footsIdArr.length !== this.props.footsIdArr.length) {
       let newScore = this.state.score + 100;
       this.setState({score: newScore});
     } else if (!this.gameOver) {
@@ -168,7 +181,7 @@ class Game extends React.Component {
   }
 
   checkGameOver(props) {
-    if (props.health <= 0) { // redirect to lose page
+    if (props.health <= 0) { // when turtle dies
       stopAll();
       const dieSound = playSound('turtle-die', this.state.muted);
       dieSound.onended = () => {
@@ -177,7 +190,7 @@ class Game extends React.Component {
       return true;
     }
 
-    if (!props.footsIdArr.length) { // play soundtrack if won
+    if (!props.footsIdArr.length) { // when turtle wins
       stopAll();
       playSound('stage-clear', this.state.muted);
       this.timeout = setTimeout(()=>{
