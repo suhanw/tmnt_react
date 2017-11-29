@@ -42,10 +42,12 @@ class Foot extends React.Component {
 
     this.renderStyles = this.renderStyles.bind(this);
     this.renderSprite = this.renderSprite.bind(this);
-    this.footAttack = this.footAttack.bind(this);
     this.footWalk = this.footWalk.bind(this);
+    this.footStand = this.footStand.bind(this);
+    this.footAttack = this.footAttack.bind(this);
     this.footReceiveDamage = this.footReceiveDamage.bind(this);
     this.footReduceHealth = this.footReduceHealth.bind(this);
+    this.turtleReceiveDamage = this.turtleReceiveDamage.bind(this);
   }
 
   render(){
@@ -66,12 +68,10 @@ class Foot extends React.Component {
       if (this.footWalkingInterval) { // if foot was walking,
         clearInterval(this.footWalkingInterval); //stop when it collides with turtle
         this.footWalkingInterval = null;
-        newFoot = merge({}, this.state);
-        newFoot.doing = 'stand';
-        this.setState(newFoot);
+        this.footStand();
       }
       const that = this;
-      if (!this.footAttackInterval) { // if foot was not already attacking,
+      if (!this.footAttackInterval) { // if foot was not already attacking
         this.footAttack(); //set foot to attack when it collides with turtle
       }
     } else if ((foot.pos.left - (turtle.pos.left + 65) <= 100) && this.state.health > 0) { //detect turtle approaching
@@ -80,7 +80,8 @@ class Foot extends React.Component {
       }
     }
 
-    if (turtle.doing.includes('attack') && foot.doing === 'attack') { // do nothing if both attack at the same time
+    // CONDITION 0: do nothing if both attack at the same time
+    if (turtle.doing.includes('attack') && foot.doing === 'attack') {
       return;
     }
     // CONDITION 1: when player hits spacebar
@@ -93,24 +94,19 @@ class Foot extends React.Component {
     }
     // CONDITION 3: when foot attacks in turtle hitbox
     else if (foot.doing === 'attack' && hasHorizontalCollision(turtle, foot)) {
-      this.newTurtle = merge({}, this.props.turtle);
-      if (this.newTurtle.health > FOOT_ATTACK_DAMAGE) { // to stop reducing health after dying blow
-        this.newTurtle.health -= FOOT_ATTACK_DAMAGE;
-        this.newTurtle.doing = 'hurt';
-      } else if (this.newTurtle.health > 0){
-        this.newTurtle.health -= FOOT_ATTACK_DAMAGE; // dying blow
-        this.newTurtle.doing = 'die';
-        this.newTurtle.pos.bottom = 1;
-        clearInterval(this.footAttackInterval);
-        this.footAttackInterval = null;
-      } else {
-        return; // do nothing if turtle health already negative
-      }
+      this.turtleReceiveDamage();
     }
 
     if (JSON.stringify(turtle) !== JSON.stringify(this.newTurtle)) {
-      this.props.updateTurtle(this.newTurtle);
+      this.props.updateTurtle(this.newTurtle); // only update tutle Redux when turtle received damage
     }
+  }
+
+  footStand() {
+    let newFoot = merge({}, this.state);
+    newFoot.doing = 'stand';
+    this.setState(newFoot);
+    this.props.updateFoot(newFoot);
   }
 
   footAttack() {
@@ -122,10 +118,8 @@ class Foot extends React.Component {
       that.setState(newFoot);
       that.props.updateFoot(newFoot);
       playSound("strike", this.props.muted);
-      newFoot.doing = 'stand';
-      that.props.updateFoot(newFoot);
       setTimeout(()=>{
-        that.setState(newFoot);
+        that.footStand();
       }, 400);
     }, 800);
   }
@@ -179,10 +173,25 @@ class Foot extends React.Component {
       }, 500);
     } else { // else, let foot recover when turtle doesn't keep attacking
       this.footRecoverTimer = setTimeout(()=> {
-        newFoot.doing = 'stand';
-        this.setState(newFoot);
+        this.footStand();
         this.footRecoverTimer = null;
       }, 500);
+    }
+  }
+
+  turtleReceiveDamage() {
+    this.newTurtle = merge({}, this.props.turtle);
+    if (this.newTurtle.health > FOOT_ATTACK_DAMAGE) { // to stop reducing health after dying blow
+      this.newTurtle.health -= FOOT_ATTACK_DAMAGE;
+      this.newTurtle.doing = 'hurt';
+    } else if (this.newTurtle.health > 0){
+      this.newTurtle.health -= FOOT_ATTACK_DAMAGE; // dying blow
+      this.newTurtle.doing = 'die';
+      this.newTurtle.pos.bottom = 1;
+      clearInterval(this.footAttackInterval);
+      this.footAttackInterval = null;
+    } else {
+      return; // do nothing if turtle health already negative
     }
   }
 
