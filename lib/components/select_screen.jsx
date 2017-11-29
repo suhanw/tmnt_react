@@ -6,6 +6,7 @@ class SelectScreen extends React.Component {
     return (
       <div className="select-screen"
         style={this.renderStyles()}>
+        <span>SELECT YOUR TURTLE</span>
         <figure className="leo"></figure>
         <figure className="mikey"></figure>
         <figure className="don"></figure>

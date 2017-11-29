@@ -376,31 +376,58 @@ div.foot {
 }
 
 .select-screen {
-  /*width: 100%;*/
   display: flex;
   flex-direction: row;
-  border: 1px solid red;
   justify-content: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
-figure.leo {
-  background: url('../select_screen/leo.png');
+.select-screen > span {
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 100%;
+  height: 20%;
+  text-shadow: 1px 1px blue;
 }
 
-figure.mikey {
-  background: url('../select_screen/mikey.png');
+.select-screen figure.leo {
+  background-image: url('../select_screen/leo.png');
 }
 
-figure.don {
-  background: url('../select_screen/don.png');
+.select-screen figure.leo:hover {
+  background-image: url('../select_screen/leo-selected.png');
 }
 
-figure.raph {
-  background: url('../select_screen/raph.png');
+.select-screen figure.mikey {
+  background-image: url('../select_screen/mikey.png');
+}
+
+.select-screen figure.mikey:hover {
+  background-image: url('../select_screen/mikey-selected.png');
+}
+
+.select-screen figure.don {
+  background-image: url('../select_screen/don.png');
+}
+
+.select-screen figure.don:hover {
+  background-image: url('../select_screen/don-selected.png');
+}
+
+.select-screen figure.raph {
+  background-image: url('../select_screen/raph.png');
+}
+
+.select-screen figure.raph:hover {
+  background-image: url('../select_screen/raph-selected.png');
 }
 
 .select-screen figure {
-  border: 1px solid red;
+  border: 1px solid black;
+  height: 80%;
   flex-grow: 1;
   background-repeat: no-repeat;
   background-size: contain;
