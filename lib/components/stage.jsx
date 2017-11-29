@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Turtle from './turtle';
 import Foot from './foot';
 import {resetFoots, clearFoots} from '../actions/foots_actions';
-import {playSound} from '../util/soundPlayer';
+import {playSound, stopAll} from '../util/soundPlayer';
 
 // renders turtle
 // renders foots at random pos (redux)
@@ -47,7 +47,7 @@ class Stage extends React.Component {
   componentDidMount() {
     this.props.resetFoots();
     this.props.addSoundPlaying('stage1');
-    playSound('stage1');
+    playSound('stage1', this.props.muted);
   }
 
   renderFoots() {
@@ -66,6 +66,7 @@ class Stage extends React.Component {
 
   componentWillUnmount() {
     this.props.clearFoots();
+    stopAll();
   }
 }
 

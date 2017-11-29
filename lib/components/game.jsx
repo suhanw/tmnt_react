@@ -50,7 +50,6 @@ class Game extends React.Component {
   }
 
   render() {
-
     const {path} = this.props.match;
     if (path === '/select') {
       return (
@@ -80,7 +79,10 @@ class Game extends React.Component {
   }
 
   renderSelectScreen() {
-    return <SelectScreen history={this.props.history}/>;
+    return <SelectScreen
+      history={this.props.history}
+      addSoundPlaying={this.addSoundPlaying}
+      muted={this.state.muted} />;
   }
 
   renderMuteBar() {
@@ -100,6 +102,14 @@ class Game extends React.Component {
         </ul>
       </nav>
     );
+  }
+
+  renderMuteButton() {
+    if (this.state.muted) {
+      return <i className="fa fa-volume-off" aria-hidden="true"></i>;
+    } else {
+      return <i className="fa fa-volume-up" aria-hidden="true"></i>;
+    }
   }
 
   renderHealthBar() {
@@ -154,6 +164,7 @@ class Game extends React.Component {
         <Viewport>
           <Stage
             addSoundPlaying={this.addSoundPlaying}
+            muted={this.state.muted}
             gameOver={this.gameOver}
             muted={this.state.muted}
             turtleName={selectedTurtleName}/>
@@ -163,7 +174,6 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    const that = this;
     document.addEventListener("keydown", this.handleKeydown);
   }
 
@@ -226,14 +236,6 @@ class Game extends React.Component {
       playSound('mute');
       const muted = toggleMute(this.state.soundPlaying);
       this.setState({muted});
-    }
-  }
-
-  renderMuteButton() {
-    if (this.state.muted) {
-      return <i className="fa fa-volume-off" aria-hidden="true"></i>;
-    } else {
-      return <i className="fa fa-volume-up" aria-hidden="true"></i>;
     }
   }
 

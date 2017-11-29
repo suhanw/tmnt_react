@@ -81,7 +81,7 @@ class Turtle extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState){
     const {turtle} = nextProps;
-    //only re-render if there is value change in React/Redux state
+    //only re-render if there is value change in React state
     if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
       return true;
     }
@@ -189,6 +189,7 @@ class Turtle extends React.Component {
       newTurtle.pos.bottom = GROUND_X;
       newTurtle.doing = 'stand';
       this.setState(newTurtle);
+      this.props.updateTurtle(newTurtle);
       return;
     }
     this.setState(newTurtle);

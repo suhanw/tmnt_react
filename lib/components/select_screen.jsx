@@ -1,5 +1,6 @@
 import React from 'react';
 import {FRAME_WIDTH, FRAME_HEIGHT, TURTLES} from '../constants';
+import {playSound, stopAll} from '../util/soundPlayer';
 
 class SelectScreen extends React.Component {
   constructor(props) {
@@ -45,10 +46,13 @@ class SelectScreen extends React.Component {
 
   componentDidMount(){
     document.addEventListener('keydown', this.handleKeydown);
+    this.props.addSoundPlaying('select-screen');
+    playSound('select-screen', this.props.muted);
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handleKeydown);
+    stopAll();
   }
 
   handleKeydown(e) {
