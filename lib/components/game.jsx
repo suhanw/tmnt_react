@@ -61,9 +61,8 @@ class Game extends React.Component {
     }
 
     const selectedTurtleName = this.props.history.location.pathname.split('/')[2];
-
     if (TURTLES.indexOf(selectedTurtleName) === -1) {
-      this.props.history.push('/select'); //redirect user to select screen if they manipulate the path
+      this.props.history.replace('/select'); //redirect user to select screen if they manipulate the URL
     }
 
     return (
@@ -71,7 +70,7 @@ class Game extends React.Component {
         style={this.renderGameStyles()}>
 
         {this.renderMuteBar()}
-        {this.renderHealthBar()}
+        {this.renderHealthBar(selectedTurtleName)}
         {this.renderStage(selectedTurtleName)}
 
       </div>
@@ -112,12 +111,12 @@ class Game extends React.Component {
     }
   }
 
-  renderHealthBar() {
+  renderHealthBar(selectedTurtleName) {
     return (
       <nav className="turtle-health-bar">
         <div className="turtle-health">
           <span className="turtle-name">
-            <strong>MIKE</strong>
+            <strong>{selectedTurtleName.toUpperCase()}</strong>
             <small>{this.state.score}</small>
           </span>
           <div className="turtle-health-meter">
@@ -195,7 +194,7 @@ class Game extends React.Component {
       stopAll();
       const dieSound = playSound('turtle-die', this.state.muted);
       dieSound.onended = () => {
-        this.props.history.push("/lose");
+        this.props.history.replace("/lose");
       };
       return true;
     }
@@ -209,7 +208,7 @@ class Game extends React.Component {
         this.props.updateTurtle(newTurtle);
         const cowabungaSound = playSound('cowabunga', this.state.muted);
         cowabungaSound.onended = () => {
-          this.props.history.push('/win');
+          this.props.history.replace('/win');
         };
       }, 2500);
       return true;

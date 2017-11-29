@@ -391,12 +391,16 @@ div.foot {
   justify-content: center;
   align-items: center;
   flex-basis: 100%;
-  height: 20%;
+  height: 10%;
   text-shadow: 1px 1px blue;
 }
 
+.select-screen > span {
+  margin-top: 20px;
+}
+
 .select-screen > small {
-  font-size: 8px;
+  font-size: 6px;
 }
 
 .select-screen figure.leo {

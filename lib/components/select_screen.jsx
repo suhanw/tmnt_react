@@ -20,11 +20,11 @@ class SelectScreen extends React.Component {
     return (
       <div className="select-screen"
         style={this.renderStyles()}>
-        <span>SELECT YOUR TURTLE</span>
         <figure className={this.renderTurtleStyles('leo', this.state.selected)}>Leonardo</figure>
         <figure className={this.renderTurtleStyles('mikey', this.state.selected)}>Michaelangelo</figure>
         <figure className={this.renderTurtleStyles('don', this.state.selected)}>Coming Soon</figure>
         <figure className={this.renderTurtleStyles('raph', this.state.selected)}>Coming Soon</figure>
+        <span>SELECT YOUR TURTLE</span>
         <small>'LEFT' or 'RIGHT' to browse, 'SPACEBAR' to select</small>
       </div>
     );
