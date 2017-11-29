@@ -196,7 +196,6 @@ class Game extends React.Component {
       const dieSound = playSound('turtle-die', this.state.muted);
       dieSound.onended = () => {
         this.props.history.push("/lose");
-        this.props.updateTurtle({});
       };
       return true;
     }
@@ -211,7 +210,6 @@ class Game extends React.Component {
         const cowabungaSound = playSound('cowabunga', this.state.muted);
         cowabungaSound.onended = () => {
           this.props.history.push('/win');
-          this.props.updateTurtle({});
         };
       }, 2500);
       return true;
@@ -260,8 +258,8 @@ class Game extends React.Component {
     clearTimeout(this.timeout);
     this.timeout = null;
     stopAll();
+    this.props.updateTurtle({});
   }
-
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

@@ -403,7 +403,7 @@ div.foot {
   background-image: url('../select_screen/leo.png');
 }
 
-.select-screen figure.leo.selected {
+.select-screen figure.leo.hovered {
   background-image: url('../select_screen/leo-selected.png');
   color: white;
 }
@@ -412,7 +412,7 @@ div.foot {
   background-image: url('../select_screen/mikey.png');
 }
 
-.select-screen figure.mikey.selected {
+.select-screen figure.mikey.hovered {
   background-image: url('../select_screen/mikey-selected.png');
   color: white;
 }
@@ -422,7 +422,7 @@ div.foot {
   color: white;
 }
 
-.select-screen figure.don.selected {
+.select-screen figure.don.hovered {
   background-image: url('../select_screen/don-selected.png');
   color: white;
 }
@@ -432,7 +432,7 @@ div.foot {
   color: white;
 }
 
-.select-screen figure.raph.selected {
+.select-screen figure.raph.hovered {
   background-image: url('../select_screen/raph-selected.png');
   color: white;
 }

@@ -7,7 +7,8 @@ class SelectScreen extends React.Component {
     super(props);
 
     this.state = {
-      selected: 0,
+      hovered: 0,
+      selected: null,
     };
 
     this.renderStyles = this.renderStyles.bind(this);
@@ -16,16 +17,14 @@ class SelectScreen extends React.Component {
   }
 
   render() {
-    const {selected} = this.state;
-    const selectedTurtle = TURTLES[selected];
     return (
       <div className="select-screen"
         style={this.renderStyles()}>
         <span>SELECT YOUR TURTLE</span>
-        <figure className={this.renderTurtleStyles('leo')}>Leonardo</figure>
-        <figure className={this.renderTurtleStyles('mikey')}>Michaelangelo</figure>
-        <figure className={this.renderTurtleStyles('don')}>Coming Soon</figure>
-        <figure className={this.renderTurtleStyles('raph')}>Coming Soon</figure>
+        <figure className={this.renderTurtleStyles('leo', this.state.selected)}>Leonardo</figure>
+        <figure className={this.renderTurtleStyles('mikey', this.state.selected)}>Michaelangelo</figure>
+        <figure className={this.renderTurtleStyles('don', this.state.selected)}>Coming Soon</figure>
+        <figure className={this.renderTurtleStyles('raph', this.state.selected)}>Coming Soon</figure>
         <small>'LEFT' or 'RIGHT' to browse, 'SPACEBAR' to select</small>
       </div>
     );
@@ -38,10 +37,17 @@ class SelectScreen extends React.Component {
     };
   }
 
-  renderTurtleStyles(turtleName) {
-    const {selected} = this.state;
+  renderTurtleStyles(turtleName, selected) {
+    const {hovered} = this.state;
+    const hoveredTurtle = TURTLES[hovered];
     const selectedTurtle = TURTLES[selected];
-    return (turtleName === selectedTurtle) ? `${turtleName} selected` : turtleName;
+    if (turtleName === hoveredTurtle && turtleName === selectedTurtle) {
+      return `${turtleName} hovered fast`;
+    } else if (turtleName === hoveredTurtle) {
+      return `${turtleName} hovered`;
+    } else {
+      return turtleName;
+    }
   }
 
   componentDidMount(){
@@ -56,24 +62,28 @@ class SelectScreen extends React.Component {
   }
 
   handleKeydown(e) {
-    const currSelected = this.state.selected;
-    let newSelected;
+    const currHovered = this.state.hovered;
+    let newHovered;
     switch (e.code) {
       case "ArrowLeft":
-        newSelected = currSelected - 1;
-        // if (newSelected < 0) newSelected = TURTLES.length - 1;
-        if (newSelected < 0) newSelected = 1;
-        this.setState({selected: newSelected});
+        newHovered = currHovered - 1;
+        // if (newHovered < 0) newHovered = TURTLES.length - 1;
+        if (newHovered < 0) newHovered = 1;
+        this.setState({hovered: newHovered});
         playSound('select-menu', this.props.muted);
         break;
       case "ArrowRight":
-        // newSelected = (currSelected + 1) % TURTLES.length;
-        newSelected = (currSelected + 1) % 2;
-        this.setState({selected: newSelected});
+        // newHovered = (currHovered + 1) % TURTLES.length;
+        newHovered = (currHovered + 1) % 2;
+        this.setState({hovered: newHovered});
         playSound('select-menu', this.props.muted);
         break;
       case "Space":
-        this.props.history.replace(`/game/${TURTLES[currSelected]}`);
+        const selectedSound = playSound('start', this.props.muted);
+        this.setState({selected: currHovered});
+        selectedSound.onended = () => {
+          this.props.history.replace(`/game/${TURTLES[currHovered]}`);
+        };
       default:
         break;
     }
