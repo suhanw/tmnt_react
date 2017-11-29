@@ -81,6 +81,7 @@ class SelectScreen extends React.Component {
       case "Space":
         const selectedSound = playSound('selected-menu', this.props.muted);
         this.setState({selected: currHovered});
+        document.removeEventListener('keydown', this.handleKeydown);
         selectedSound.onended = () => {
           this.props.history.replace(`/game/${TURTLES[currHovered]}`);
         };
