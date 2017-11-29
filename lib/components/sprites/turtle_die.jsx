@@ -11,9 +11,9 @@ class TurtleDie extends React.Component {
       this.height = 79;
       this.frameCount = 7;
     } else if (turtleName === 'leo') {
-      this.width = 85;
-      this.height = 65;
-      this.frameCount = 11;
+      this.width = 130;
+      this.height = 90;
+      this.frameCount = 7;
     }
   }
 
