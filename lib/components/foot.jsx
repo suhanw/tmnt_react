@@ -35,7 +35,7 @@ class Foot extends React.Component {
     const {foot} = this.props;
     this.state = foot;
 
-    this.timeout = null;
+    this.footRecoverTimer = null;
     this.footWalkingInterval = null;
     this.footAttackInterval = null;
     this.newTurtle = null;
@@ -144,9 +144,9 @@ class Foot extends React.Component {
 
   footReceiveDamage(foot) {
     let newFoot;
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-      this.timeout = null;
+    if (this.footRecoverTimer) {
+      clearTimeout(this.footRecoverTimer);
+      this.footRecoverTimer = null;
     }
     if (this.footAttackInterval) {
       clearTimeout(this.footAttackInterval);
@@ -178,10 +178,10 @@ class Foot extends React.Component {
         footDyingTimeout = null;
       }, 500);
     } else { // else, let foot recover when turtle doesn't keep attacking
-      this.timeout = setTimeout(()=> {
+      this.footRecoverTimer = setTimeout(()=> {
         newFoot.doing = 'stand';
         this.setState(newFoot);
-        this.timeout = null;
+        this.footRecoverTimer = null;
       }, 500);
     }
   }
@@ -221,10 +221,10 @@ class Foot extends React.Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeout);
+    clearTimeout(this.footRecoverTimer);
     clearInterval(this.footWalkingInterval);
     clearInterval(this.footAttackInterval);
-    this.timeout = null;
+    this.footRecoverTimer = null;
     this.footWalkingInterval = null;
     this.footAttackInterval = null;
   }
