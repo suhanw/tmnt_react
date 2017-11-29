@@ -129,7 +129,7 @@ class Game extends React.Component {
             </span>
           </div>
           <div className="turtle-icon">
-            <TurtleIcon selectedTurtleName={selectedTurtleName} />
+            <TurtleIcon turtleName={selectedTurtleName} />
           </div>
         </div>
 
