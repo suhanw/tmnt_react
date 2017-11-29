@@ -64,11 +64,13 @@ class SelectScreen extends React.Component {
         // if (newSelected < 0) newSelected = TURTLES.length - 1;
         if (newSelected < 0) newSelected = 1;
         this.setState({selected: newSelected});
+        playSound('select-menu', this.props.muted);
         break;
       case "ArrowRight":
         // newSelected = (currSelected + 1) % TURTLES.length;
         newSelected = (currSelected + 1) % 2;
         this.setState({selected: newSelected});
+        playSound('select-menu', this.props.muted);
         break;
       case "Space":
         this.props.history.push(`/game/${TURTLES[currSelected]}`);
