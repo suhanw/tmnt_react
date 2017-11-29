@@ -12,6 +12,7 @@ class SelectScreen extends React.Component {
     };
 
     this.renderStyles = this.renderStyles.bind(this);
+    this.renderTurtleStyles = this.renderTurtleStyles.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
   }
 
@@ -22,10 +23,10 @@ class SelectScreen extends React.Component {
       <div className="select-screen"
         style={this.renderStyles()}>
         <span>SELECT YOUR TURTLE</span>
-        <figure className={selectedTurtle === 'leo' ? 'leo selected' : 'leo'}>Leonardo</figure>
-        <figure className={selectedTurtle === 'mikey' ? 'mikey selected' : 'mikey'}>Michaelangelo</figure>
-        <figure className={selectedTurtle === 'don' ? 'don selected' : 'don'}>Coming Soon</figure>
-        <figure className={selectedTurtle === 'raph' ? 'raph selected' : 'raph'}>Coming Soon</figure>
+        <figure className={this.renderTurtleStyles('leo')}>Leonardo</figure>
+        <figure className={this.renderTurtleStyles('mikey')}>Michaelangelo</figure>
+        <figure className={this.renderTurtleStyles('don')}>Coming Soon</figure>
+        <figure className={this.renderTurtleStyles('raph')}>Coming Soon</figure>
         <small>'LEFT' or 'RIGHT' to browse, 'SPACEBAR' to select</small>
       </div>
     );
@@ -36,6 +37,12 @@ class SelectScreen extends React.Component {
       width: FRAME_WIDTH,
       height: FRAME_HEIGHT,
     };
+  }
+
+  renderTurtleStyles(turtleName) {
+    const {selected} = this.state;
+    const selectedTurtle = TURTLES[selected];
+    return (turtleName === selectedTurtle) ? `${turtleName} selected` : turtleName;
   }
 
   componentDidMount(){
