@@ -126,8 +126,6 @@ class Turtle extends React.Component {
   handleKeydown(e) {
     if (this.props.gameOver) { //disable controls when game over
       let newTurtle = merge({}, this.state);
-      newTurtle.doing = 'stand';
-      this.props.updateTurtle(newTurtle);
       this.disableControls();
       return;
     }

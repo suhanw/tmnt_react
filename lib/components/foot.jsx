@@ -150,6 +150,7 @@ class Foot extends React.Component {
       } else {
         this.newTurtle.health -= FOOT_ATTACK_DAMAGE; // dying blow
         this.newTurtle.doing = 'die';
+        this.newTurtle.pos.bottom = 0;
         clearInterval(this.footAttackInterval);
         this.footAttackInterval = null;
       }
