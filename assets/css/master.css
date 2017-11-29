@@ -224,7 +224,6 @@ body {
 }
 
 .player-icon > span {
-  color: orange;
   display: flex;
   align-items: center;
   position: absolute;
@@ -234,6 +233,14 @@ body {
   left: 5px;
   text-shadow: 1px 1px blue;
   font-size: 20px;
+}
+
+.player-icon.mikey > span {
+  color: orange;
+}
+
+.player-icon.leo > span {
+  color: #3d8aff;
 }
 
 .player-icon > span > small {

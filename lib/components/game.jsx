@@ -122,16 +122,17 @@ class Game extends React.Component {
           <div className="turtle-health-meter">
             <strong>{this.renderHealthMeter()}</strong>
           </div>
-          <div className="player-icon">
+          <div className={`player-icon ${selectedTurtleName}`}>
             <span>
               <strong>1</strong>
               <small>up</small>
             </span>
           </div>
           <div className="turtle-icon">
-            <TurtleIcon />
+            <TurtleIcon selectedTurtleName={selectedTurtleName} />
           </div>
         </div>
+
         <div className="turtle-health">
           <span className="turtle-name suhan">
             <strong>SUHAN</strong>
