@@ -15,13 +15,15 @@ body {
 
 .game,
 .splash,
-.reset {
+.reset,
+.select-screen {
   margin: auto;
 }
 
 .splash,
 .game,
-.reset {
+.reset,
+.select-screen {
   -webkit-animation: fadein 1.5s; /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: fadein 1.5s; /* Firefox < 16 */
   -ms-animation: fadein 1.5s; /* Internet Explorer */
@@ -371,4 +373,36 @@ div.foot {
 
 .cowabunga {
   width: 200px;
+}
+
+.select-screen {
+  /*width: 100%;*/
+  display: flex;
+  flex-direction: row;
+  border: 1px solid red;
+  justify-content: center;
+}
+
+figure.leo {
+  background: url('../select_screen/leo.png');
+}
+
+figure.mikey {
+  background: url('../select_screen/mikey.png');
+}
+
+figure.don {
+  background: url('../select_screen/don.png');
+}
+
+figure.raph {
+  background: url('../select_screen/raph.png');
+}
+
+.select-screen figure {
+  border: 1px solid red;
+  flex-grow: 1;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }

@@ -111,7 +111,7 @@ class Game extends React.Component {
               addSoundPlaying={this.addSoundPlaying}
               gameOver={this.gameOver}
               muted={this.state.muted}
-              turtleName='mikey'/>
+              turtleName='leo'/>
           </Viewport>
         </div>
       </div>
