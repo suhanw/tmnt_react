@@ -383,7 +383,8 @@ div.foot {
   box-sizing: border-box;
 }
 
-.select-screen > span {
+.select-screen > span,
+.select-screen > small {
   font-size: 12px;
   display: flex;
   justify-content: center;
@@ -393,43 +394,56 @@ div.foot {
   text-shadow: 1px 1px blue;
 }
 
+.select-screen > small {
+  font-size: 8px;
+}
+
 .select-screen figure.leo {
   background-image: url('../select_screen/leo.png');
 }
 
-.select-screen figure.leo:hover {
+.select-screen figure.leo.selected {
   background-image: url('../select_screen/leo-selected.png');
+  color: white;
 }
 
 .select-screen figure.mikey {
   background-image: url('../select_screen/mikey.png');
 }
 
-.select-screen figure.mikey:hover {
+.select-screen figure.mikey.selected {
   background-image: url('../select_screen/mikey-selected.png');
+  color: white;
 }
 
 .select-screen figure.don {
   background-image: url('../select_screen/don.png');
 }
 
-.select-screen figure.don:hover {
+.select-screen figure.don.selected {
   background-image: url('../select_screen/don-selected.png');
+  color: white;
 }
 
 .select-screen figure.raph {
   background-image: url('../select_screen/raph.png');
 }
 
-.select-screen figure.raph:hover {
+.select-screen figure.raph.selected {
   background-image: url('../select_screen/raph-selected.png');
+  color: white;
 }
 
 .select-screen figure {
-  border: 1px solid black;
+  border: 1px solid black ;
   height: 80%;
-  flex-grow: 1;
+  flex-basis: 25%;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  color: black;
+  font-size: 8px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
