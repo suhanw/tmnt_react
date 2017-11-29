@@ -1,5 +1,6 @@
 import React from 'react';
 import {FRAME_WIDTH, FRAME_HEIGHT} from '../constants';
+
 const TURTLES = ['leo', 'mikey', 'don', 'raph'];
 
 class SelectScreen extends React.Component {
@@ -25,7 +26,7 @@ class SelectScreen extends React.Component {
         <figure className={selectedTurtle === 'mikey' ? 'mikey selected' : 'mikey'}>Michaelangelo</figure>
         <figure className={selectedTurtle === 'don' ? 'don selected' : 'don'}>Donnatello</figure>
         <figure className={selectedTurtle === 'raph' ? 'raph selected' : 'raph'}>Raphael</figure>
-        <small>LEFT OR RIGHT ARROW TO SELECT</small>
+        <small>'LEFT' or 'RIGHT' to browse, 'SPACEBAR' to select</small>
       </div>
     );
   }
@@ -46,18 +47,20 @@ class SelectScreen extends React.Component {
   }
 
   handleKeydown(e) {
-    const oldSelected = this.state.selected;
+    const currSelected = this.state.selected;
     let newSelected;
     switch (e.code) {
       case "ArrowLeft":
-        newSelected = oldSelected - 1;
+        newSelected = currSelected - 1;
         if (newSelected < 0) newSelected = TURTLES.length - 1;
         this.setState({selected: newSelected});
         break;
       case "ArrowRight":
-        newSelected = (oldSelected + 1) % TURTLES.length;
+        newSelected = (currSelected + 1) % TURTLES.length;
         this.setState({selected: newSelected});
         break;
+      case "Space":
+        this.props.history.push(`/game/${TURTLES[currSelected]}`);
       default:
         break;
     }

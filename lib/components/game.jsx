@@ -8,6 +8,8 @@ import {FRAME_WIDTH, FRAME_HEIGHT, GROUND_X} from '../constants';
 import {playSound, toggleMute, stopAll} from '../util/soundPlayer';
 import {updateTurtle} from '../actions/turtle_actions';
 
+const TURTLES = ['leo', 'mikey', 'don', 'raph'];
+
 const mapStateToProps = ({turtle, foots: {footsIdArr}}, ownProps) => {
   return {
     health: turtle.health,
@@ -46,6 +48,12 @@ class Game extends React.Component {
   }
 
   render() {
+    const selectedTurtleName = this.props.history.location.pathname.split('/')[2];
+
+    if (TURTLES.indexOf(selectedTurtleName) === -1) {
+      this.props.history.push('/select'); //redirect user to select screen if they manipulate the path
+    }
+
     return (
       <div className="game"
         style={this.renderGameStyles()}>
@@ -111,7 +119,7 @@ class Game extends React.Component {
               addSoundPlaying={this.addSoundPlaying}
               gameOver={this.gameOver}
               muted={this.state.muted}
-              turtleName='leo'/>
+              turtleName={selectedTurtleName}/>
           </Viewport>
         </div>
       </div>
