@@ -293,9 +293,6 @@ div.foot {
   overflow: visible;
   text-align: center;
   vertical-align: bottom;
-  /*to delete*/
-  font-size: 10px;
-  color: white;
 }
 
 .turtle > div {
