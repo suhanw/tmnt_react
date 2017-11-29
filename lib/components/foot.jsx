@@ -63,7 +63,7 @@ class Foot extends React.Component {
     let newFoot;
     this.newTurtle = merge({}, turtle);
 
-    if (hasHorizontalCollision(turtle, foot) && this.state.health > 0) { // turtle cannot move without killing enemy
+    if (hasHorizontalCollision(turtle, foot) && this.state.health > 0) { // stop turtle when collides with foot
       this.newTurtle.hasCollided = true;
       if (this.footWalkingInterval) { // if foot was walking,
         clearInterval(this.footWalkingInterval); //stop when it collides with turtle
@@ -74,13 +74,13 @@ class Foot extends React.Component {
       if (!this.footAttackInterval) { // if foot was not already attacking
         this.footAttack(); //set foot to attack when it collides with turtle
       }
-    } else if ((foot.pos.left - (turtle.pos.left + 65) <= 100) && this.state.health > 0) { //detect turtle approaching
+    } else if ((foot.pos.left - (turtle.pos.left + 65) <= 100) && this.state.health > 0) { // before collision but turtle is approaching
       if (!this.footWalkingInterval) { // if foot was not already walking
         this.footWalk(); // set foot to walk
       }
     }
 
-    // CONDITION 0: do nothing if both attack at the same time
+    // CONDITION 0: do nothing when both attack at the same time
     if (turtle.doing.includes('attack') && foot.doing === 'attack') {
       return;
     }
