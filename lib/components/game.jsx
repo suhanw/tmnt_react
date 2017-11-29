@@ -4,11 +4,9 @@ import merge from 'lodash/merge';
 import Viewport from './viewport';
 import Stage from './stage';
 import TurtleIcon from './sprites/turtle_icon';
-import {FRAME_WIDTH, FRAME_HEIGHT, GROUND_X} from '../constants';
+import {FRAME_WIDTH, FRAME_HEIGHT, GROUND_X, TURTLES} from '../constants';
 import {playSound, toggleMute, stopAll} from '../util/soundPlayer';
 import {updateTurtle} from '../actions/turtle_actions';
-
-const TURTLES = ['leo', 'mikey', 'don', 'raph'];
 
 const mapStateToProps = ({turtle, foots: {footsIdArr}}, ownProps) => {
   return {
@@ -40,6 +38,8 @@ class Game extends React.Component {
     this.gameOver = false;
     this.timeout = null;
 
+    this.renderSelectScreen = this.renderSelectScreen.bind(this);
+    this.renderHealthBar = this.renderHealthBar.bind(this);
     this.addSoundPlaying = this.addSoundPlaying.bind(this);
     this.renderMuteButton = this.renderMuteButton.bind(this);
     this.renderHealthMeter = this.renderHealthMeter.bind(this);
@@ -48,6 +48,10 @@ class Game extends React.Component {
   }
 
   render() {
+    if (this.props.match.path === '/select') {
+      return this.renderSelectScreen();
+    }
+
     const selectedTurtleName = this.props.history.location.pathname.split('/')[2];
 
     if (TURTLES.indexOf(selectedTurtleName) === -1) {
@@ -71,57 +75,78 @@ class Game extends React.Component {
             <li><a href="mailto:suhanw@gmail.com" className="email"><i className="fa fa-envelope" aria-hidden="true"></i></a></li>
           </ul>
         </nav>
-        <nav className="turtle-health-bar">
-          <div className="turtle-health">
-            <span className="turtle-name">
-              <strong>MIKE</strong>
-              <small>{this.state.score}</small>
-            </span>
-            <div className="turtle-health-meter">
-              <strong>{this.renderHealthMeter()}</strong>
-            </div>
-            <div className="player-icon">
-              <span>
-                <strong>1</strong>
-                <small>up</small>
-              </span>
-            </div>
-            <div className="turtle-icon">
-              <TurtleIcon />
-            </div>
-          </div>
-          <div className="turtle-health">
-            <span className="turtle-name suhan">
-              <strong>SUHAN</strong>
-              <small>9001!</small>
-            </span>
-            <div className="turtle-health-meter suhan">
-              <small className={ this.state.pressStart ? "fast" : "slow" }>
-                P2 COMING SOON
-              </small>
-            </div>
-            <div className="player-icon suhan">
-              <span>
-                <strong>2</strong>
-                <small>up</small>
-              </span>
-            </div>
-            <div className="suhan-icon">
-            </div>
-          </div>
-        </nav>
 
-        <div
-          className="gameframe"
-          style={this.renderFrameStyles()}>
-          <Viewport>
-            <Stage
-              addSoundPlaying={this.addSoundPlaying}
-              gameOver={this.gameOver}
-              muted={this.state.muted}
-              turtleName={selectedTurtleName}/>
-          </Viewport>
+        {this.renderHealthBar()}
+        {this.renderStage(selectedTurtleName)}
+
+      </div>
+    );
+  }
+
+  renderSelectScreen() {
+    return (
+      <div>
+        Select screen
+      </div>
+    );
+  }
+
+  renderHealthBar() {
+    return (
+      <nav className="turtle-health-bar">
+        <div className="turtle-health">
+          <span className="turtle-name">
+            <strong>MIKE</strong>
+            <small>{this.state.score}</small>
+          </span>
+          <div className="turtle-health-meter">
+            <strong>{this.renderHealthMeter()}</strong>
+          </div>
+          <div className="player-icon">
+            <span>
+              <strong>1</strong>
+              <small>up</small>
+            </span>
+          </div>
+          <div className="turtle-icon">
+            <TurtleIcon />
+          </div>
         </div>
+        <div className="turtle-health">
+          <span className="turtle-name suhan">
+            <strong>SUHAN</strong>
+            <small>9001!</small>
+          </span>
+          <div className="turtle-health-meter suhan">
+            <small className={ this.state.pressStart ? "fast" : "slow" }>
+              P2 COMING SOON
+            </small>
+          </div>
+          <div className="player-icon suhan">
+            <span>
+              <strong>2</strong>
+              <small>up</small>
+            </span>
+          </div>
+          <div className="suhan-icon">
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
+  renderStage(selectedTurtleName) {
+    return (
+      <div
+        className="gameframe"
+        style={this.renderFrameStyles()}>
+        <Viewport>
+          <Stage
+            addSoundPlaying={this.addSoundPlaying}
+            gameOver={this.gameOver}
+            muted={this.state.muted}
+            turtleName={selectedTurtleName}/>
+        </Viewport>
       </div>
     );
   }
@@ -130,7 +155,6 @@ class Game extends React.Component {
     const that = this;
     document.addEventListener("keydown", this.handleKeydown);
   }
-
 
   componentWillReceiveProps(newProps) {
     const {footsIdArr, turtle} = newProps;

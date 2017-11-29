@@ -7,8 +7,8 @@ import Reset from './reset';
 
 const App = ({store}) => (
   <Switch>
+    <Route path="/select" component={Game} />
     <Route path="/game" component={Game} />
-    <Route path="/select" component={SelectScreen} />
     <Route path="/win" component={Reset} />
     <Route path="/lose" component={Reset} />
     <Route path="/" component={Splash} />

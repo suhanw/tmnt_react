@@ -1,7 +1,5 @@
 import React from 'react';
-import {FRAME_WIDTH, FRAME_HEIGHT} from '../constants';
-
-const TURTLES = ['leo', 'mikey', 'don', 'raph'];
+import {FRAME_WIDTH, FRAME_HEIGHT, TURTLES} from '../constants';
 
 class SelectScreen extends React.Component {
   constructor(props) {
