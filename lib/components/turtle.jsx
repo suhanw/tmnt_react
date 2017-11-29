@@ -95,6 +95,7 @@ class Turtle extends React.Component {
   }
 
   renderSprite() {
+    const {turtleName} = this.props;
     const {doing} = this.state;
     const TurtleSprite = {
       'stand': TurtleStand,
@@ -108,7 +109,7 @@ class Turtle extends React.Component {
       'cowabunga': TurtleCowabunga
     };
     const Sprite = TurtleSprite[doing];
-    return (<Sprite />);
+    return (<Sprite turtleName={turtleName}/>);
   }
 
   enableControls() {

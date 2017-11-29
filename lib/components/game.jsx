@@ -107,7 +107,11 @@ class Game extends React.Component {
           className="gameframe"
           style={this.renderFrameStyles()}>
           <Viewport>
-            <Stage addSoundPlaying={this.addSoundPlaying} gameOver={this.gameOver} muted={this.state.muted}/>
+            <Stage
+              addSoundPlaying={this.addSoundPlaying}
+              gameOver={this.gameOver}
+              muted={this.state.muted}
+              turtleName='mikey'/>
           </Viewport>
         </div>
       </div>

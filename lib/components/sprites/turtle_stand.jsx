@@ -4,11 +4,12 @@ import SpriteAnimator from 'react-sprite-animator';
 class TurtleStand extends React.Component {
 
   render() {
+    const {turtleName} = this.props;
     return (
       <SpriteAnimator
         width={65}
         height={65}
-        sprite='./assets/spritesheets/mikey-standing.png'
+        sprite={`./assets/spritesheets/${turtleName}-standing.png`}
         direction="horizontal"
         shouldAnimate={true}
         fps={8}
