@@ -11,12 +11,6 @@ const mapStateToProps = ({turtle}, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    // placeholder
-  };
-};
-
 class Viewport extends React.Component {
   constructor(props) {
     super(props);
@@ -24,8 +18,6 @@ class Viewport extends React.Component {
     this.state = {
       left: null,
     };
-
-    // this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   render() {
@@ -47,10 +39,6 @@ class Viewport extends React.Component {
     this.setState({left: newLeft});
   }
 
-  // componentDidMount(){
-  //   document.addEventListener('keydown', this.handleKeyPress);
-  // }
-
   renderStyles() {
     const {bottom, left} = this.state;
     return {
@@ -59,16 +47,6 @@ class Viewport extends React.Component {
       position: "absolute",
     };
   }
-
-  // handleKeyPress(e) {
-  //   let left;
-  //   if (e.key === 'ArrowRight') {
-  //     left = this.state.left - 20;
-  //   } else if (e.key === 'ArrowLeft') {
-  //     left = this.state.left + 20;
-  //   }
-  //   this.setState({left: left});
-  // }
 
 }
 
