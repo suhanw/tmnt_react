@@ -24,8 +24,8 @@ class SelectScreen extends React.Component {
         <span>SELECT YOUR TURTLE</span>
         <figure className={selectedTurtle === 'leo' ? 'leo selected' : 'leo'}>Leonardo</figure>
         <figure className={selectedTurtle === 'mikey' ? 'mikey selected' : 'mikey'}>Michaelangelo</figure>
-        <figure className={selectedTurtle === 'don' ? 'don selected' : 'don'}>Donnatello</figure>
-        <figure className={selectedTurtle === 'raph' ? 'raph selected' : 'raph'}>Raphael</figure>
+        <figure className={selectedTurtle === 'don' ? 'don selected' : 'don'}>Coming Soon</figure>
+        <figure className={selectedTurtle === 'raph' ? 'raph selected' : 'raph'}>Coming Soon</figure>
         <small>'LEFT' or 'RIGHT' to browse, 'SPACEBAR' to select</small>
       </div>
     );
@@ -52,11 +52,13 @@ class SelectScreen extends React.Component {
     switch (e.code) {
       case "ArrowLeft":
         newSelected = currSelected - 1;
-        if (newSelected < 0) newSelected = TURTLES.length - 1;
+        // if (newSelected < 0) newSelected = TURTLES.length - 1;
+        if (newSelected < 0) newSelected = 1;
         this.setState({selected: newSelected});
         break;
       case "ArrowRight":
-        newSelected = (currSelected + 1) % TURTLES.length;
+        // newSelected = (currSelected + 1) % TURTLES.length;
+        newSelected = (currSelected + 1) % 2;
         this.setState({selected: newSelected});
         break;
       case "Space":

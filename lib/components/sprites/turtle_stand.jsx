@@ -30,7 +30,7 @@ class TurtleStand extends React.Component {
         startFrame={0}
         stopLastFrame={false}
         frameCount={this.frameCount}
-        wrapAfter={11} />
+        wrapAfter={this.frameCount} />
     );
   }
 }

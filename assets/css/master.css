@@ -418,6 +418,7 @@ div.foot {
 
 .select-screen figure.don {
   background-image: url('../select_screen/don.png');
+  color: white;
 }
 
 .select-screen figure.don.selected {
@@ -427,6 +428,7 @@ div.foot {
 
 .select-screen figure.raph {
   background-image: url('../select_screen/raph.png');
+  color: white;
 }
 
 .select-screen figure.raph.selected {

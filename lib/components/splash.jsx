@@ -45,7 +45,7 @@ class Splash extends React.Component {
       playSound('start');
       this.setState({pressStart: true});
       this.timer = setTimeout(()=>{
-        this.props.history.push("/game");
+        this.props.history.push("/select");
       }, 1200);
     }
   }
