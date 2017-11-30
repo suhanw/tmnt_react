@@ -123,6 +123,7 @@ body {
   color: white;
   padding: 10px 0;
   text-shadow: 1px 1px blue;
+
 }
 
 .toggle-mute {
@@ -141,6 +142,7 @@ body {
 .toggle-mute > i,
 .toggle-mute > span {
   margin-left: 10px;
+  
 }
 
 .turtle-health-bar {
@@ -312,6 +314,7 @@ div.turtle {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  padding-bottom: 4px;
 }
 
 .reset {
