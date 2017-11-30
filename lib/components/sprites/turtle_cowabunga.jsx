@@ -18,6 +18,10 @@ class TurtleCowabunga extends React.Component {
       this.width = 105;
       this.height = 150;
       this.frameCount = 13;
+    } else if (turtleName === 'raph') {
+      this.width = 105;
+      this.height = 150;
+      this.frameCount = 13;
     }
   }
 

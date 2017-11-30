@@ -18,6 +18,10 @@ class TurtleAttack3 extends React.Component {
       this.width = 147;
       this.height = 74;
       this.frameCount = 4;
+    } else if (turtleName === 'raph') {
+      this.width = 107;
+      this.height = 65;
+      this.frameCount = 6;
     }
   }
 

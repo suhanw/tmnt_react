@@ -18,6 +18,10 @@ class TurtleWalk extends React.Component {
       this.width = 59;
       this.height = 66;
       this.frameCount = 4;
+    } else if (turtleName === 'raph') {
+      this.width = 42;
+      this.height = 64;
+      this.frameCount = 4;
     }
   }
 

@@ -18,6 +18,10 @@ class TurtleStand extends React.Component {
       this.width = 75;
       this.height = 66;
       this.frameCount = 12;
+    } else if (turtleName === 'raph') {
+      this.width = 68;
+      this.height = 61;
+      this.frameCount = 11;
     }
   }
 

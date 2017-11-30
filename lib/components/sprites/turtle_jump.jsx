@@ -18,6 +18,10 @@ class TurtleJump extends React.Component {
       this.width = 36;
       this.height = 45;
       this.frameCount = 4;
+    } else if (turtleName === 'raph') {
+      this.width = 42;
+      this.height = 43;
+      this.frameCount = 4;
     }
   }
 
