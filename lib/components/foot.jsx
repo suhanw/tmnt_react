@@ -75,6 +75,10 @@ class Foot extends React.Component {
       if (!this.footAttackInterval) { // if foot was not already attacking
         this.footAttack(); //set foot to attack when it collides with turtle
       }
+      if (turtle.health <= 0) {
+        clearInterval(this.footAttackInterval);
+        this.footAttackInterval = null;
+      }
     } else if ((foot.pos.left - (turtle.pos.left + 65) <= 100) && this.state.health > 0) { // before collision but turtle is approaching
       if (!this.footWalkingInterval) { // if foot was not already walking
         this.footWalk(); // set foot to walk
@@ -177,6 +181,7 @@ class Foot extends React.Component {
     } else { // else, let foot recover when turtle doesn't keep attacking
       this.footRecoverTimer = setTimeout(()=> {
         this.footStand();
+        clearTimeout(this.footRecoverTimer);
         this.footRecoverTimer = null;
       }, 500);
     }
@@ -191,8 +196,6 @@ class Foot extends React.Component {
       this.newTurtle.health -= FOOT_ATTACK_DAMAGE; // dying blow
       this.newTurtle.doing = 'die';
       this.newTurtle.pos.bottom = 1;
-      clearInterval(this.footAttackInterval);
-      this.footAttackInterval = null;
     } else {
       return; // do nothing if turtle health already negative
     }
