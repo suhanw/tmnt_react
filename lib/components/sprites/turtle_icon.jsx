@@ -14,6 +14,10 @@ class TurtleIcon extends React.Component {
       this.width = 23;
       this.height = 19;
       this.frameCount = 7;
+    } else if (turtleName === 'don') {
+      this.width = 23;
+      this.height = 19;
+      this.frameCount = 7;
     }
   }
 
