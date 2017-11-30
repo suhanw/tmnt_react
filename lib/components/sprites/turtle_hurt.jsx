@@ -14,6 +14,10 @@ class TurtleHurt extends React.Component {
       this.width = 70;
       this.height = 70;
       this.frameCount = 2;
+    } else if (turtleName === 'don') {
+      this.width = 52;
+      this.height = 64;
+      this.frameCount = 2;
     }
   }
 

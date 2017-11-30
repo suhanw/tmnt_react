@@ -22,8 +22,8 @@ class SelectScreen extends React.Component {
         style={this.renderStyles()}>
         <figure className={this.renderTurtleStyles('leo', this.state.selected)}>Leonardo</figure>
         <figure className={this.renderTurtleStyles('mikey', this.state.selected)}>Michaelangelo</figure>
-        <figure className={this.renderTurtleStyles('don', this.state.selected)}>Coming Soon</figure>
-        <figure className={this.renderTurtleStyles('raph', this.state.selected)}>Coming Soon</figure>
+        <figure className={this.renderTurtleStyles('don', this.state.selected)}>Donatello</figure>
+        <figure className={this.renderTurtleStyles('raph', this.state.selected)}>Raphael</figure>
         <span>SELECT YOUR TURTLE</span>
         <small>'LEFT' or 'RIGHT' to browse, 'SPACEBAR' to select</small>
       </div>
@@ -67,14 +67,14 @@ class SelectScreen extends React.Component {
     switch (e.code) {
       case "ArrowLeft":
         newHovered = currHovered - 1;
-        // if (newHovered < 0) newHovered = TURTLES.length - 1;
-        if (newHovered < 0) newHovered = 1;
+        if (newHovered < 0) newHovered = TURTLES.length - 1;
+        // if (newHovered < 0) newHovered = 1;
         this.setState({hovered: newHovered});
         playSound('select-menu', this.props.muted);
         break;
       case "ArrowRight":
-        // newHovered = (currHovered + 1) % TURTLES.length;
-        newHovered = (currHovered + 1) % 2;
+        newHovered = (currHovered + 1) % TURTLES.length;
+        // newHovered = (currHovered + 1) % 2;
         this.setState({hovered: newHovered});
         playSound('select-menu', this.props.muted);
         break;
