@@ -60,6 +60,7 @@ class Foot extends React.Component {
   }
 
   componentWillReceiveProps({turtle, foot}) {
+    let oldFoot = this.props.foot;
     let newFoot;
     this.newTurtle = merge({}, turtle);
 
@@ -94,7 +95,9 @@ class Foot extends React.Component {
     }
     // CONDITION 3: when foot attacks in turtle hitbox
     else if (foot.doing === 'attack' && hasHorizontalCollision(turtle, foot)) {
-      this.turtleReceiveDamage();
+      if (oldFoot.doing !== 'attack') { // to avoid turtle damage beyond the point of foot attack
+        this.turtleReceiveDamage();
+      }
     }
 
     if (JSON.stringify(turtle) !== JSON.stringify(this.newTurtle)) {
