@@ -77,7 +77,7 @@ class Reset extends React.Component {
 
   handleKeydown(e) {
     if (e.code === 'KeyS') {
-      this.props.history.push('/game');
+      this.props.history.replace('/select');
     }
   }
 

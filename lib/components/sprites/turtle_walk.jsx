@@ -2,20 +2,35 @@ import React from 'react';
 import SpriteAnimator from 'react-sprite-animator';
 
 class TurtleWalk extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const {turtleName} = this.props;
+    if (turtleName === 'mikey') {
+      this.width = 45;
+      this.height = 65;
+      this.frameCount = 4;
+    } else if (turtleName === 'leo') {
+      this.width = 50;
+      this.height = 65;
+      this.frameCount = 4;
+    }
+  }
 
   render() {
+    const {turtleName} = this.props;
     return (
       <SpriteAnimator
-        width={45}
-        height={65}
-        sprite='./assets/spritesheets/mikey-walking.png'
+        width={this.width}
+        height={this.height}
+        sprite={`./assets/spritesheets/${turtleName}-walking.png`}
         direction="horizontal"
         shouldAnimate={true}
         fps={5}
         startFrame={0}
         stopLastFrame={false}
-        frameCount={4}
-        wrapAfter={4}
+        frameCount={this.frameCount}
+        wrapAfter={this.frameCount}
         />
     );
   }

@@ -81,7 +81,7 @@ class Turtle extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState){
     const {turtle} = nextProps;
-    //only re-render if there is value change in React/Redux state
+    //only re-render if there is value change in React state
     if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
       return true;
     }
@@ -95,6 +95,7 @@ class Turtle extends React.Component {
   }
 
   renderSprite() {
+    const {turtleName} = this.props;
     const {doing} = this.state;
     const TurtleSprite = {
       'stand': TurtleStand,
@@ -108,7 +109,7 @@ class Turtle extends React.Component {
       'cowabunga': TurtleCowabunga
     };
     const Sprite = TurtleSprite[doing];
-    return (<Sprite />);
+    return (<Sprite turtleName={turtleName}/>);
   }
 
   enableControls() {
@@ -125,8 +126,6 @@ class Turtle extends React.Component {
   handleKeydown(e) {
     if (this.props.gameOver) { //disable controls when game over
       let newTurtle = merge({}, this.state);
-      newTurtle.doing = 'stand';
-      this.props.updateTurtle(newTurtle);
       this.disableControls();
       return;
     }
@@ -188,6 +187,7 @@ class Turtle extends React.Component {
       newTurtle.pos.bottom = GROUND_X;
       newTurtle.doing = 'stand';
       this.setState(newTurtle);
+      this.props.updateTurtle(newTurtle);
       return;
     }
     this.setState(newTurtle);

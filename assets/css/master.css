@@ -15,13 +15,16 @@ body {
 
 .game,
 .splash,
-.reset {
+.reset,
+.select-screen {
   margin: auto;
 }
 
 .splash,
 .game,
-.reset {
+.reset,
+.stage,
+.select-screen {
   -webkit-animation: fadein 1.5s; /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: fadein 1.5s; /* Firefox < 16 */
   -ms-animation: fadein 1.5s; /* Internet Explorer */
@@ -221,7 +224,6 @@ body {
 }
 
 .player-icon > span {
-  color: orange;
   display: flex;
   align-items: center;
   position: absolute;
@@ -231,6 +233,14 @@ body {
   left: 5px;
   text-shadow: 1px 1px blue;
   font-size: 20px;
+}
+
+.player-icon.mikey > span {
+  color: orange;
+}
+
+.player-icon.leo > span {
+  color: #3d8aff;
 }
 
 .player-icon > span > small {
@@ -283,9 +293,6 @@ div.foot {
   overflow: visible;
   text-align: center;
   vertical-align: bottom;
-  /*to delete*/
-  font-size: 10px;
-  color: white;
 }
 
 .turtle > div {
@@ -371,4 +378,83 @@ div.foot {
 
 .cowabunga {
   width: 200px;
+}
+
+.select-screen {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.select-screen > span,
+.select-screen > small {
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 100%;
+  height: 10%;
+  text-shadow: 1px 1px blue;
+}
+
+.select-screen > span {
+  margin-top: 20px;
+}
+
+.select-screen > small {
+  font-size: 6px;
+}
+
+.select-screen figure.leo {
+  background-image: url('../select_screen/leo.png');
+}
+
+.select-screen figure.leo.hovered {
+  background-image: url('../select_screen/leo-selected.png');
+  color: white;
+}
+
+.select-screen figure.mikey {
+  background-image: url('../select_screen/mikey.png');
+}
+
+.select-screen figure.mikey.hovered {
+  background-image: url('../select_screen/mikey-selected.png');
+  color: white;
+}
+
+.select-screen figure.don {
+  background-image: url('../select_screen/don.png');
+  color: white;
+}
+
+.select-screen figure.don.hovered {
+  background-image: url('../select_screen/don-selected.png');
+  color: white;
+}
+
+.select-screen figure.raph {
+  background-image: url('../select_screen/raph.png');
+  color: white;
+}
+
+.select-screen figure.raph.hovered {
+  background-image: url('../select_screen/raph-selected.png');
+  color: white;
+}
+
+.select-screen figure {
+  border: 1px solid black ;
+  height: 80%;
+  flex-basis: 25%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  color: black;
+  font-size: 8px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
