@@ -8,7 +8,7 @@ class FootHurt extends React.Component {
       <SpriteAnimator
         width={37}
         height={48}
-        sprite='./assets/spritesheets/foot-hurt.png'
+        sprite='./assets/spritesheets/foot/foot-hurt.png'
         direction="horizontal"
         shouldAnimate={true}
         fps={5}

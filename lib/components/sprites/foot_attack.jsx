@@ -8,7 +8,7 @@ class FootAttack extends React.Component {
       <SpriteAnimator
         width={54}
         height={56}
-        sprite='./assets/spritesheets/foot-attack.png'
+        sprite='./assets/spritesheets/foot/foot-attack.png'
         direction="horizontal"
         shouldAnimate={true}
         fps={10}

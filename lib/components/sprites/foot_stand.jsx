@@ -8,7 +8,7 @@ class FootStand extends React.Component {
       <SpriteAnimator
         width={46}
         height={56}
-        sprite='./assets/spritesheets/foot-stand.png'
+        sprite='./assets/spritesheets/foot/foot-stand.png'
         direction="horizontal"
         shouldAnimate={true}
         fps={5}

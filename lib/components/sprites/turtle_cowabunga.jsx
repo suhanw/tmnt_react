@@ -31,7 +31,7 @@ class TurtleCowabunga extends React.Component {
       <SpriteAnimator
         width={this.width}
         height={this.height}
-        sprite={`./assets/spritesheets/${turtleName}-cowabunga.png`}
+        sprite={`./assets/spritesheets/${turtleName}/${turtleName}-cowabunga.png`}
         direction="horizontal"
         shouldAnimate={true}
         fps={10}

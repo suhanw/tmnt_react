@@ -31,7 +31,7 @@ class TurtleStand extends React.Component {
       <SpriteAnimator
         width={this.width}
         height={this.height}
-        sprite={`./assets/spritesheets/${turtleName}-standing.png`}
+        sprite={`./assets/spritesheets/${turtleName}/${turtleName}-standing.png`}
         direction="horizontal"
         shouldAnimate={true}
         fps={8}

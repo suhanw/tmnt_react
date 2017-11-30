@@ -31,7 +31,7 @@ class TurtleIcon extends React.Component {
       <SpriteAnimator
         width={this.width}
         height={this.height}
-        sprite={`./assets/spritesheets/${turtleName}-icon.png`}
+        sprite={`./assets/spritesheets/${turtleName}/${turtleName}-icon.png`}
         direction="horizontal"
         shouldAnimate={true}
         fps={5}

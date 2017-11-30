@@ -8,7 +8,7 @@ class FootDie extends React.Component {
       <SpriteAnimator
         width={150}
         height={60}
-        sprite='./assets/spritesheets/foot-die.png'
+        sprite='./assets/spritesheets/foot/foot-die.png'
         direction="horizontal"
         shouldAnimate={true}
         fps={15}

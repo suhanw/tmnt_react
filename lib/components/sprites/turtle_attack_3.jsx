@@ -31,7 +31,7 @@ class TurtleAttack3 extends React.Component {
       <SpriteAnimator
         width={this.width}
         height={this.height}
-        sprite={`./assets/spritesheets/${turtleName}-attack-3.png`}
+        sprite={`./assets/spritesheets/${turtleName}/${turtleName}-attack-3.png`}
         direction="horizontal"
         shouldAnimate={true}
         fps={45}

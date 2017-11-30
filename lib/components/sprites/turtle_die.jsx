@@ -31,7 +31,7 @@ class TurtleDie extends React.Component {
       <SpriteAnimator
         width={this.width}
         height={this.height}
-        sprite={`./assets/spritesheets/${turtleName}-die.png`}
+        sprite={`./assets/spritesheets/${turtleName}/${turtleName}-die.png`}
         direction="horizontal"
         shouldAnimate={true}
         fps={5}

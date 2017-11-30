@@ -8,7 +8,7 @@ class FootWalk extends React.Component {
       <SpriteAnimator
         width={32}
         height={64}
-        sprite='./assets/spritesheets/foot-walk.png'
+        sprite='./assets/spritesheets/foot/foot-walk.png'
         direction="horizontal"
         shouldAnimate={true}
         fps={5}

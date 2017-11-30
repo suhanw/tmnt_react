@@ -31,7 +31,7 @@ class TurtleWalk extends React.Component {
       <SpriteAnimator
         width={this.width}
         height={this.height}
-        sprite={`./assets/spritesheets/${turtleName}-walking.png`}
+        sprite={`./assets/spritesheets/${turtleName}/${turtleName}-walking.png`}
         direction="horizontal"
         shouldAnimate={true}
         fps={5}

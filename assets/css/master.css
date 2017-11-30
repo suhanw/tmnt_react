@@ -295,6 +295,14 @@ div.foot {
   vertical-align: bottom;
 }
 
+div.foot {
+  z-index: 5;
+}
+
+div.turtle {
+  z-index: 10;
+}
+
 .turtle > div {
   display: inline-block;
 }
