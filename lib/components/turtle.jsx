@@ -39,8 +39,8 @@ class Turtle extends React.Component {
     };
 
     this.keyState = {};
-    this.keypressTimer = 0;
-    this.keyupTimer = 0;
+    this.attackTimer = 0;
+    this.walkTimer = 0;
     this.jumpTimer = 0;
     this.hurtTimer = 0;
     this.combo = [];
@@ -50,7 +50,7 @@ class Turtle extends React.Component {
     this.handleKeydown = this.handleKeydown.bind(this);
     this.handleKeyup = this.handleKeyup.bind(this);
     this.enableControls = this.enableControls.bind(this);
-    this.continueKeypress = this.continueKeypress.bind(this);
+    this.walk = this.walk.bind(this);
     this.setComboAttackSprite = this.setComboAttackSprite.bind(this);
     this.jump = this.jump.bind(this);
     this.disableControls = this.disableControls.bind(this);
@@ -76,11 +76,17 @@ class Turtle extends React.Component {
 
   componentWillReceiveProps({turtle}){
     if (JSON.stringify(turtle) !== JSON.stringify(this.state)) {
-    //   const that = this;
-    //   if (turtle.doing === 'hurt') this.hurtTimer = setTimeout(()=>{
-    //     clearTimeout(that.hurtTimer);
-    //     that.hurtTimer = 0;
-    //   }, 50);
+      const that = this;
+      if (turtle.doing === 'hurt') {
+        this.hurtTimer = setTimeout(()=>{
+          clearTimeout(that.hurtTimer);
+          that.hurtTimer = 0;
+        }, 300);
+        clearTimeout(this.walkTimer);
+        this.walkTimer = 0;
+        clearTimeout(this.jumpTimer);
+        this.jumpTimer = 0;
+      }
       this.setState(turtle); // set React state only when Redux state updated
     }
   }
@@ -138,25 +144,34 @@ class Turtle extends React.Component {
     let newState;
     switch (e.code) {
       case "ArrowRight":
+        if (this.hurtTimer) return;
         this.keyState[e.code] = true;
-        if (this.keypressTimer === 0) { // start keydown loop only when it hasn't been started previously
-          this.continueKeypress();
-        }
+        if (this.walkTimer === 0) this.walk(); // start keydown loop only when it hasn't been started previously
         break;
       case "ArrowUp":
-        if (this.isKeypressed(e)) return; // prevent multiple jumps when key is pressed
+        if (this.isKeypressed(e)) return; // prevent multiple jumps when key is already pressed
         if (this.jumpTimer) return; // prevent double jumping if jumping is already in progress
-        if (this.state.doing === 'hurt') return; // prevent jumping if turtle hurt
+        if (this.hurtTimer) return; // prevent jumping if turtle hurt
         playSound('jump', this.props.muted);
         this.jump(INIT_JUMP_VEL, true);
         break;
       case "Space":
-        if (this.keypressTimer) { // to stop walking if ArrowRight is pressed
-          clearTimeout(this.keypressTimer);
-          this.keypressTimer = 0;
+        if (this.walkTimer) { // to stop walking if ArrowRight is pressed
+          clearTimeout(this.walkTimer);
+          this.walkTimer = 0;
+        }
+        if (!this.attackTimer) {
+          const that = this;
+          this.attackTimer = setTimeout(()=>{ // give time for attack sprite animation to complete
+            newState = merge({}, that.state, {doing: 'stand'});
+            that.props.updateTurtle(newState);
+            clearTimeout(that.attackTimer);
+            that.attackTimer = 0;
+          }, 200);
+        } else {
+          return; // allow previous attack sprite animation to complete before new attack
         }
         if (this.isKeypressed(e)) return; // prevent multiple attacks when key is pressed
-        if (this.keyupTimer) return; // allow previous attack sprite animation to complete before new attack
         if (this.state.doing === 'jump') return; // prevent turtle attack when jumping
         this.combo.push(e.timeStamp); // track combo attacks
         let comboLength = this.combo.length;
@@ -203,7 +218,7 @@ class Turtle extends React.Component {
     }, 30);
   }
 
-  continueKeypress() {
+  walk() {
     if (this.state.hasCollided || this.props.gameOver) {
       this.keyState["ArrowRight"] = false;
       let newTurtle = merge({}, this.state);
@@ -220,7 +235,7 @@ class Turtle extends React.Component {
       this.props.updateTurtle(newTurtle);
     }
     // invoke this func in a loop to detect 'ArrowRight' being pressed
-    this.keypressTimer = setTimeout(this.continueKeypress, 20);
+    this.walkTimer = setTimeout(this.walk, 20);
   }
 
   setComboAttackSprite() {
@@ -249,27 +264,21 @@ class Turtle extends React.Component {
       return;
     }
 
+    if (this.hurtTimer) return; // prevent if turtle hurt
+    if (this.state.doing === 'jump') return; // prevent when jumping
+
     let newDoing = 'stand';
     let newState = merge({}, this.state, {doing: newDoing});
     switch (e.code) {
       case "ArrowRight":
         this.keyState[e.code] = false;
-        if (this.keypressTimer) { // to break the continueKeypress loop when key is released
-          clearTimeout(this.keypressTimer);
-          this.keypressTimer = 0;
+        if (this.walkTimer) { // to break the walk loop when key is released
+          clearTimeout(this.walkTimer);
+          this.walkTimer = 0;
         }
         this.props.updateTurtle(newState);
         break;
       case "Space":
-        if (this.state.doing === 'jump') return; // prevent turtle attack when jumping
-        const that = this;
-        if (!this.keyupTimer) {
-          this.keyupTimer = setTimeout(()=>{ // give time for attack sprite animation to complete
-            that.props.updateTurtle(newState);
-            clearTimeout(that.keyupTimer);
-            that.keyupTimer = 0;
-          }, 100);
-        }
         break;
       default:
         break;
@@ -277,9 +286,9 @@ class Turtle extends React.Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.keypressTimer);
+    clearTimeout(this.walkTimer);
     clearTimeout(this.jumpTimer);
-    this.keypressTimer = 0;
+    this.walkTimer = 0;
     this.jumpTimer = 0;
     this.keyState = {};
     document.removeEventListener("keydown", this.handleKeydown);
