@@ -42,6 +42,7 @@ class Turtle extends React.Component {
     this.keypressTimer = 0;
     this.keyupTimer = 0;
     this.jumpTimer = 0;
+    this.hurtTimer = 0;
     this.combo = [];
 
     this.renderStyles = this.renderStyles.bind(this);
@@ -75,18 +76,23 @@ class Turtle extends React.Component {
 
   componentWillReceiveProps({turtle}){
     if (JSON.stringify(turtle) !== JSON.stringify(this.state)) {
+    //   const that = this;
+    //   if (turtle.doing === 'hurt') this.hurtTimer = setTimeout(()=>{
+    //     clearTimeout(that.hurtTimer);
+    //     that.hurtTimer = 0;
+    //   }, 50);
       this.setState(turtle); // set React state only when Redux state updated
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState){
-    const {turtle} = nextProps;
-    //only re-render if there is value change in React state
-    if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
-      return true;
-    }
-    return false;
-  }
+  // shouldComponentUpdate(nextProps, nextState){
+  //   // const {turtle} = nextProps;
+  //   //only re-render if there is value change in React state
+  //   if (JSON.stringify(nextState) !== JSON.stringify(this.state)) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   renderStyles() {
     const {pos, size} = this.state;
@@ -124,8 +130,7 @@ class Turtle extends React.Component {
 
 
   handleKeydown(e) {
-    if (this.props.gameOver) { //disable controls when game over
-      let newTurtle = merge({}, this.state);
+    if (this.props.gameOver) { //disable controls
       this.disableControls();
       return;
     }
@@ -150,7 +155,9 @@ class Turtle extends React.Component {
           this.keypressTimer = 0;
         }
         if (this.isKeypressed(e)) return; // prevent multiple attacks when key is pressed
-        // if (this.keyupTimer) return; // allow previous attack sprite animation to complete before new attack
+        if (this.keyupTimer) {
+          return; // allow previous attack sprite animation to complete before new attack
+        }
         if (this.state.doing === 'jump') return; // prevent turtle attack when jumping
         this.combo.push(e.timeStamp); // track combo attacks
         let comboLength = this.combo.length;

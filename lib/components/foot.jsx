@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import merge from 'lodash/merge';
 import {receiveFoot, updateFoot, deleteFoot} from '../actions/foots_actions';
 import {updateTurtle} from '../actions/turtle_actions';
-import {hasHorizontalCollision, inflictDamage} from '../util/collision_util';
+import {hasHorizontalCollision, hasVerticalCollision} from '../util/collision_util';
 import FootStand from './sprites/foot_stand';
 import FootWalk from './sprites/foot_walk';
 import FootAttack from './sprites/foot_attack';
@@ -98,7 +98,7 @@ class Foot extends React.Component {
       this.footReduceHealth();
     }
     // CONDITION 3: when foot attacks in turtle hitbox
-    else if (foot.doing === 'attack' && hasHorizontalCollision(turtle, foot)) {
+    else if (foot.doing === 'attack' && hasHorizontalCollision(turtle, foot) && hasVerticalCollision(turtle, foot)) {
       if (oldFoot.doing !== 'attack') { // to avoid turtle damage beyond the point of foot attack
         this.turtleReceiveDamage();
       }
