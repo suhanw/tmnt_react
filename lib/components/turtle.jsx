@@ -278,7 +278,6 @@ class Turtle extends React.Component {
       return;
     }
     if (this.damageTimer) return; // delay resetting to stand if turtle hurt
-    if (this.state.doing === 'jump') return; // prevent when jumping
 
     let newDoing = 'stand';
     let newState = merge({}, this.state, {doing: newDoing});
@@ -290,6 +289,9 @@ class Turtle extends React.Component {
           this.walkTimer = 0;
         }
         this.props.updateTurtle(newState);
+        break;
+      case "Space":
+        if (this.state.doing === 'jump') return; // prevent when jumping
         break;
       default:
         break;
