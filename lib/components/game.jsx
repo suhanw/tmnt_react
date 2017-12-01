@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import merge from 'lodash/merge';
+import {preloadImage} from '../util/preload_image_util';
 import SelectScreen from './select_screen';
 import Viewport from './viewport';
 import Stage from './stage';
@@ -47,6 +48,15 @@ class Game extends React.Component {
     this.renderHealthMeter = this.renderHealthMeter.bind(this);
     this.checkGameOver = this.checkGameOver.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
+
+    preloadImage('assets/select_screen/don.png');
+    preloadImage('assets/select_screen/don-selected.png');
+    preloadImage('assets/select_screen/leo.png');
+    preloadImage('assets/select_screen/leo-selected.png');
+    preloadImage('assets/select_screen/mikey.png');
+    preloadImage('assets/select_screen/mikey-selected.png');
+    preloadImage('assets/select_screen/raph.png');
+    preloadImage('assets/select_screen/raph-selected.png');
   }
 
   render() {
