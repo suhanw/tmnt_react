@@ -189,15 +189,18 @@ class Turtle extends React.Component {
       this.jumpTimer = null;
       newTurtle.pos.bottom = GROUND_X;
       newTurtle.doing = 'stand';
-      // this.setState(newTurtle);
       this.props.updateTurtle(newTurtle);
+      return;
+    }
+    if (newTurtle.doing === 'hurt') {
+      clearTimeout(this.jumpTimer);
+      this.jumpTimer = null;
       return;
     }
     let currJumpVel = jumpVel;
     newTurtle.pos.bottom += jumpVel; // new_location = speed + old_location
     newTurtle.doing = 'jump';
     this.props.updateTurtle(newTurtle);
-    // this.setState(newTurtle);
     jumpVel = GRAVITY + jumpVel; // new_speed = acceleration + old_speed
     this.jumpTimer = setTimeout(()=>{
       this.jump(jumpVel, false);

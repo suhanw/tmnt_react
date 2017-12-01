@@ -9,7 +9,7 @@ import FootWalk from './sprites/foot_walk';
 import FootAttack from './sprites/foot_attack';
 import FootHurt from './sprites/foot_hurt';
 import FootDie from './sprites/foot_die';
-import {TURTLE_ATTACK_DAMAGE, FOOT_ATTACK_DAMAGE, WALKING_SPEED} from '../constants';
+import {TURTLE_ATTACK_DAMAGE, FOOT_ATTACK_DAMAGE, WALKING_SPEED, GROUND_X} from '../constants';
 import {playSound} from '../util/soundPlayer';
 
 const mapStateToProps = (state, ownProps) => {
@@ -192,6 +192,7 @@ class Foot extends React.Component {
     if (this.newTurtle.health > FOOT_ATTACK_DAMAGE) { // to stop reducing health after dying blow
       this.newTurtle.health -= FOOT_ATTACK_DAMAGE;
       this.newTurtle.doing = 'hurt';
+      this.newTurtle.pos.bottom = GROUND_X;
     } else if (this.newTurtle.health > 0){
       this.newTurtle.health -= FOOT_ATTACK_DAMAGE; // dying blow
       this.newTurtle.doing = 'die';
