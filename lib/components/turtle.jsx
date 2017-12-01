@@ -150,7 +150,7 @@ class Turtle extends React.Component {
           this.keypressTimer = 0;
         }
         if (this.isKeypressed(e)) return; // prevent multiple attacks when key is pressed
-        if (this.keyupTimer) return; // allow previous attack sprite animation to complete before new attack
+        // if (this.keyupTimer) return; // allow previous attack sprite animation to complete before new attack
         if (this.state.doing === 'jump') return; // prevent turtle attack when jumping
         this.combo.push(e.timeStamp); // track combo attacks
         let comboLength = this.combo.length;
@@ -237,9 +237,9 @@ class Turtle extends React.Component {
 
   handleKeyup(e) {
     if (this.props.gameOver) {  //disable controls when game over
-      let newTurtle = merge({}, this.state);
-      newTurtle.doing = 'stand';
-      this.props.updateTurtle(newTurtle);
+      // let newTurtle = merge({}, this.state);
+      // newTurtle.doing = 'stand';
+      // this.props.updateTurtle(newTurtle);
       this.disableControls();
       return;
     }
@@ -263,7 +263,7 @@ class Turtle extends React.Component {
             that.props.updateTurtle(newState);
             clearTimeout(that.keyupTimer);
             that.keyupTimer = 0;
-          }, 150);
+          }, 100);
         }
         break;
       default:
