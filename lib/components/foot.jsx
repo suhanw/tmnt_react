@@ -223,7 +223,21 @@ class Foot extends React.Component {
     return pos;
   }
 
+  preloadSpritesheets() {
+    let attack = new Image();
+    attack.src = `assets/spritesheets/foot/foot-attack.png`;
+    let die = new Image();
+    die.src = `assets/spritesheets/foot/foot-die.png`;
+    let hurt = new Image();
+    hurt.src = `assets/spritesheets/foot/foot-hurt.png`;
+    let stand = new Image();
+    stand.src = `assets/spritesheets/foot/foot-stand.png`;
+    let walk = new Image();
+    walk.src = `assets/spritesheets/foot/foot-walk.png`;
+  }
+
   renderSprite() {
+    this.preloadSpritesheets();
     const {doing} = this.state;
     const FootSprite = {
       'stand': FootStand,
