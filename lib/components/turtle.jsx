@@ -146,6 +146,7 @@ class Turtle extends React.Component {
       case "ArrowUp":
         if (this.isKeypressed(e)) return; // prevent multiple jumps when key is pressed
         if (this.jumpTimer) return; // prevent double jumping if jumping is already in progress
+        if (this.state.doing === 'hurt') return; // prevent jumping if turtle hurt
         playSound('jump', this.props.muted);
         this.jump(INIT_JUMP_VEL, true);
         break;
@@ -190,11 +191,6 @@ class Turtle extends React.Component {
       newTurtle.pos.bottom = GROUND_X;
       newTurtle.doing = 'stand';
       this.props.updateTurtle(newTurtle);
-      return;
-    }
-    if (newTurtle.doing === 'hurt') {
-      clearTimeout(this.jumpTimer);
-      this.jumpTimer = null;
       return;
     }
     let currJumpVel = jumpVel;
