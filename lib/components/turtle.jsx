@@ -49,15 +49,15 @@ class Turtle extends React.Component {
     this.renderSprite = this.renderSprite.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
     this.handleKeyup = this.handleKeyup.bind(this);
-    this.enableControls = this.enableControls.bind(this);
     this.walk = this.walk.bind(this);
-    this.setComboAttackSprite = this.setComboAttackSprite.bind(this);
     this.jump = this.jump.bind(this);
+    this.setComboAttackSprite = this.setComboAttackSprite.bind(this);
+    this.enableControls = this.enableControls.bind(this);
     this.disableControls = this.disableControls.bind(this);
   }
 
   render() {
-    if (!this.state.pos) { //render nothing when Redux state not yet updated
+    if (!this.state.pos) { //render nothing when Redux state not yet initialized
       return null;
     }
 
@@ -127,7 +127,7 @@ class Turtle extends React.Component {
 
 
   handleKeydown(e) {
-    if (this.props.gameOver) { //disable controls
+    if (this.props.gameOver) { //disable controls when game over
       this.disableControls();
       return;
     }
@@ -135,14 +135,14 @@ class Turtle extends React.Component {
     let newState;
     switch (e.code) {
       case "ArrowRight":
-        if (this.damageTimer) return;
+        if (this.damageTimer) return; // delay if turtle hurt
         this.keyState[e.code] = true;
-        if (this.walkTimer === 0) this.walk(); // start keydown loop only when it hasn't been started previously
+        if (this.walkTimer === 0) this.walk(); // start walking loop only when it hasn't been started previously
         break;
       case "ArrowUp":
         if (this.isKeypressed(e)) return; // prevent multiple jumps when key is already pressed
         if (this.jumpTimer) return; // prevent double jumping if jumping is already in progress
-        if (this.damageTimer) return; // prevent jumping if turtle hurt
+        if (this.damageTimer) return; // delay if turtle hurt
         playSound('jump', this.props.muted);
         this.jump(INIT_JUMP_VEL, true);
         break;
@@ -192,7 +192,7 @@ class Turtle extends React.Component {
     let newTurtle = merge({}, this.state);
     if (newTurtle.pos.bottom <= GROUND_X && !initJump) { // base case: end of jump
       clearTimeout(this.jumpTimer);
-      this.jumpTimer = null;
+      this.jumpTimer = 0;
       newTurtle.pos.bottom = GROUND_X;
       newTurtle.doing = 'stand';
       this.props.updateTurtle(newTurtle);
@@ -250,8 +250,7 @@ class Turtle extends React.Component {
       this.disableControls();
       return;
     }
-
-    if (this.damageTimer) return; // prevent if turtle hurt
+    if (this.damageTimer) return; // delay resetting to stand if turtle hurt
     if (this.state.doing === 'jump') return; // prevent when jumping
 
     let newDoing = 'stand';
@@ -264,8 +263,6 @@ class Turtle extends React.Component {
           this.walkTimer = 0;
         }
         this.props.updateTurtle(newState);
-        break;
-      case "Space":
         break;
       default:
         break;
