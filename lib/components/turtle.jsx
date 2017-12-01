@@ -155,9 +155,7 @@ class Turtle extends React.Component {
           this.keypressTimer = 0;
         }
         if (this.isKeypressed(e)) return; // prevent multiple attacks when key is pressed
-        if (this.keyupTimer) {
-          return; // allow previous attack sprite animation to complete before new attack
-        }
+        if (this.keyupTimer) return; // allow previous attack sprite animation to complete before new attack
         if (this.state.doing === 'jump') return; // prevent turtle attack when jumping
         this.combo.push(e.timeStamp); // track combo attacks
         let comboLength = this.combo.length;
@@ -186,19 +184,20 @@ class Turtle extends React.Component {
 
   jump(jumpVel, initJump) {
     let newTurtle = merge({}, this.state);
-    let currJumpVel = jumpVel;
-    newTurtle.pos.bottom += jumpVel; // new_location = speed + old_location
-    newTurtle.doing = 'jump';
-    if (newTurtle.pos.bottom <= GROUND_X && !initJump) {
+    if (newTurtle.pos.bottom <= GROUND_X && !initJump) { // base case: end of jump
       clearTimeout(this.jumpTimer);
       this.jumpTimer = null;
       newTurtle.pos.bottom = GROUND_X;
       newTurtle.doing = 'stand';
-      this.setState(newTurtle);
+      // this.setState(newTurtle);
       this.props.updateTurtle(newTurtle);
       return;
     }
-    this.setState(newTurtle);
+    let currJumpVel = jumpVel;
+    newTurtle.pos.bottom += jumpVel; // new_location = speed + old_location
+    newTurtle.doing = 'jump';
+    this.props.updateTurtle(newTurtle);
+    // this.setState(newTurtle);
     jumpVel = GRAVITY + jumpVel; // new_speed = acceleration + old_speed
     this.jumpTimer = setTimeout(()=>{
       this.jump(jumpVel, false);
