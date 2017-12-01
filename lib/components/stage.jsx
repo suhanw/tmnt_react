@@ -4,6 +4,7 @@ import Turtle from './turtle';
 import Foot from './foot';
 import {resetFoots, clearFoots} from '../actions/foots_actions';
 import {playSound, stopAll} from '../util/soundPlayer';
+import {preloadImage} from '../util/preload_image_util';
 
 // renders turtle
 // renders foots at random pos (redux)
@@ -27,6 +28,7 @@ class Stage extends React.Component {
 
     this.renderFoots = this.renderFoots.bind(this);
 
+    preloadImage('assets/stage/sewer.png');
   }
 
   render() {

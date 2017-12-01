@@ -1,6 +1,7 @@
 import React from 'react';
 import {FRAME_WIDTH, FRAME_HEIGHT, TURTLES} from '../constants';
 import {playSound, stopAll} from '../util/soundPlayer';
+import {preloadImage} from '../util/preload_image_util';
 
 class SelectScreen extends React.Component {
   constructor(props) {
@@ -10,6 +11,15 @@ class SelectScreen extends React.Component {
       hovered: 0,
       selected: null,
     };
+
+    preloadImage('assets/select_screen/don.png');
+    preloadImage('assets/select_screen/don-selected.png');
+    preloadImage('assets/select_screen/leo.png');
+    preloadImage('assets/select_screen/leo-selected.png');
+    preloadImage('assets/select_screen/mikey.png');
+    preloadImage('assets/select_screen/mikey-selected.png');
+    preloadImage('assets/select_screen/raph.png');
+    preloadImage('assets/select_screen/raph-selected.png');
 
     this.renderStyles = this.renderStyles.bind(this);
     this.renderTurtleStyles = this.renderTurtleStyles.bind(this);
