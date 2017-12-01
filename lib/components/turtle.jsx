@@ -97,8 +97,35 @@ class Turtle extends React.Component {
     return style;
   }
 
+  preloadSpritesheets(turtleName) {
+    let walk = new Image();
+    walk.src = `assets/spritesheets/${turtleName}/${turtleName}-walking.png`;
+
+    let attack1 = new Image();
+    attack1.src = `assets/spritesheets/${turtleName}/${turtleName}-attack.png`;
+
+    let attack2 = new Image();
+    attack2.src = `assets/spritesheets/${turtleName}/${turtleName}-attack-2.png`;
+
+    let attack3 = new Image();
+    attack3.src = `assets/spritesheets/${turtleName}/${turtleName}-attack-3.png`;
+
+    let jump = new Image();
+    jump.src = `assets/spritesheets/${turtleName}/${turtleName}-jump.png`;
+
+    let hurt = new Image();
+    hurt.src = `assets/spritesheets/${turtleName}/${turtleName}-hurt.png`;
+
+    let cowabunga = new Image();
+    cowabunga.src = `assets/spritesheets/${turtleName}/${turtleName}-cowabunga.png`;
+
+    let die = new Image();
+    die.src = `assets/spritesheets/${turtleName}/${turtleName}-die.png`;
+  }
+
   renderSprite() {
     const {turtleName} = this.props;
+    this.preloadSpritesheets(turtleName);
     const {doing} = this.state;
     const TurtleSprite = {
       'stand': TurtleStand,
