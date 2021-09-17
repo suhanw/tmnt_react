@@ -106,7 +106,7 @@ class Game extends React.Component {
         <ul className="icons">
           <li><a href="https://www.linkedin.com/in/suhanwijaya" target="_blank" className="linkedin"><i className="fa fa-linkedin" aria-hidden="true"></i></a></li>
           <li><a href="https://www.github.com/suhanw" target="_blank" className="github"><i className="fa fa-github" aria-hidden="true"></i></a></li>
-          <li><a href="https://stackoverflow.com/story/suhanw" target="_blank" className="angellist"><i className="fa fa-stack-overflow" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.suhanwijaya.com" target="_blank" className="blog"><i className="fa fa-pencil" aria-hidden="true"></i></a></li>
           <li><a href="mailto:suhanw@gmail.com" className="email"><i className="fa fa-envelope" aria-hidden="true"></i></a></li>
         </ul>
       </nav>
